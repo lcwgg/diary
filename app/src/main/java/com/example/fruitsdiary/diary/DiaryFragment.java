@@ -1,6 +1,5 @@
 package com.example.fruitsdiary.diary;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,33 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
 import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
-import com.example.fruitsdiary.data.EntryDataSource;
-import com.example.fruitsdiary.data.EntryRepository;
-import com.example.fruitsdiary.data.FruitDataSource;
 import com.example.fruitsdiary.databinding.FragmentDiaryBinding;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.Fruit;
-import com.example.fruitsdiary.network.FruitsDiaryService;
-import com.example.fruitsdiary.util.SchedulerProvider;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+import javax.inject.Inject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,9 +29,10 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
 
     private static final String FRAGMENT_NAME = "Diary";
 
-    private FragmentDiaryBinding mBinding;
+    @Inject
+    DiaryPresenter mPresenter;
 
-    private FruitsDiaryService mService;
+    private FragmentDiaryBinding mBinding;
 
     private RecyclerView mRecyclerView;
 
@@ -59,6 +42,8 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary, container, false);
+        FruitsDiaryApplication.get(getContext()).getAppComponent().inject(this);
+        mPresenter.setView(this);
         return mBinding.getRoot();
 
     }
@@ -67,32 +52,29 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Context context = getContext();
-
         mRecyclerView = mBinding.entryRecyclerview;
-        LinearLayoutManager manager = new LinearLayoutManager(context);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new EntryAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        EntryRepository repository = FruitsDiaryApplication.get(context).getAppComponent().entryRepository();
-
-        repository.getAllEntries().subscribe(new Consumer<List<Entry>>() {
-            @Override
-            public void accept(List<Entry> entries) throws Exception {
-                mAdapter.setEntryList(entries);
-            }
-        });
     }
 
     @Override
-    public void setPresenter(DiaryContract.Presenter presenter) {
-
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
     }
 
     @Override
-    public void showEntries() {
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
+    }
 
+    @Override
+    public void showEntries(List<Entry> entryList) {
+        mAdapter.setEntryList(entryList);
     }
 
     @Override
@@ -103,5 +85,11 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
     @Override
     public String getFragmentName() {
         return FRAGMENT_NAME;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.setView(null);
     }
 }

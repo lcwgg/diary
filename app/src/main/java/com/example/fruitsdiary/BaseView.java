@@ -1,6 +1,5 @@
 package com.example.fruitsdiary;
 
-public interface BaseView<T extends BasePresenter> {
+public interface BaseView {
 
-    void setPresenter(T presenter);
 }

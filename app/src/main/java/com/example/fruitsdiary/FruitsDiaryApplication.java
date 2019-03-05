@@ -7,6 +7,7 @@ import com.example.fruitsdiary.dagger.AppComponent;
 import com.example.fruitsdiary.dagger.ApplicationModule;
 import com.example.fruitsdiary.dagger.DaggerAppComponent;
 import com.example.fruitsdiary.dagger.NetworkModule;
+import com.example.fruitsdiary.dagger.PresenterModule;
 
 public class FruitsDiaryApplication extends Application {
 
@@ -23,6 +24,7 @@ public class FruitsDiaryApplication extends Application {
         mAppComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .networkModule(new NetworkModule())
+                .presenterModule(new PresenterModule())
                 .build();
 
         return mAppComponent;
