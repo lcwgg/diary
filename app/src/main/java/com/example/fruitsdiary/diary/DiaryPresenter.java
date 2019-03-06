@@ -42,11 +42,19 @@ public class DiaryPresenter implements DiaryContract.Presenter{
 
     @Override
     public void populateEntries() {
-        mEntryRepository.getAllEntries().subscribe(new Consumer<List<Entry>>() {
-            @Override
-            public void accept(List<Entry> entries) throws Exception {
-                mView.showEntries(entries);
-            }
-        });
+        mCompositeDisposable.add(mEntryRepository.getAllEntries()
+                .subscribe(new Consumer<List<Entry>>() {
+                    @Override
+                    public void accept(List<Entry> entries) throws Exception {
+                        mView.showEntries(entries);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                })
+        );
     }
+
 }

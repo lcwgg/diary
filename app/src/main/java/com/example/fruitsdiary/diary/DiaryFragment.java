@@ -14,6 +14,8 @@ import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
 import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentDiaryBinding;
+import com.example.fruitsdiary.dialog.BaseDialogFragment;
+import com.example.fruitsdiary.dialog.NoInternetConnectionDialogFragment;
 import com.example.fruitsdiary.model.Entry;
 
 import java.util.List;
@@ -79,7 +81,17 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
 
     @Override
     public void showEntriesLoadError() {
+        new BaseDialogFragment.Builder()
+                .setTitle("No entries")
+                .setMessage("something went wrong")
+                .build().show(getChildFragmentManager());
+    }
 
+    @Override
+    public void onNoInternetConnection() {
+        new NoInternetConnectionDialogFragment.NoInternetConnectionBuilder(getContext())
+                .build()
+                .show(getChildFragmentManager());
     }
 
     @Override

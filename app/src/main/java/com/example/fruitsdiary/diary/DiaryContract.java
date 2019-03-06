@@ -12,6 +12,8 @@ public interface DiaryContract {
         void showEntries(List<Entry> entryList);
 
         void showEntriesLoadError();
+
+        void onNoInternetConnection();
     }
 
     interface Presenter extends BasePresenter<View> {
