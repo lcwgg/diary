@@ -3,7 +3,10 @@ package com.example.fruitsdiary.diary;
 import com.example.fruitsdiary.BasePresenter;
 import com.example.fruitsdiary.BaseView;
 import com.example.fruitsdiary.data.EntryRepository;
+import com.example.fruitsdiary.exception.ErrorFactory;
+import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.util.CommonErrorConsumer;
 
 import java.util.List;
 
@@ -48,11 +51,7 @@ public class DiaryPresenter implements DiaryContract.Presenter{
                     public void accept(List<Entry> entries) throws Exception {
                         mView.showEntries(entries);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
+                }, new CommonErrorConsumer(mView) {
                 })
         );
     }

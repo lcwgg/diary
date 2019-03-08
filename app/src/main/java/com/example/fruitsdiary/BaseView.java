@@ -1,5 +1,7 @@
 package com.example.fruitsdiary;
 
-public interface BaseView {
+import com.example.fruitsdiary.exception.FruitDiaryException;
 
+public interface BaseView {
+    void handleError(FruitDiaryException exception);
 }

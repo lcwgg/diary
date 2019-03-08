@@ -15,7 +15,7 @@ import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentDiaryBinding;
 import com.example.fruitsdiary.dialog.BaseDialogFragment;
-import com.example.fruitsdiary.dialog.NoInternetConnectionDialogFragment;
+import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
 
 import java.util.List;
@@ -60,6 +60,14 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
         mAdapter = new EntryAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
+        mBinding.reloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.diaryViewSwitcher.showPrevious();
+                mBinding.diaryProgress.show();
+                mPresenter.populateEntries();
+            }
+        });
     }
 
     @Override
@@ -76,22 +84,16 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
 
     @Override
     public void showEntries(List<Entry> entryList) {
+        mBinding.diaryProgress.hide();
         mAdapter.setEntryList(entryList);
     }
 
     @Override
-    public void showEntriesLoadError() {
+    public void handleError(FruitDiaryException exception) {
         new BaseDialogFragment.Builder()
-                .setTitle("No entries")
-                .setMessage("something went wrong")
+                .setError(getContext(), exception)
                 .build().show(getChildFragmentManager());
-    }
-
-    @Override
-    public void onNoInternetConnection() {
-        new NoInternetConnectionDialogFragment.NoInternetConnectionBuilder(getContext())
-                .build()
-                .show(getChildFragmentManager());
+        mBinding.diaryViewSwitcher.showNext();
     }
 
     @Override
