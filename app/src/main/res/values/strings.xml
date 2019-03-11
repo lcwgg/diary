@@ -10,4 +10,12 @@
     <string name="error_timeout_message">Timeout, please try again later.</string>
     <string name="error_title">Error</string>
     <string name="reload_button">Reload</string>
+    <string name="more_fruits_string">...</string>
+    <string name="no_fruit_saved">No fruit saved</string>
+
+    <!-- Plurals -->
+    <plurals name="fruits">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%1$ss</item>
+    </plurals>
 </resources>

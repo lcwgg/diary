@@ -6,7 +6,7 @@ public class Entry {
 
     int id;
     String date;
-    List<EntryFruit> fruitList;
+    List<EntryFruit> fruit;
 
     public int getId() {
         return id;
@@ -24,11 +24,11 @@ public class Entry {
         this.date = date;
     }
 
-    public List<EntryFruit> getFruitList() {
-        return fruitList;
+    public List<EntryFruit> getFruit() {
+        return fruit;
     }
 
-    public void setFruitList(List<EntryFruit> fruitList) {
-        this.fruitList = fruitList;
+    public void setFruit(List<EntryFruit> fruit) {
+        this.fruit = fruit;
     }
 }
