@@ -2,9 +2,13 @@ package com.example.fruitsdiary.about;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
@@ -23,6 +27,8 @@ public class AboutFragment extends FruitsDiaryAbstractFragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String FRAGMENT_NAME = "About";
+
+    private WebView mWebView;
 
     public AboutFragment() {
     }
@@ -44,9 +50,16 @@ public class AboutFragment extends FruitsDiaryAbstractFragment {
                              Bundle savedInstanceState) {
         FragmentAboutBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false);
         View rootView = binding.getRoot();
-        TextView textView = binding.sectionLabel;
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+        mWebView = binding.aboutWebview;
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.getSettings().setJavaScriptEnabled(false);
+        mWebView.loadUrl("https://www.themobilelife.com/about/");
     }
 
     @Override

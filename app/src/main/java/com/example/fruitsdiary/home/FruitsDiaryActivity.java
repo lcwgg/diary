@@ -60,6 +60,8 @@ public class FruitsDiaryActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        
     }
 
 
