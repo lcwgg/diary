@@ -1,15 +1,16 @@
-package com.example.fruitsdiary.about;
+package com.example.fruitsdiary.usecase.about;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
 import com.example.fruitsdiary.R;
@@ -63,7 +64,25 @@ public class AboutFragment extends FruitsDiaryAbstractFragment {
     }
 
     @Override
+    public void setFabAction(FloatingActionButton fab) {
+        fab.setImageResource(android.R.drawable.ic_dialog_email);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_EMAIL, getString(R.string.about_email));
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    @Override
     public String getFragmentName() {
         return FRAGMENT_NAME;
     }
+
+
 }

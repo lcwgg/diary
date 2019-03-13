@@ -1,4 +1,4 @@
-package com.example.fruitsdiary.diary;
+package com.example.fruitsdiary.usecase.diary;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

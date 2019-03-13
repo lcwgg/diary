@@ -1,13 +1,12 @@
-package com.example.fruitsdiary.home;
+package com.example.fruitsdiary.usecase.home;
 
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
-import com.example.fruitsdiary.about.AboutFragment;
-import com.example.fruitsdiary.diary.DiaryFragment;
+import com.example.fruitsdiary.usecase.about.AboutFragment;
+import com.example.fruitsdiary.usecase.diary.DiaryFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -27,7 +26,7 @@ public class FruitsDiaryPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public FruitsDiaryAbstractFragment getItem(int position) {
        return mFragmentsArray[position];
     }
 

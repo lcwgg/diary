@@ -1,6 +1,6 @@
 package com.example.fruitsdiary.dagger;
 
-import com.example.fruitsdiary.diary.DiaryFragment;
+import com.example.fruitsdiary.usecase.diary.DiaryFragment;
 
 import dagger.Component;
 

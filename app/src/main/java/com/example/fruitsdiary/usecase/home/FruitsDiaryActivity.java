@@ -1,16 +1,13 @@
-package com.example.fruitsdiary.home;
+package com.example.fruitsdiary.usecase.home;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.ActivityFruitsDiaryBinding;
@@ -38,7 +35,7 @@ public class FruitsDiaryActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fruits_diary);
-        ActivityFruitsDiaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_fruits_diary);
+        final ActivityFruitsDiaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_fruits_diary);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,16 +49,13 @@ public class FruitsDiaryActivity extends AppCompatActivity {
 
         binding.diaryTabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = binding.fab;
-        fab.setOnClickListener(new View.OnClickListener() {
+        mViewPager.addOnPageChangeListener(new OnPageChangedListener() {
+
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onPageSelected(int i) {
+                mSectionsPagerAdapter.getItem(i).setFabAction(binding.fab);
             }
         });
-
-        
     }
 
 
@@ -87,4 +81,15 @@ public class FruitsDiaryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private abstract class OnPageChangedListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    }
 }

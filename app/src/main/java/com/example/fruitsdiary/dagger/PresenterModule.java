@@ -1,7 +1,7 @@
 package com.example.fruitsdiary.dagger;
 
 import com.example.fruitsdiary.data.EntryRepository;
-import com.example.fruitsdiary.diary.DiaryPresenter;
+import com.example.fruitsdiary.usecase.diary.DiaryPresenter;
 
 import dagger.Module;
 import dagger.Provides;

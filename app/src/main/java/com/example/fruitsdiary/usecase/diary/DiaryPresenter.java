@@ -1,4 +1,4 @@
-package com.example.fruitsdiary.diary;
+package com.example.fruitsdiary.usecase.diary;
 
 import com.example.fruitsdiary.data.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
