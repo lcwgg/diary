@@ -1,10 +1,11 @@
-package com.example.fruitsdiary;
+package com.example.fruitsdiary.home;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
 import com.example.fruitsdiary.about.AboutFragment;
 import com.example.fruitsdiary.diary.DiaryFragment;
 
@@ -16,7 +17,7 @@ public class FruitsDiaryPagerAdapter extends FragmentPagerAdapter {
 
     private static final int MAX_PAGE = 2;
 
-    private FruitsDiaryAbstractFragment [] mFragmentsArray;
+    private FruitsDiaryAbstractFragment[] mFragmentsArray;
 
     public FruitsDiaryPagerAdapter(FragmentManager fm) {
         super(fm);

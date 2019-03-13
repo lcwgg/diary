@@ -14,24 +14,18 @@ import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
 
-public class FruitDataSource extends DataSource{
+public class FruitDataSource extends DataSource {
 
     @Inject
     public FruitDataSource(FruitsDiaryService service, SchedulerProvider provider) {
         super(service, provider);
     }
 
-    public Observable<Fruit> getFruits() {
-        return Observable.defer(new Callable<ObservableSource<Fruit>>() {
+    public Observable<List<Fruit>> getFruits() {
+        return Observable.defer(new Callable<ObservableSource<List<Fruit>>>() {
             @Override
-            public ObservableSource<Fruit> call() throws Exception {
-                return mService.getAllFruits()
-                        .flatMap(new Function<List<Fruit>, ObservableSource<Fruit>>() {
-                            @Override
-                            public ObservableSource<Fruit> apply(List<Fruit> fruits) throws Exception {
-                                return Observable.fromIterable(fruits);
-                            }
-                        });
+            public ObservableSource<List<Fruit>> call() throws Exception {
+                return mService.getAllFruits();
             }
         })
                 .subscribeOn(mProvider.io())

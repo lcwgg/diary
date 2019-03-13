@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.example.fruitsdiary.util.SchedulerProvider;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 

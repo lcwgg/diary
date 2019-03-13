@@ -1,16 +1,10 @@
 package com.example.fruitsdiary.diary;
 
-import com.example.fruitsdiary.BasePresenter;
-import com.example.fruitsdiary.BaseView;
 import com.example.fruitsdiary.data.EntryRepository;
-import com.example.fruitsdiary.exception.ErrorFactory;
-import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.util.CommonErrorConsumer;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;

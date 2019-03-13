@@ -1,12 +1,18 @@
 package com.example.fruitsdiary.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Entry {
 
+    @SerializedName("id")
     int id;
+    @SerializedName("date")
     String date;
-    List<EntryFruit> fruit;
+    @SerializedName("fruit")
+    List<EntryFruit> fruitList;
+    int vitamins = 0;
 
     public int getId() {
         return id;
@@ -24,11 +30,19 @@ public class Entry {
         this.date = date;
     }
 
-    public List<EntryFruit> getFruit() {
-        return fruit;
+    public List<EntryFruit> getFruitList() {
+        return fruitList;
     }
 
-    public void setFruit(List<EntryFruit> fruit) {
-        this.fruit = fruit;
+    public void setFruitList(List<EntryFruit> fruitList) {
+        this.fruitList = fruitList;
+    }
+
+    public int getVitamins() {
+        return vitamins;
+    }
+
+    public void setVitamins(int vitamins) {
+        this.vitamins = vitamins;
     }
 }

@@ -2,7 +2,6 @@ package com.example.fruitsdiary.diary;
 
 import com.example.fruitsdiary.BasePresenter;
 import com.example.fruitsdiary.BaseView;
-import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
 
 import java.util.List;

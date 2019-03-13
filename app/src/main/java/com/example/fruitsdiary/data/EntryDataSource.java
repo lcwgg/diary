@@ -11,7 +11,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 public class EntryDataSource extends DataSource {
 

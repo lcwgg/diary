@@ -1,9 +1,16 @@
 package com.example.fruitsdiary.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class EntryFruit {
+
+    @SerializedName("fruitId")
     int fruitId;
+    @SerializedName("fruitType")
     String fruitType;
+    @SerializedName("amount")
     int amount;
+    int vitamins;
 
     public int getFruitId() {
         return fruitId;
@@ -27,5 +34,13 @@ public class EntryFruit {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getVitamins() {
+        return vitamins;
+    }
+
+    public void setVitamins(int vitamins) {
+        this.vitamins = vitamins;
     }
 }

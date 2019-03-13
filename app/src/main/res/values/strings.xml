@@ -18,4 +18,10 @@
         <item quantity="one">%1$s</item>
         <item quantity="other">%1$ss</item>
     </plurals>
+
+    <plurals name="vitamins">
+        <item quantity="zero">vitamin</item>
+        <item quantity="one">vitamin</item>
+        <item quantity="other">vitamins</item>
+    </plurals>
 </resources>

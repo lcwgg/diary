@@ -1,7 +1,5 @@
 package com.example.fruitsdiary.exception;
 
-import android.support.annotation.StringRes;
-
 import com.example.fruitsdiary.R;
 
 public class ErrorCommonException extends FruitDiaryException {

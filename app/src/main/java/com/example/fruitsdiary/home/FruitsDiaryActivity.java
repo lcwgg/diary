@@ -1,4 +1,4 @@
-package com.example.fruitsdiary;
+package com.example.fruitsdiary.home;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.ActivityFruitsDiaryBinding;
 
 

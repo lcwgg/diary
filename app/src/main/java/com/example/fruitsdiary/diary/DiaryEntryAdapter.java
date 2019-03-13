@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,13 +19,14 @@ import com.example.fruitsdiary.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHolder> {
+public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.EntryViewHolder> {
 
     private static final String FRUIT_NUMBER_FORMAT = "%1$s %2$s";
+    private static final String VITAMIN_NUMBER_FORMAT = "%1$s %2$s";
 
     private List<Entry> mEntryList;
 
-    public EntryAdapter(){
+    public DiaryEntryAdapter() {
         mEntryList = new ArrayList<>();
     }
 
@@ -50,18 +52,20 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
 
         Entry entry = mEntryList.get(position);
         entryViewHolder.dateTextView.setText(entry.getDate());
-        List<EntryFruit> entryFruitList = entry.getFruit();
+        List<EntryFruit> entryFruitList = entry.getFruitList();
         Context context = entryViewHolder.dateTextView.getContext();
         TextView fruitNumberView;
         EntryFruit entryFruit;
         String fruitName;
 
-        if (entryFruitList.isEmpty()){
+        if (entryFruitList.isEmpty()) {
             fruitNumberView = new TextView(context);
             fruitNumberView.setText(R.string.no_fruit_saved);
             entryViewHolder.fruitListLayout.addView(fruitNumberView);
+            entryViewHolder.vitaminsSeparatorView.setVisibility(View.GONE);
+            entryViewHolder.vitaminsTextView.setVisibility(View.GONE);
         } else {
-            for (int i=0; i<entryFruitList.size(); i++){
+            for (int i = 0; i < entryFruitList.size(); i++) {
                 entryFruit = entryFruitList.get(i);
                 fruitName = StringUtils.getCorrectFruitSpelling(
                         context,
@@ -74,11 +78,18 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
                 );
                 entryViewHolder.fruitListLayout.addView(fruitNumberView);
             }
+
+            int vitamins = entry.getVitamins();
+            entryViewHolder.vitaminsSeparatorView.setVisibility(View.VISIBLE);
+            entryViewHolder.vitaminsTextView.setVisibility(View.VISIBLE);
+            String vitaminText = context.getResources().getQuantityString(
+                    R.plurals.vitamins,
+                    vitamins
+            );
+            entryViewHolder.vitaminsTextView.setText(
+                    String.format(VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
+            );
         }
-    }
-
-    private void addFruitToView(int count, List<EntryFruit> entryFruitList){
-
     }
 
     @Override
@@ -89,13 +100,16 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
     public static class EntryViewHolder extends RecyclerView.ViewHolder {
 
         TextView dateTextView;
+        TextView vitaminsTextView;
+        View vitaminsSeparatorView;
         LinearLayout fruitListLayout;
 
         public EntryViewHolder(EntryViewBinding binding) {
             super(binding.getRoot());
             dateTextView = binding.entryDate;
+            vitaminsTextView = binding.entryVitamins;
+            vitaminsSeparatorView = binding.entryVitaminsSeparator;
             fruitListLayout = binding.fruitList;
-
         }
     }
 }
