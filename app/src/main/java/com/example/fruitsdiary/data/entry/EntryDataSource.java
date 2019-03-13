@@ -1,5 +1,6 @@
-package com.example.fruitsdiary.data;
+package com.example.fruitsdiary.data.entry;
 
+import com.example.fruitsdiary.data.DataSource;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
@@ -15,7 +16,7 @@ import io.reactivex.ObservableSource;
 public class EntryDataSource extends DataSource {
 
     @Inject
-    public EntryDataSource(FruitsDiaryService service, SchedulerProvider provider) {
+    EntryDataSource(FruitsDiaryService service, SchedulerProvider provider) {
         super(service, provider);
     }
 

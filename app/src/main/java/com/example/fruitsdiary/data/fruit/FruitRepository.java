@@ -1,22 +1,19 @@
-package com.example.fruitsdiary.data;
+package com.example.fruitsdiary.data.fruit;
 
 import com.example.fruitsdiary.model.Fruit;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 public class FruitRepository {
 
     private final FruitDataSource mFruitDataSource;
 
     @Inject
-    public FruitRepository(FruitDataSource fruitDataSource) {
+    FruitRepository(FruitDataSource fruitDataSource) {
         mFruitDataSource = fruitDataSource;
     }
 

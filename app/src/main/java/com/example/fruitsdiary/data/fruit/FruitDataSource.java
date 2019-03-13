@@ -1,5 +1,6 @@
-package com.example.fruitsdiary.data;
+package com.example.fruitsdiary.data.fruit;
 
+import com.example.fruitsdiary.data.DataSource;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
@@ -11,13 +12,12 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 
 public class FruitDataSource extends DataSource {
 
     @Inject
-    public FruitDataSource(FruitsDiaryService service, SchedulerProvider provider) {
+    FruitDataSource(FruitsDiaryService service, SchedulerProvider provider) {
         super(service, provider);
     }
 

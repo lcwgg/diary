@@ -1,5 +1,6 @@
-package com.example.fruitsdiary.data;
+package com.example.fruitsdiary.data.entry;
 
+import com.example.fruitsdiary.data.fruit.FruitRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.EntryFruit;
 import com.example.fruitsdiary.model.Fruit;
@@ -21,7 +22,7 @@ public class EntryRepository {
     private final FruitRepository mFruitRepository;
 
     @Inject
-    public EntryRepository(EntryDataSource entryDataSource, FruitRepository fruitRepository) {
+    EntryRepository(EntryDataSource entryDataSource, FruitRepository fruitRepository) {
         mEntryDataSource = entryDataSource;
         mFruitRepository = fruitRepository;
     }

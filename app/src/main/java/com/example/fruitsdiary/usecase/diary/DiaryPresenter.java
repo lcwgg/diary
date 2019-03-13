@@ -1,6 +1,6 @@
 package com.example.fruitsdiary.usecase.diary;
 
-import com.example.fruitsdiary.data.EntryRepository;
+import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.util.CommonErrorConsumer;
 
