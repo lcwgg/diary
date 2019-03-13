@@ -2,7 +2,7 @@ package com.example.fruitsdiary.usecase.diary;
 
 import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.util.CommonErrorConsumer;
+import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class DiaryPresenter implements DiaryContract.Presenter{
                     public void accept(List<Entry> entries) throws Exception {
                         mView.showEntries(entries);
                     }
-                }, new CommonErrorConsumer(mView) {
+                }, new CommonNetworkErrorConsumer(mView) {
                 })
         );
     }

@@ -13,6 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
+    private static final String SERVER_URL = "https://fruitdiary.test.themobilelife.com/api/";
+
     @Provides
     HttpLoggingInterceptor provideLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -28,7 +30,7 @@ public class NetworkModule {
     @Provides
     Retrofit provideRetrofitInterface(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl("https://fruitdiary.test.themobilelife.com/api/")
+                .baseUrl(SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

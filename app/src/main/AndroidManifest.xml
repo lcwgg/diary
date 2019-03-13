@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".usecase.home.FruitsDiaryActivity"
+            android:name=".usecase.home.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -22,8 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".usecase.addentry.AddEntryActivity"/>
-        <activity android:name=".usecase.editentry.EditEntryActivity"/>
+        <activity android:name=".usecase.addeditentry.AddEditEntryActivity"/>
 
     </application>
 

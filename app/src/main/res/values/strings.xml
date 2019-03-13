@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Fruits Diary</string>
-    <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!--About-->
     <string name="about_url">https://www.themobilelife.com/about/</string>
     <string name="about_email">career@themobilelife.com</string>
+
+    <!-- Entry -->
+    <string name="fruit_image_url">https://fruitdiary.test.themobilelife.com/%1$s</string>
+    <string name="action_change_date">Change date</string>
 
     <!-- Error strings -->
     <string name="no_internet_dialog_title">No Internet Connection</string>
@@ -16,6 +19,9 @@
     <string name="reload_button">Reload</string>
     <string name="more_fruits_string">...</string>
     <string name="no_fruit_saved">No fruit saved</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit">Edit</string>
 
     <!-- Plurals -->
     <plurals name="fruits">

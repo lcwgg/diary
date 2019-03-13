@@ -2,7 +2,7 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.fruit.FruitRepository;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.EntryFruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Fruit;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class EntryRepository {
                     @Override
                     public List<Entry> apply(final List<Entry> entries, final List<Fruit> fruitList) throws Exception {
                         updateEntryVitamins(entries, fruitList);
-                        updateEntryFruitVitamins(entries, fruitList);
+                        updateEntryFruitVitaminsAndImage(entries, fruitList);
                         return entries;
                     }
                 });
@@ -44,16 +44,16 @@ public class EntryRepository {
                 .subscribe(new Consumer<Entry>() {
                     @Override
                     public void accept(final Entry entry) throws Exception {
-                        List<EntryFruit> entryFruitList = entry.getFruitList();
-                        int fruitListSize = entryFruitList.size();
+                        List<FruitEntry> fruitEntryList = entry.getFruitList();
+                        int fruitListSize = fruitEntryList.size();
                         for (int i=0; i< fruitListSize; i++)   {
-                            final EntryFruit entryFruit = entryFruitList.get(i);
-                            getFilteredFruitObservable(fruitList,entryFruit)
+                            final FruitEntry fruitEntry = fruitEntryList.get(i);
+                            getFilteredFruitObservable(fruitList, fruitEntry)
                             .subscribe(new Consumer<Fruit>() {
                                 @Override
                                 public void accept(Fruit fruit) throws Exception {
                                     int currentVitamins = entry.getVitamins();
-                                    entry.setVitamins(currentVitamins + (fruit.getVitamins() * entryFruit.getAmount()));
+                                    entry.setVitamins(currentVitamins + (fruit.getVitamins() * fruitEntry.getAmount()));
                                 }
                             });
                         }
@@ -61,37 +61,38 @@ public class EntryRepository {
                 });
     }
 
-    private void updateEntryFruitVitamins(List<Entry> entries, final List<Fruit> fruitList){
+    private void updateEntryFruitVitaminsAndImage(List<Entry> entries, final List<Fruit> fruitList){
         Observable.fromIterable(entries)
-                .flatMapIterable(new Function<Entry, Iterable<EntryFruit>>() {
+                .flatMapIterable(new Function<Entry, Iterable<FruitEntry>>() {
                     @Override
-                    public Iterable<EntryFruit> apply(Entry entry) throws Exception {
+                    public Iterable<FruitEntry> apply(Entry entry) throws Exception {
                         return entry.getFruitList();
                     }
                 })
-                .subscribe(new Consumer<EntryFruit>() {
+                .subscribe(new Consumer<FruitEntry>() {
                     @Override
-                    public void accept(final EntryFruit entryFruit) throws Exception {
-                        setFruitVitamins(entryFruit, fruitList);
+                    public void accept(final FruitEntry fruitEntry) throws Exception {
+                        setFruitVitaminsAndImage(fruitEntry, fruitList);
                     }
                 });
     }
 
-    private void setFruitVitamins(final EntryFruit entryFruit, List<Fruit> fruitList){
-        getFilteredFruitObservable(fruitList, entryFruit). subscribe(new Consumer<Fruit>() {
+    private void setFruitVitaminsAndImage(final FruitEntry fruitEntry, List<Fruit> fruitList){
+        getFilteredFruitObservable(fruitList, fruitEntry). subscribe(new Consumer<Fruit>() {
             @Override
             public void accept(Fruit fruit) throws Exception {
-                entryFruit.setVitamins(fruit.getVitamins());
+                fruitEntry.setVitamins(fruit.getVitamins());
+                fruitEntry.setImage(fruit.getImage());
             }
         });
     }
 
-    private Observable<Fruit> getFilteredFruitObservable(List<Fruit> fruitList, final EntryFruit entryFruit){
+    private Observable<Fruit> getFilteredFruitObservable(List<Fruit> fruitList, final FruitEntry fruitEntry){
         return Observable.fromIterable(fruitList)
                 .filter(new Predicate<Fruit>() {
                     @Override
                     public boolean test(Fruit fruit) throws Exception {
-                        return fruit.getType().equals(entryFruit.getFruitType());
+                        return fruit.getType().equals(fruitEntry.getType());
                     }
                 });
     }

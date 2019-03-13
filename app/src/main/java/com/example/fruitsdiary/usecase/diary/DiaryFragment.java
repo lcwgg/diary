@@ -11,23 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fruitsdiary.FruitsDiaryAbstractFragment;
 import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentDiaryBinding;
 import com.example.fruitsdiary.dialog.BaseDialogFragment;
 import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.usecase.addentry.AddEntryIntent;
+import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent;
+import com.example.fruitsdiary.usecase.home.HomeAbstractFragment;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * A placeholder fragment containing a simple view.
+/*
+    Fragment responsible for showing the diary entries
+    Redirects to the Edit Entry activity and the Add entry activity
  */
-public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryContract.View {
+public class DiaryFragment extends HomeAbstractFragment implements DiaryContract.View {
 
     public static final int FRAGMENT_POSITION = 0;
 
@@ -59,7 +60,7 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
         mRecyclerView = mBinding.entryRecyclerview;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new DiaryEntryAdapter();
+        mAdapter = new DiaryEntryAdapter(new OnEntryClickListener());
         mRecyclerView.setAdapter(mAdapter);
 
         mBinding.reloadButton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +92,7 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
     }
 
     @Override
-    public void handleError(FruitDiaryException exception) {
+    public void handleNetworkError(FruitDiaryException exception) {
         new BaseDialogFragment.Builder()
                 .setError(getContext(), exception)
                 .build().show(getChildFragmentManager());
@@ -104,7 +105,7 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(new AddEntryIntent(getContext()));
+                startActivity(new AddEditEntryIntent(getContext()));
             }
         });
     }
@@ -118,5 +119,12 @@ public class DiaryFragment extends FruitsDiaryAbstractFragment implements DiaryC
     public void onDestroy() {
         super.onDestroy();
         mPresenter.setView(null);
+    }
+
+    private class OnEntryClickListener implements DiaryEntryAdapter.OnItemClickListener {
+        @Override
+        public void onItemClick(Entry entry) {
+            startActivity(new AddEditEntryIntent(getContext(), entry));
+        }
     }
 }

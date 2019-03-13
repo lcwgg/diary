@@ -8,8 +8,9 @@ import com.example.fruitsdiary.R;
 public final class StringUtils {
 
     public static final String EMPTY_STRING = "";
-
     public static final int NO_STRING_DEFINED = -1;
+    public static final String FRUIT_NUMBER_FORMAT = "%1$s %2$s";
+    public static final String VITAMIN_NUMBER_FORMAT = "%1$s %2$s";
 
     private StringUtils(){}
 

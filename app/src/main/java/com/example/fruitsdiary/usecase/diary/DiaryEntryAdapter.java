@@ -7,27 +7,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.fruitsdiary.R;
-import com.example.fruitsdiary.databinding.EntryViewBinding;
+import com.example.fruitsdiary.databinding.ViewEntryBinding;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.EntryFruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.fruitsdiary.util.StringUtils.FRUIT_NUMBER_FORMAT;
+import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
+
 public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.EntryViewHolder> {
 
-    private static final String FRUIT_NUMBER_FORMAT = "%1$s %2$s";
-    private static final String VITAMIN_NUMBER_FORMAT = "%1$s %2$s";
-
     private List<Entry> mEntryList;
+    private OnItemClickListener mOnItemClickListener;
 
-    public DiaryEntryAdapter() {
+    public DiaryEntryAdapter(OnItemClickListener onItemClickListener) {
         mEntryList = new ArrayList<>();
+        mOnItemClickListener = onItemClickListener;
     }
 
     public void setEntryList(List<Entry> entryList) {
@@ -38,9 +39,9 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
     @NonNull
     @Override
     public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        EntryViewBinding binding = DataBindingUtil.inflate(
+        ViewEntryBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(viewGroup.getContext()),
-                R.layout.entry_view,
+                R.layout.view_entry,
                 viewGroup,
                 false
         );
@@ -50,48 +51,58 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
     @Override
     public void onBindViewHolder(@NonNull EntryViewHolder entryViewHolder, int position) {
 
+        ViewEntryBinding binding = entryViewHolder.binding;
         Entry entry = mEntryList.get(position);
-        List<EntryFruit> entryFruitList = entry.getFruitList();
-        Context context = entryViewHolder.dateTextView.getContext();
-        TextView fruitNumberView;
-        EntryFruit entryFruit;
-        String fruitName;
+        List<FruitEntry> fruitEntryList = entry.getFruitList();
+        Context context = binding.getRoot().getContext();
 
-        entryViewHolder.fruitListLayout.removeAllViews();
-        entryViewHolder.dateTextView.setText(entry.getDate());
+        binding.fruitListLayout.removeAllViews();
+        binding.entryDate.setText(entry.getDate());
 
-        if (entryFruitList.isEmpty()) {
-            fruitNumberView = new TextView(context);
+        if (fruitEntryList.isEmpty()) {
+            TextView fruitNumberView = new TextView(context);
             fruitNumberView.setText(R.string.no_fruit_saved);
-            entryViewHolder.fruitListLayout.addView(fruitNumberView);
-            entryViewHolder.vitaminsSeparatorView.setVisibility(View.GONE);
-            entryViewHolder.vitaminsTextView.setVisibility(View.GONE);
+            binding.fruitListLayout.addView(fruitNumberView);
+            binding.entryVitaminsSeparator.setVisibility(View.GONE);
+            binding.entryVitamins.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < entryFruitList.size(); i++) {
-                entryFruit = entryFruitList.get(i);
-                fruitName = StringUtils.getCorrectFruitSpelling(
-                        context,
-                        entryFruit.getAmount(),
-                        entryFruit.getFruitType()
-                );
-                fruitNumberView = new TextView(context);
-                fruitNumberView.setText(
-                        String.format(FRUIT_NUMBER_FORMAT, entryFruit.getAmount(), fruitName)
-                );
-                entryViewHolder.fruitListLayout.addView(fruitNumberView);
-            }
-
-            int vitamins = entry.getVitamins();
-            entryViewHolder.vitaminsSeparatorView.setVisibility(View.VISIBLE);
-            entryViewHolder.vitaminsTextView.setVisibility(View.VISIBLE);
-            String vitaminText = context.getResources().getQuantityString(
-                    R.plurals.vitamins,
-                    vitamins
-            );
-            entryViewHolder.vitaminsTextView.setText(
-                    String.format(VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
-            );
+            setFruitList(context, fruitEntryList, binding);
+            setVitamins(context, entry, binding);
         }
+
+        entryViewHolder.bind(entry, mOnItemClickListener);
+    }
+
+    private void setFruitList(Context context, List<FruitEntry> fruitEntryList, ViewEntryBinding binding) {
+        TextView fruitNumberView;
+        FruitEntry fruitEntry;
+        String fruitName;
+        for (int i = 0; i < fruitEntryList.size(); i++) {
+            fruitEntry = fruitEntryList.get(i);
+            fruitName = StringUtils.getCorrectFruitSpelling(
+                    context,
+                    fruitEntry.getAmount(),
+                    fruitEntry.getType()
+            );
+            fruitNumberView = new TextView(context);
+            fruitNumberView.setText(
+                    String.format(FRUIT_NUMBER_FORMAT, fruitEntry.getAmount(), fruitName)
+            );
+            binding.fruitListLayout.addView(fruitNumberView);
+        }
+    }
+
+    private void setVitamins(Context context, Entry entry, ViewEntryBinding binding) {
+        int vitamins = entry.getVitamins();
+        binding.entryVitaminsSeparator.setVisibility(View.VISIBLE);
+        binding.entryVitamins.setVisibility(View.VISIBLE);
+        String vitaminText = context.getResources().getQuantityString(
+                R.plurals.vitamins,
+                vitamins
+        );
+        binding.entryVitamins.setText(
+                String.format(VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
+        );
     }
 
     @Override
@@ -101,17 +112,26 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
 
     public static class EntryViewHolder extends RecyclerView.ViewHolder {
 
-        TextView dateTextView;
-        TextView vitaminsTextView;
-        View vitaminsSeparatorView;
-        LinearLayout fruitListLayout;
+        ViewEntryBinding binding;
 
-        public EntryViewHolder(EntryViewBinding binding) {
+        public EntryViewHolder(ViewEntryBinding binding) {
             super(binding.getRoot());
-            dateTextView = binding.entryDate;
-            vitaminsTextView = binding.entryVitamins;
-            vitaminsSeparatorView = binding.entryVitaminsSeparator;
-            fruitListLayout = binding.fruitList;
+            this.binding = binding;
         }
+
+        public void bind(final Entry entry, final OnItemClickListener onItemClickListener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(entry);
+                    }
+                }
+            });
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Entry entry);
     }
 }

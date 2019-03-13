@@ -3,14 +3,20 @@ package com.example.fruitsdiary.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Fruit implements Parcelable {
+import com.google.gson.annotations.SerializedName;
 
+public class FruitEntry implements Parcelable {
+
+    @SerializedName("fruitId")
     int id;
+    @SerializedName("fruitType")
     String type;
-    String image;
+    @SerializedName("amount")
+    int amount;
     int vitamins;
+    String image;
 
-    public Fruit(Parcel in) {
+    public FruitEntry(Parcel in) {
         getFromParcel(in);
     }
 
@@ -30,12 +36,12 @@ public class Fruit implements Parcelable {
         this.type = type;
     }
 
-    public String getImage() {
-        return image;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public int getVitamins() {
@@ -46,14 +52,22 @@ public class Fruit implements Parcelable {
         this.vitamins = vitamins;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Fruit createFromParcel(Parcel in) {
-            return new Fruit(in);
+        public FruitEntry createFromParcel(Parcel in) {
+            return new FruitEntry(in);
         }
 
         @Override
-        public Fruit[] newArray(int size) {
-            return new Fruit[size];
+        public FruitEntry[] newArray(int size) {
+            return new FruitEntry[size];
         }
     };
 
@@ -66,6 +80,7 @@ public class Fruit implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.type);
+        dest.writeInt(this.amount);
         dest.writeString(this.image);
         dest.writeInt(this.vitamins);
     }
@@ -73,6 +88,7 @@ public class Fruit implements Parcelable {
     public void getFromParcel(Parcel in) {
         this.id = in.readInt();
         this.type = in.readString();
+        this.amount = in.readInt();
         this.image = in.readString();
         this.vitamins = in.readInt();
     }
