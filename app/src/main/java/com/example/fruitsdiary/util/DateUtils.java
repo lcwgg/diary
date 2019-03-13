@@ -5,9 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-
-import static com.example.fruitsdiary.util.StringUtils.EMPTY_STRING;
 
 public final class DateUtils {
 
@@ -20,27 +17,35 @@ public final class DateUtils {
     private DateUtils() {
     }
 
-    public static String convertServerDateToAppDate(String serverDate){
-        try {
-            Date date = SERVER_DATE_FORMAT.parse(serverDate);
-            return APP_DATE_FORMAT.format(date);
-        } catch (ParseException e) {
-            return EMPTY_STRING;
-        }
+    public static String convertServerDateToAppDate(String serverDate) {
+        Date date = getServerDate(serverDate);
+        return getAppStringDate(date);
     }
 
-    public static String getCurrentAppDate(){
+    public static String getCurrentAppDate() {
         Date date = getCurrentDate();
-        return APP_DATE_FORMAT.format(date);
+        return getAppStringDate(date);
     }
 
-    public static String getCurrentServerDate(){
+    public static String getCurrentServerDate() {
         Date date = getCurrentDate();
         return SERVER_DATE_FORMAT.format(date);
 
     }
 
-    private static final Date getCurrentDate(){
+    private static Date getCurrentDate() {
         return Calendar.getInstance().getTime();
+    }
+
+    public static Date getServerDate(String serverDate) {
+        try {
+            return SERVER_DATE_FORMAT.parse(serverDate);
+        } catch (ParseException e) {
+            return new Date();
+        }
+    }
+
+    public static String getAppStringDate(Date date){
+        return APP_DATE_FORMAT.format(date);
     }
 }

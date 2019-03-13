@@ -10,13 +10,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.fruitsdiary.R;
+import com.example.fruitsdiary.dialog.DatePickerFragment;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 import com.example.fruitsdiary.util.DateUtils;
 
+import java.util.Calendar;
+
 public class AddEditEntryActivity extends AppCompatActivity {
 
     private AddEditEntryFragment mAddEditEntryFragment;
+    private ActionBar mActionBar;
     private Entry mEntry;
     private @EntryState
     int mEntryState;
@@ -30,14 +34,14 @@ public class AddEditEntryActivity extends AppCompatActivity {
         mEntry = intent.getEntry();
         mEntryState = intent.getEntryState();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mEntryState == EntryState.CREATE) {
-            actionBar.setTitle(DateUtils.getCurrentAppDate());
+            mActionBar.setTitle(DateUtils.getCurrentAppDate());
         } else {
             String date = DateUtils.convertServerDateToAppDate(mEntry.getDate());
-            actionBar.setTitle(date);
+            mActionBar.setTitle(date);
         }
         mAddEditEntryFragment = new AddEditEntryFragment();
         FragmentManager manager = getSupportFragmentManager();
@@ -69,16 +73,54 @@ public class AddEditEntryActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.action_change_date:
+                showDatePickerDialog();
                 return true;
             case R.id.action_delete:
                 return true;
             case R.id.action_save:
-                mEntryState = EntryState.VIEW;
-                invalidateOptionsMenu();
+                setEntryStateToView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private void showDatePickerDialog() {
+        DatePickerFragment dialog;
+        if (mEntryState == EntryState.CREATE) {
+            dialog = DatePickerFragment.newInstance();
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(DateUtils.getServerDate(mEntry.getDate()));
+            dialog = DatePickerFragment.newInstance(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+        }
+
+        dialog.setOnDateSelectedListener(new DatePickerFragment.OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                mActionBar.setTitle(DateUtils.getAppStringDate(calendar.getTime()));
+                setEntryStateToEdit();
+            }
+        });
+
+        dialog.show(getSupportFragmentManager());
+    }
+
+    private void setEntryStateToEdit() {
+        mEntryState = EntryState.EDIT;
+        invalidateOptionsMenu();
+    }
+    private void setEntryStateToView() {
+        mEntryState = EntryState.VIEW;
+        invalidateOptionsMenu();
     }
 }

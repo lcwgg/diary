@@ -68,7 +68,7 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
             public void onClick(View v) {
                 mBinding.diaryViewSwitcher.showPrevious();
                 mBinding.diaryProgress.show();
-                mPresenter.populateEntries();
+                mPresenter.subscribe();
             }
         });
     }
