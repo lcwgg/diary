@@ -51,12 +51,14 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
     public void onBindViewHolder(@NonNull EntryViewHolder entryViewHolder, int position) {
 
         Entry entry = mEntryList.get(position);
-        entryViewHolder.dateTextView.setText(entry.getDate());
         List<EntryFruit> entryFruitList = entry.getFruitList();
         Context context = entryViewHolder.dateTextView.getContext();
         TextView fruitNumberView;
         EntryFruit entryFruit;
         String fruitName;
+
+        entryViewHolder.fruitListLayout.removeAllViews();
+        entryViewHolder.dateTextView.setText(entry.getDate());
 
         if (entryFruitList.isEmpty()) {
             fruitNumberView = new TextView(context);
