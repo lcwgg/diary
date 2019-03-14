@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="separator_color">#eee</color>
+    <color name="white">@android:color/white</color>
+    <color name="light_grey">#eee</color>
+
+    <color name="separator_color">@color/light_grey</color>
 </resources>

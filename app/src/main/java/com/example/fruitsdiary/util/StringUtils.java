@@ -15,7 +15,7 @@ public final class StringUtils {
     private StringUtils(){}
 
     public static String getCorrectFruitSpelling(Context context, int quantity, String fruitName){
-        if (isFruitNameException(fruitName) && quantity > 0){
+        if (isFruitNameException(fruitName) && quantity > 1){
             return getFruitExceptionSpelling(fruitName);
         }
         Resources res = context.getResources();

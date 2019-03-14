@@ -2,6 +2,7 @@ package com.example.fruitsdiary.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +16,9 @@ public class FruitEntry implements Parcelable {
     int amount;
     int vitamins;
     String image;
+
+    public FruitEntry() {
+    }
 
     public FruitEntry(Parcel in) {
         getFromParcel(in);
@@ -91,5 +95,14 @@ public class FruitEntry implements Parcelable {
         this.amount = in.readInt();
         this.image = in.readString();
         this.vitamins = in.readInt();
+    }
+
+    public static FruitEntry fromFruit(@NonNull Fruit fruit){
+        FruitEntry fruitEntry = new FruitEntry();
+        fruitEntry.setId(fruit.getId());
+        fruitEntry.setType(fruit.getType());
+        fruitEntry.setImage(fruit.getImage());
+        fruitEntry.setVitamins(fruit.getVitamins());
+        return fruitEntry;
     }
 }

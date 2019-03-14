@@ -4,26 +4,28 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentFruitEntryBinding;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.Fruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 
-public class AddEditEntryFragment extends Fragment {
+public class AddEditEntryFragment extends AddEditEntryAbstractFragment {
 
     public static final String TAG = AddEditEntryFragment.class.getSimpleName();
 
     private FragmentFruitEntryBinding mBinding;
     private Entry mEntry;
-    private @EntryState int mEntryState;
+    @EntryState
+    private int mEntryState;
+    private FruitEntryAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +50,30 @@ public class AddEditEntryFragment extends Fragment {
         RecyclerView recyclerView = mBinding.fruitRecyclerview;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        FruitEntryAdapter adapter = new FruitEntryAdapter(FruitsDiaryApplication.get(getContext()));
-        recyclerView.setAdapter(adapter);
+        mAdapter = new FruitEntryAdapter();
+        recyclerView.setAdapter(mAdapter);
 
-        if (mEntry != null) {
-            adapter.setFruitEntryList(mEntry.getFruitList());
+        if (mEntryState == EntryState.VIEW) {
+            mAdapter.setFruitEntryList(mEntry.getFruitList());
         }
+
+        mBinding.addFruitFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnAddEditFlowListener != null) {
+                    mOnAddEditFlowListener.onSelectFruit();
+                }
+            }
+        });
     }
+
+    public void addFruit(Fruit fruit) {
+        // TODO to move in the presenter
+        FruitEntry fruitEntry = FruitEntry.fromFruit(fruit);
+        fruitEntry.setAmount(1);
+        // --- TODO
+        mAdapter.addFruitEntry(fruitEntry);
+    }
+
+
 }

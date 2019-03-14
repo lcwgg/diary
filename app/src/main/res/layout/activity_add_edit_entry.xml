@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:name="com.example.fruitsdiary.usecase.addeditentry.AddEditEntryFragment"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:tag="AddEditEntryFragment" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

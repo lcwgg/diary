@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.dialog.DatePickerFragment;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
+import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 import com.example.fruitsdiary.util.DateUtils;
 
 import java.util.Calendar;
@@ -20,6 +22,7 @@ import java.util.Calendar;
 public class AddEditEntryActivity extends AppCompatActivity {
 
     private AddEditEntryFragment mAddEditEntryFragment;
+    private SelectFruitFragment mSelectFruitFragment;
     private ActionBar mActionBar;
     private Entry mEntry;
     private @EntryState
@@ -44,9 +47,10 @@ public class AddEditEntryActivity extends AppCompatActivity {
             mActionBar.setTitle(date);
         }
         mAddEditEntryFragment = new AddEditEntryFragment();
+        mAddEditEntryFragment.setOnAddEditFlowListener(new OnAddEditFlow());
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
-                .add(mAddEditEntryFragment, AddEditEntryFragment.TAG)
+                .add(R.id.fragment_container, mAddEditEntryFragment, AddEditEntryFragment.TAG)
                 .commit();
     }
 
@@ -119,8 +123,61 @@ public class AddEditEntryActivity extends AppCompatActivity {
         mEntryState = EntryState.EDIT;
         invalidateOptionsMenu();
     }
+
     private void setEntryStateToView() {
         mEntryState = EntryState.VIEW;
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager.findFragmentByTag(SelectFruitFragment.TAG) != null) {
+            manager.beginTransaction()
+                    .setCustomAnimations(0, R.anim.slide_down)
+                    .remove(mSelectFruitFragment)
+                    .commit();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public class OnAddEditFlow implements OnAddEditFlowListener {
+
+        public void onSelectFruit() {
+            FragmentManager manager = getSupportFragmentManager();
+            if (mSelectFruitFragment == null) {
+                mSelectFruitFragment = new SelectFruitFragment();
+                mSelectFruitFragment.setOnAddEditFlowListener(new OnAddEditFlow());
+            }
+            if (manager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
+                manager.beginTransaction()
+                        .setCustomAnimations(R.anim.slide_up, 0)
+                        .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
+                        .commit();
+            }
+        }
+
+        public void onSelectFruitDismissed(@Nullable Fruit fruit) {
+            FragmentManager manager = getSupportFragmentManager();
+            if (fruit == null) {
+                manager.beginTransaction()
+                        .setCustomAnimations(0, R.anim.slide_down)
+                        .remove(mSelectFruitFragment)
+                        .commit();
+            } else {
+                mAddEditEntryFragment.addFruit(fruit);
+                manager.beginTransaction()
+                        .setCustomAnimations(0, R.anim.slide_down)
+                        .remove(mSelectFruitFragment)
+                        .commit();
+            }
+        }
+    }
+
+    public interface OnAddEditFlowListener {
+        void onSelectFruit();
+
+        void onSelectFruitDismissed(@Nullable Fruit fruit);
     }
 }

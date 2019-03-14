@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.fruitsdiary.FruitsDiaryApplication;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.ViewFruitEntryBinding;
 import com.example.fruitsdiary.model.FruitEntry;
@@ -17,8 +16,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import static com.example.fruitsdiary.util.StringUtils.FRUIT_NUMBER_FORMAT;
 import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
 
@@ -26,16 +23,18 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
 
     private List<FruitEntry> mFruitEntryList;
 
-    @Inject
-    Picasso mPicasso;
-
-    public FruitEntryAdapter(FruitsDiaryApplication application) {
+    public FruitEntryAdapter() {
         mFruitEntryList = new ArrayList<>();
-        application.getAppComponent().inject(this);
     }
 
     public void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
         mFruitEntryList = fruitEntryList;
+        notifyDataSetChanged();
+    }
+
+    public void addFruitEntry(@NonNull FruitEntry fruit) {
+        mFruitEntryList.add(fruit);
+        notifyItemInserted(mFruitEntryList.size() - 1);
     }
 
     @NonNull
@@ -61,9 +60,9 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
                 fruitEntry.getImage()
         );
 
-        mPicasso
+        Picasso.get()
                 .load(fruitImageUrl)
-                .placeholder(R.drawable.fruit_image_default)
+                .placeholder(R.drawable.fruit_image_placeholder)
                 .into(binding.fruitImage);
 
         setFruitName(context, fruitEntry, binding);
@@ -71,7 +70,7 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
 
     }
 
-    private void setFruitName(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding){
+    private void setFruitName(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
         String fruitName = StringUtils.getCorrectFruitSpelling(
                 context,
                 fruitEntry.getAmount(),
@@ -82,7 +81,7 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         );
     }
 
-    private void setVitamins(Context context, int vitamins, ViewFruitEntryBinding binding){
+    private void setVitamins(Context context, int vitamins, ViewFruitEntryBinding binding) {
         String vitaminText = context.getResources().getQuantityString(
                 R.plurals.vitamins,
                 vitamins

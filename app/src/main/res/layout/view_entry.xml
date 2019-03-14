@@ -12,7 +12,7 @@
         android:layout_marginEnd="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_8"
         android:layout_marginBottom="@dimen/margin_2"
-        app:cardElevation="@dimen/diary_entry_card_elevation">
+        app:cardElevation="@dimen/card_elevation">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

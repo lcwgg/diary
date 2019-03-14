@@ -27,8 +27,4 @@ public class ApplicationModule {
         return new SchedulerProvider();
     }
 
-    @Provides
-    Picasso getPicasso(){
-        return Picasso.get();
-    }
 }
