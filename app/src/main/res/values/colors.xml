@@ -8,4 +8,6 @@
     <color name="light_grey">#eee</color>
 
     <color name="separator_color">@color/light_grey</color>
+
+    <color name="black_transparent_40">#64000000</color>
 </resources>

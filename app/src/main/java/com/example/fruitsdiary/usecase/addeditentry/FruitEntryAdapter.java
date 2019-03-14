@@ -66,7 +66,7 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
                 .into(binding.fruitImage);
 
         setFruitName(context, fruitEntry, binding);
-        setVitamins(context, fruitEntry.getVitamins(), binding);
+        setVitamins(context, fruitEntry, binding);
 
     }
 
@@ -81,7 +81,9 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         );
     }
 
-    private void setVitamins(Context context, int vitamins, ViewFruitEntryBinding binding) {
+    private void setVitamins(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding)
+    {
+        int vitamins = fruitEntry.getVitamins() * fruitEntry.getAmount();
         String vitaminText = context.getResources().getQuantityString(
                 R.plurals.vitamins,
                 vitamins

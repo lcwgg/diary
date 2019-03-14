@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentFruitEntryBinding;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 
@@ -61,19 +60,21 @@ public class AddEditEntryFragment extends AddEditEntryAbstractFragment {
             @Override
             public void onClick(View v) {
                 if (mOnAddEditFlowListener != null) {
-                    mOnAddEditFlowListener.onSelectFruit();
+                    mOnAddEditFlowListener.onAddFruitClick();
                 }
             }
         });
     }
 
-    public void addFruit(Fruit fruit) {
-        // TODO to move in the presenter
-        FruitEntry fruitEntry = FruitEntry.fromFruit(fruit);
-        fruitEntry.setAmount(1);
-        // --- TODO
+    public void addFruitEntry(FruitEntry fruitEntry) {
         mAdapter.addFruitEntry(fruitEntry);
     }
 
+    public void showOverlay() {
+        mBinding.editFruitOverlay.setVisibility(View.VISIBLE);
+    }
 
+    public void hideOverlay() {
+        mBinding.editFruitOverlay.setVisibility(View.GONE);
+    }
 }

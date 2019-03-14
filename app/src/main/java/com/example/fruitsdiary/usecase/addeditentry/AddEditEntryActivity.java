@@ -13,7 +13,9 @@ import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.dialog.DatePickerFragment;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.Fruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
+import com.example.fruitsdiary.usecase.addeditentry.editfruit.EditFruitFragment;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 import com.example.fruitsdiary.util.DateUtils;
 
@@ -23,10 +25,12 @@ public class AddEditEntryActivity extends AppCompatActivity {
 
     private AddEditEntryFragment mAddEditEntryFragment;
     private SelectFruitFragment mSelectFruitFragment;
+    private EditFruitFragment mEditFruitFragment;
     private ActionBar mActionBar;
     private Entry mEntry;
     private @EntryState
     int mEntryState;
+    private OnAddEditFlow mOnAddEditFlow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class AddEditEntryActivity extends AppCompatActivity {
         manager.beginTransaction()
                 .add(R.id.fragment_container, mAddEditEntryFragment, AddEditEntryFragment.TAG)
                 .commit();
+
+        mOnAddEditFlow = new OnAddEditFlow();
     }
 
     @Override
@@ -133,10 +139,9 @@ public class AddEditEntryActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager manager = getSupportFragmentManager();
         if (manager.findFragmentByTag(SelectFruitFragment.TAG) != null) {
-            manager.beginTransaction()
-                    .setCustomAnimations(0, R.anim.slide_down)
-                    .remove(mSelectFruitFragment)
-                    .commit();
+            removeSelectFruitFragment(manager);
+        } else if (manager.findFragmentByTag(EditFruitFragment.TAG) != null) {
+            removeEditFruitFragment(manager);
         } else {
             super.onBackPressed();
         }
@@ -144,40 +149,74 @@ public class AddEditEntryActivity extends AppCompatActivity {
 
     public class OnAddEditFlow implements OnAddEditFlowListener {
 
-        public void onSelectFruit() {
+        public void onAddFruitClick() {
             FragmentManager manager = getSupportFragmentManager();
             if (mSelectFruitFragment == null) {
                 mSelectFruitFragment = new SelectFruitFragment();
-                mSelectFruitFragment.setOnAddEditFlowListener(new OnAddEditFlow());
+                mSelectFruitFragment.setOnAddEditFlowListener(mOnAddEditFlow);
             }
             if (manager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
-                manager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_up, 0)
-                        .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
-                        .commit();
+                addSelectFruitFragment(manager);
             }
         }
 
         public void onSelectFruitDismissed(@Nullable Fruit fruit) {
             FragmentManager manager = getSupportFragmentManager();
             if (fruit == null) {
-                manager.beginTransaction()
-                        .setCustomAnimations(0, R.anim.slide_down)
-                        .remove(mSelectFruitFragment)
-                        .commit();
+                removeSelectFruitFragment(manager);
             } else {
-                mAddEditEntryFragment.addFruit(fruit);
+                if (mEditFruitFragment == null) {
+                    mEditFruitFragment = EditFruitFragment.newInstance(FruitEntry.fromFruit(fruit));
+                    mEditFruitFragment.setOnAddEditFlowListener(mOnAddEditFlow);
+                }
+                // remove fruit selection fragment to replace it with the fruit edition fragment
                 manager.beginTransaction()
-                        .setCustomAnimations(0, R.anim.slide_down)
+                        .setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
                         .remove(mSelectFruitFragment)
+                        .add(R.id.fragment_container, mEditFruitFragment, EditFruitFragment.TAG)
                         .commit();
+            }
+        }
+
+
+        @Override
+        public void onEditFruitDismissed(@Nullable FruitEntry fruitEntry) {
+            removeEditFruitFragment(getSupportFragmentManager());
+            if (fruitEntry != null) {
+                mAddEditEntryFragment.addFruitEntry(fruitEntry);
             }
         }
     }
 
+    private void addSelectFruitFragment(FragmentManager manager) {
+        manager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_up, 0)
+                .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
+                .commit();
+        mAddEditEntryFragment.showOverlay();
+    }
+
+    private void removeSelectFruitFragment(FragmentManager manager) {
+        manager.beginTransaction()
+                .setCustomAnimations(0, R.anim.slide_down)
+                .remove(mSelectFruitFragment)
+                .commit();
+        mAddEditEntryFragment.hideOverlay();
+    }
+
+    private void removeEditFruitFragment(FragmentManager manager) {
+        manager.beginTransaction()
+                .setCustomAnimations(0, R.anim.slide_down)
+                .remove(mEditFruitFragment)
+                .commit();
+        mAddEditEntryFragment.hideOverlay();
+    }
+
     public interface OnAddEditFlowListener {
-        void onSelectFruit();
+        void onAddFruitClick();
 
         void onSelectFruitDismissed(@Nullable Fruit fruit);
+
+        void onEditFruitDismissed(@Nullable FruitEntry fruitEntry);
     }
 }
