@@ -17,6 +17,7 @@ import com.example.fruitsdiary.databinding.FragmentSelectFruitBinding;
 import com.example.fruitsdiary.dialog.BaseDialogFragment;
 import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Fruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryAbstractFragment;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryActivity;
 
@@ -53,7 +54,10 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
         mFruitAdapter = new FruitAdapter(new FruitAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fruit fruit) {
-                mOnAddEditFlowListener.onSelectFruitDismissed(fruit);
+                if (mOnAddEditFlowListener != null) {
+                    FruitEntry fruitEntry = mPresenter.getFruitEntry(fruit);
+                    mOnAddEditFlowListener.onSelectFruitDismissed(fruitEntry);
+                }
             }
         });
         recyclerView.setAdapter(mFruitAdapter);

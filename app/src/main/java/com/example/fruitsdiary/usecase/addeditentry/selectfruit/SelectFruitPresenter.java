@@ -2,6 +2,7 @@ package com.example.fruitsdiary.usecase.addeditentry.selectfruit;
 
 import com.example.fruitsdiary.data.fruit.FruitRepository;
 import com.example.fruitsdiary.model.Fruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 
 import java.util.List;
@@ -47,5 +48,11 @@ public class SelectFruitPresenter implements SelectFruitContract.Presenter {
                     }
                 }, new CommonNetworkErrorConsumer(mView) {
                 }));
+    }
+
+    public FruitEntry getFruitEntry(Fruit fruit){
+        FruitEntry fruitEntry= FruitEntry.fromFruit(fruit);
+        fruitEntry.setAmount(1); // minimum amount
+        return fruitEntry;
     }
 }

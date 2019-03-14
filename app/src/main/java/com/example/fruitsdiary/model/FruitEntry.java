@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class FruitEntry implements Parcelable {
 
     @SerializedName("fruitId")
@@ -104,5 +106,21 @@ public class FruitEntry implements Parcelable {
         fruitEntry.setImage(fruit.getImage());
         fruitEntry.setVitamins(fruit.getVitamins());
         return fruitEntry;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FruitEntry that = (FruitEntry) o;
+        return id == that.id &&
+                vitamins == that.vitamins &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(image, that.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, vitamins, image);
     }
 }

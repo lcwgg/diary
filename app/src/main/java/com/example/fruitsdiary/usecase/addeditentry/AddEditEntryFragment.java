@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentFruitEntryBinding;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 
@@ -66,8 +67,20 @@ public class AddEditEntryFragment extends AddEditEntryAbstractFragment {
         });
     }
 
-    public void addFruitEntry(FruitEntry fruitEntry) {
-        mAdapter.addFruitEntry(fruitEntry);
+    public boolean contains(FruitEntry fruitEntry){
+        return mAdapter.contains(fruitEntry);
+    }
+
+    public FruitEntry getCurrentFruitEntry(FruitEntry fruitEntry){
+        return mAdapter.getFruitEntry(fruitEntry);
+    }
+
+    public void addOrUpdateFruitEntry(FruitEntry fruitEntry) {
+        if (mAdapter.contains(fruitEntry)){
+            mAdapter.updateFruitEntry(fruitEntry);
+        } else {
+            mAdapter.addFruitEntry(fruitEntry);
+        }
     }
 
     public void showOverlay() {

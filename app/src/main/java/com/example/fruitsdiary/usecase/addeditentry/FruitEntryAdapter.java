@@ -37,6 +37,23 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         notifyItemInserted(mFruitEntryList.size() - 1);
     }
 
+    public void updateFruitEntry(FruitEntry fruitEntry) {
+        int index = getFruitEntryIndex(fruitEntry);
+        mFruitEntryList.set(index, fruitEntry);
+        notifyItemChanged(index);
+    }
+
+    public boolean contains(FruitEntry fruitEntry){
+        return mFruitEntryList.contains(fruitEntry);
+    }
+
+    public FruitEntry getFruitEntry(FruitEntry fruitEntry){
+        return mFruitEntryList.get(getFruitEntryIndex(fruitEntry));
+    }
+    private int getFruitEntryIndex(FruitEntry fruitEntry){
+        return mFruitEntryList.indexOf(fruitEntry);
+    }
+
     @NonNull
     @Override
     public FruitEntryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

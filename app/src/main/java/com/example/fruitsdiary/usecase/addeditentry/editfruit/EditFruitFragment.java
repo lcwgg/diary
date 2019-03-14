@@ -20,25 +20,19 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
 
     public static final String TAG = EditFruitFragment.class.getSimpleName();
 
-    private static final String ARGS_FRUIT_ENTRY = "ARGS_FRUIT_ENTRY";
     private static final int FRUIT_MINIMUM_AMOUNT = 1;
 
     private FragmentEditFruitBinding mBinding;
     private FruitEntry mFruitEntry;
     private boolean mIsPlural;
 
-    public static EditFruitFragment newInstance(@NonNull FruitEntry fruitEntry) {
-        EditFruitFragment fragment = new EditFruitFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARGS_FRUIT_ENTRY, fruitEntry);
-        fragment.setArguments(args);
-        return fragment;
+    public void setFruitEntry(@NonNull FruitEntry fruitEntry) {
+        mFruitEntry = fruitEntry;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFruitEntry = getArguments().getParcelable(ARGS_FRUIT_ENTRY);
         mIsPlural = false;
     }
 
@@ -53,8 +47,9 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mBinding.fruitName.setText(mFruitEntry.getType());
-        setFruitAmount(FRUIT_MINIMUM_AMOUNT);
+        int amount = mFruitEntry.getAmount();
+        mBinding.fruitName.setText(StringUtils.getCorrectFruitSpelling(getContext(), amount, mFruitEntry.getType()));
+        setFruitAmount(amount);
         mBinding.fruitAmount.addTextChangedListener(new FruitNumberWatcher());
 
         View.OnClickListener onDismissClick = new View.OnClickListener() {
