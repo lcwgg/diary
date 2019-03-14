@@ -81,6 +81,19 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
     public void handleNetworkError(FruitDiaryException exception) {
         new BaseDialogFragment.Builder()
                 .setError(getContext(), exception)
+                .setOnButtonClickListener(new BaseDialogFragment.OnButtonClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        if (mOnAddEditFlowListener != null){
+                            mOnAddEditFlowListener.onSelectFruitDismissed(null);
+                        }
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                })
                 .build().show(getChildFragmentManager());
     }
 
