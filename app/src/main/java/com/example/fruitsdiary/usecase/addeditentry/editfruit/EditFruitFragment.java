@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,10 +14,9 @@ import android.view.ViewGroup;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentEditFruitBinding;
 import com.example.fruitsdiary.model.FruitEntry;
-import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryAbstractFragment;
 import com.example.fruitsdiary.util.StringUtils;
 
-public class EditFruitFragment extends AddEditEntryAbstractFragment {
+public class EditFruitFragment extends Fragment {
 
     public static final String TAG = EditFruitFragment.class.getSimpleName();
 
@@ -24,11 +24,8 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
 
     private FragmentEditFruitBinding mBinding;
     private FruitEntry mFruitEntry;
+    private OnEditFruitFragmentDismissedListener mOnDismissedListener;
     private boolean mIsPlural;
-
-    public void setFruitEntry(@NonNull FruitEntry fruitEntry) {
-        mFruitEntry = fruitEntry;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,16 +44,13 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        int amount = mFruitEntry.getAmount();
-        mBinding.fruitName.setText(StringUtils.getCorrectFruitSpelling(getContext(), amount, mFruitEntry.getType()));
-        setFruitAmount(amount);
         mBinding.fruitAmount.addTextChangedListener(new FruitNumberWatcher());
 
         View.OnClickListener onDismissClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnAddEditFlowListener != null){
-                    mOnAddEditFlowListener.onEditFruitDismissed(null);
+                if (mOnDismissedListener != null){
+                    mOnDismissedListener.onEditFruitFragmentDismissed(null);
                 }
             }
         };
@@ -66,9 +60,9 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
         mBinding.doneAddFruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnAddEditFlowListener != null){
+                if (mOnDismissedListener != null){
                     mFruitEntry.setAmount(getFruitAmount());
-                    mOnAddEditFlowListener.onEditFruitDismissed(mFruitEntry);
+                    mOnDismissedListener.onEditFruitFragmentDismissed(mFruitEntry);
                 }
             }
         });
@@ -90,7 +84,26 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
                 }
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFruitView();
+    }
+
+    public void setFruitEntry(@NonNull FruitEntry fruitEntry) {
+        mFruitEntry = fruitEntry;
+    }
+
+    public void setOnDismissedListener(OnEditFruitFragmentDismissedListener onDismissedListener) {
+        mOnDismissedListener = onDismissedListener;
+    }
+
+    private void setFruitView(){
+        int amount = mFruitEntry.getAmount();
+        mBinding.fruitName.setText(StringUtils.getCorrectFruitSpelling(getContext(), amount, mFruitEntry.getType()));
+        setFruitAmount(amount);
     }
 
     private int getFruitAmount(){
@@ -100,6 +113,10 @@ public class EditFruitFragment extends AddEditEntryAbstractFragment {
 
     private void setFruitAmount(int amount){
         mBinding.fruitAmount.setText(String.valueOf(amount));
+    }
+
+    public interface OnEditFruitFragmentDismissedListener {
+        void onEditFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
     }
 
     private class FruitNumberWatcher implements TextWatcher {

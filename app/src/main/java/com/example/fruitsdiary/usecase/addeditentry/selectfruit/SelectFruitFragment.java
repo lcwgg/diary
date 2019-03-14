@@ -18,20 +18,20 @@ import com.example.fruitsdiary.dialog.BaseDialogFragment;
 import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.FruitEntry;
-import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryAbstractFragment;
-import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class SelectFruitFragment extends AddEditEntryAbstractFragment implements SelectFruitContract.View{
+public class SelectFruitFragment extends Fragment implements SelectFruitContract.View{
 
     public static final String TAG = SelectFruitFragment.class.getSimpleName();
 
     private FragmentSelectFruitBinding mBinding;
 
     private FruitAdapter mFruitAdapter;
+
+    private OnSelectFruitFragmentDismissedListener mOnDismissedListener;
 
     @Inject
     SelectFruitPresenter mPresenter;
@@ -54,9 +54,9 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
         mFruitAdapter = new FruitAdapter(new FruitAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fruit fruit) {
-                if (mOnAddEditFlowListener != null) {
+                if (mOnDismissedListener != null) {
                     FruitEntry fruitEntry = mPresenter.getFruitEntry(fruit);
-                    mOnAddEditFlowListener.onSelectFruitDismissed(fruitEntry);
+                    mOnDismissedListener.OnSelectFruitFragmentDismissed(fruitEntry);
                 }
             }
         });
@@ -65,11 +65,15 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
         mBinding.selectFruitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnAddEditFlowListener != null){
-                    mOnAddEditFlowListener.onSelectFruitDismissed(null);
+                if (mOnDismissedListener != null){
+                    mOnDismissedListener.OnSelectFruitFragmentDismissed(null);
                 }
             }
         });
+    }
+
+    public void setOnDismissedListener(OnSelectFruitFragmentDismissedListener onDismissedListener) {
+        mOnDismissedListener = onDismissedListener;
     }
 
     @Override
@@ -84,8 +88,8 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
                 .setOnButtonClickListener(new BaseDialogFragment.OnButtonClickListener() {
                     @Override
                     public void onPositiveClick() {
-                        if (mOnAddEditFlowListener != null){
-                            mOnAddEditFlowListener.onSelectFruitDismissed(null);
+                        if (mOnDismissedListener != null){
+                            mOnDismissedListener.OnSelectFruitFragmentDismissed(null);
                         }
                     }
 
@@ -107,5 +111,9 @@ public class SelectFruitFragment extends AddEditEntryAbstractFragment implements
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+    }
+
+    public interface OnSelectFruitFragmentDismissedListener {
+        void OnSelectFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
     }
 }
