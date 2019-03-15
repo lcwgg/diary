@@ -20,7 +20,7 @@ import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
-import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
+import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
 
 import java.util.List;
 
@@ -34,8 +34,8 @@ public class AddEditEntryFragment extends Fragment
     @Inject
     AddEditEntryPresenter mPresenter;
     private FragmentAddEditEntryBinding mBinding;
-    private OnAddFruitClickListener mOnAddFruitClickListener;
-    private SelectFruitFragment.OnSelectFruitListener mOnSelectFruitListener;
+    private OnAddEditListener mOnAddEditListener;
+    private OnSelectFruitListener mOnSelectFruitListener;
     @EntryState
     private int mEntryState;
     private FruitEntryAdapter mAdapter;
@@ -71,8 +71,8 @@ public class AddEditEntryFragment extends Fragment
         mBinding.addFruitFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnAddFruitClickListener != null) {
-                    mOnAddFruitClickListener.onAddFruitClick();
+                if (mOnAddEditListener != null) {
+                    mOnAddEditListener.onAddFruitEntryClick();
                 }
             }
         });
@@ -96,13 +96,8 @@ public class AddEditEntryFragment extends Fragment
     @Override
     public void onEntrySaved(List<FruitEntry> fruitEntryList) {
         setAdapterFruitEntryList();
-        mOnAddFruitClickListener.onEntrySaved();
+        mOnAddEditListener.onEntrySaved();
         Snackbar.make(mBinding.getRoot(), R.string.fruits_saved, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onEntryDeleted() {
-
     }
 
     @Override
@@ -122,11 +117,36 @@ public class AddEditEntryFragment extends Fragment
 
     }
 
-    public void setOnAddFruitClickListener(OnAddFruitClickListener onAddFruitClickListener) {
-        mOnAddFruitClickListener = onAddFruitClickListener;
+    @Override
+    public void deleteEntry() {
+        mPresenter.deleteEntry();
     }
 
-    public void setOnSelectFruitListener(SelectFruitFragment.OnSelectFruitListener onSelectFruitListener) {
+    @Override
+    public void onEntryDeleted() {
+        BaseDialogFragment.Builder builder = new BaseDialogFragment.Builder()
+                .setTitle("Deleting your entry")
+                .setMessage("Are you sure ?")
+                .addCancelButton(true)
+                .setOnButtonClickListener(new BaseDialogFragment.OnButtonClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                });
+        builder.build().show(getChildFragmentManager());
+    }
+
+    public void setOnAddEditListener(OnAddEditListener onAddEditListener) {
+        mOnAddEditListener = onAddEditListener;
+    }
+
+    public void setOnSelectFruitListener(OnSelectFruitListener onSelectFruitListener) {
         mOnSelectFruitListener = onSelectFruitListener;
     }
 
@@ -154,7 +174,7 @@ public class AddEditEntryFragment extends Fragment
         } else {
             mPresenter.addFruitEntry(fruitEntry);
         }
-       setAdapterFruitEntryList();
+        setAdapterFruitEntryList();
         // in case the list was empty we hide the "warning empty" textview
         mBinding.emptyEntry.setVisibility(View.GONE);
     }
@@ -176,7 +196,7 @@ public class AddEditEntryFragment extends Fragment
         mBinding.editFruitOverlay.setVisibility(View.GONE);
     }
 
-    private void setAdapterFruitEntryList(){
+    private void setAdapterFruitEntryList() {
         mPresenter.filterFruitEntryList(new OnFruitEntryListFilteredListener() {
             @Override
             public void onFruitEntryListFiltered(@NonNull List<FruitEntry> fruitEntryList) {
@@ -185,8 +205,8 @@ public class AddEditEntryFragment extends Fragment
         });
     }
 
-    public interface OnAddFruitClickListener {
-        void onAddFruitClick();
+    public interface OnAddEditListener {
+        void onAddFruitEntryClick();
 
         void onEntrySaved();
     }

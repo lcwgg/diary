@@ -1,5 +1,6 @@
 package com.example.fruitsdiary.usecase.home;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -61,6 +62,11 @@ public class HomeActivity extends AppCompatActivity {
                 mHomePagerAdapter.getItem(i).setFabAction(binding.fab);
             }
         });
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
     }
 
     private abstract class OnPageChangedListener implements ViewPager.OnPageChangeListener {

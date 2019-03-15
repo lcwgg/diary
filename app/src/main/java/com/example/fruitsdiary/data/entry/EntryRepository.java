@@ -30,6 +30,14 @@ public class EntryRepository {
         mFruitRepository = fruitRepository;
     }
 
+    /**
+     *   Get a single entry and apply transformation:
+     *         - filter the fruit with amount == 0 (not displayed)
+     *         - set the total vitamins for this entry
+     *         - add the vitamins and image path to each fruitEntry
+     * @param id the id of the entry to load
+     * @return the Observable that will emit the entry
+     */
     public Observable<Entry> getEntry(int id) {
         return mEntryDataSource.getEntry(id)
                 .zipWith(mFruitRepository.getFruits(), new BiFunction<Entry, List<Fruit>, Entry>() {
@@ -45,6 +53,13 @@ public class EntryRepository {
                 });
     }
 
+    /**
+     * Get all entries and apply transformation:
+     *         - filter the fruit with amount == 0 (not displayed)
+     *         - set the total vitamins for this entry
+     *         - add the vitamins and image path to each fruitEntry
+     * @return an Observable the will emit the list of entries
+     */
     public Observable<List<Entry>> getAllEntries() {
         return mEntryDataSource.getAllEntries()
                 .zipWith(mFruitRepository.getFruits(), new BiFunction<List<Entry>, List<Fruit>, List<Entry>>() {
@@ -58,13 +73,23 @@ public class EntryRepository {
                 });
     }
 
+    /**
+     * Set the specified fruit to the specified entry
+     * @param entryId the entry to be modified
+     * @param fruitEntry the id of the fruit to add
+     * @return
+     */
     public Observable<Response> addFruitToEntry(final int entryId, FruitEntry fruitEntry) {
         return mEntryDataSource.addFruitToEntry(entryId, fruitEntry.getId(), fruitEntry.getAmount());
     }
 
-    private void filterEmptyFruitEntry(List<Entry> entryList){
+    public Observable<Response> deleteEntry(int id){
+        return mEntryDataSource.deleteEntry(id);
+    }
+
+    private void filterEmptyFruitEntry(List<Entry> entryList) {
         int entrySize = entryList.size();
-        for (int i=0; i<entrySize; i++){
+        for (int i = 0; i < entrySize; i++) {
             final Entry entry = entryList.get(i);
             Observable.fromIterable(entry.getFruitList())
                     .filter(new Predicate<FruitEntry>() {
@@ -73,12 +98,12 @@ public class EntryRepository {
                             return fruitEntry.getAmount() != 0;
                         }
                     }).toList()
-            .subscribe(new Consumer<List<FruitEntry>>() {
-                @Override
-                public void accept(List<FruitEntry> fruitEntryList) throws Exception {
-                    entry.setFruitList(fruitEntryList);
-                }
-            });
+                    .subscribe(new Consumer<List<FruitEntry>>() {
+                        @Override
+                        public void accept(List<FruitEntry> fruitEntryList) throws Exception {
+                            entry.setFruitList(fruitEntryList);
+                        }
+                    });
         }
     }
 

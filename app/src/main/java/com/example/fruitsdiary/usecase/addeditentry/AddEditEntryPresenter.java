@@ -102,11 +102,19 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
 
     @Override
     public void deleteEntry() {
-
+        mCompositeDisposable.add(
+                mEntryRepository.deleteEntry(mEntry.getId())
+                        .subscribe(new Consumer<Response>() {
+                            @Override
+                            public void accept(Response response) throws Exception {
+                                mView.onEntryDeleted();
+                            }
+                        }, new CommonNetworkErrorConsumer(mView))
+        );
     }
 
     @Override
-    public void loadEntry(int id) {
+    public void getEntry(int id) {
         mCompositeDisposable.add(
                 mEntryRepository.getEntry(id)
                         .subscribe(new Consumer<Entry>() {
@@ -155,7 +163,7 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
     @Override
     public void subscribe() {
         // we only saved the entry from the DiaryFragment, so we get the id from it
-        loadEntry(mEntryFromDiary.getId());
+        getEntry(mEntryFromDiary.getId());
     }
 
     @Override

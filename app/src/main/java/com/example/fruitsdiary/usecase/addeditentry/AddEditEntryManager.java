@@ -14,6 +14,8 @@ public interface AddEditEntryManager {
 
     void deleteFruitEntry(@NonNull FruitEntry fruitEntry);
 
+    void deleteEntry();
+
     boolean contains(FruitEntry fruitEntry);
 
     FruitEntry getCorrespondingFruitEntry(FruitEntry fruitEntry);

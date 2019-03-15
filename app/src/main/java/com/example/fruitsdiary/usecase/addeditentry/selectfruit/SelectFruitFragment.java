@@ -119,7 +119,4 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         mPresenter.setView(null);
     }
 
-    public interface OnSelectFruitListener {
-        void onFruitSelected(@Nullable FruitEntry fruitEntry);
-    }
 }

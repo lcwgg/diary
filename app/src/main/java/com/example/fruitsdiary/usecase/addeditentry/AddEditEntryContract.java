@@ -19,6 +19,6 @@ public interface AddEditEntryContract {
     interface Presenter extends BasePresenter<View> {
         void saveEntry();
         void deleteEntry();
-        void loadEntry(int id);
+        void getEntry(int id);
     }
 }

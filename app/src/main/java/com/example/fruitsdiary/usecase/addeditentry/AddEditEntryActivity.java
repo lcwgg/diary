@@ -16,14 +16,15 @@ import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 import com.example.fruitsdiary.usecase.addeditentry.editfruit.EditFruitFragment;
+import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 import com.example.fruitsdiary.util.DateUtils;
 
 import java.util.Calendar;
 
 public class AddEditEntryActivity extends AppCompatActivity
-        implements AddEditEntryFragment.OnAddFruitClickListener,
-        SelectFruitFragment.OnSelectFruitListener,
+        implements AddEditEntryFragment.OnAddEditListener,
+        OnSelectFruitListener,
         EditFruitFragment.OnEditFruitListener {
 
     private AddEditEntryManager mAddEditEntryManager;
@@ -56,7 +57,7 @@ public class AddEditEntryActivity extends AppCompatActivity
 
         AddEditEntryFragment addEditEntryFragment = new AddEditEntryFragment();
         mAddEditEntryManager = addEditEntryFragment;
-        addEditEntryFragment.setOnAddFruitClickListener(this);
+        addEditEntryFragment.setOnAddEditListener(this);
         addEditEntryFragment.setOnSelectFruitListener(this);
 
         mEditFruitFragment = new EditFruitFragment();
@@ -98,6 +99,7 @@ public class AddEditEntryActivity extends AppCompatActivity
                 showDatePickerDialog();
                 return true;
             case R.id.action_delete:
+                mAddEditEntryManager.deleteEntry();
                 return true;
             case R.id.action_save:
                 mAddEditEntryManager.saveEntry();
@@ -166,7 +168,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAddFruitClick() {
+    public void onAddFruitEntryClick() {
         FragmentManager manager = getSupportFragmentManager();
         if (manager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
             addSelectFruitFragment(manager);
