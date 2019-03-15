@@ -24,7 +24,7 @@ public class EditFruitFragment extends Fragment {
 
     private FragmentEditFruitBinding mBinding;
     private FruitEntry mFruitEntry;
-    private OnEditFruitFragmentDismissedListener mOnDismissedListener;
+    private OnEditFruitListener mOnEditFruitListener;
     private boolean mIsPlural;
 
     @Override
@@ -49,8 +49,8 @@ public class EditFruitFragment extends Fragment {
         View.OnClickListener onDismissClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnDismissedListener != null){
-                    mOnDismissedListener.onEditFruitFragmentDismissed(null);
+                if (mOnEditFruitListener != null){
+                    mOnEditFruitListener.onFruitEdited(null);
                 }
             }
         };
@@ -60,9 +60,9 @@ public class EditFruitFragment extends Fragment {
         mBinding.doneAddFruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnDismissedListener != null){
+                if (mOnEditFruitListener != null){
                     mFruitEntry.setAmount(getFruitAmount());
-                    mOnDismissedListener.onEditFruitFragmentDismissed(mFruitEntry);
+                    mOnEditFruitListener.onFruitEdited(mFruitEntry);
                 }
             }
         });
@@ -88,7 +88,7 @@ public class EditFruitFragment extends Fragment {
         mBinding.deleteFruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnDismissedListener.onFruitDeleted(mFruitEntry);
+                mOnEditFruitListener.onFruitDeleted(mFruitEntry);
             }
         });
     }
@@ -103,8 +103,8 @@ public class EditFruitFragment extends Fragment {
         mFruitEntry = fruitEntry;
     }
 
-    public void setOnDismissedListener(OnEditFruitFragmentDismissedListener onDismissedListener) {
-        mOnDismissedListener = onDismissedListener;
+    public void setOnEditFruitListener(OnEditFruitListener onEditFruitListener) {
+        mOnEditFruitListener = onEditFruitListener;
     }
 
     private void setFruitView(){
@@ -122,8 +122,8 @@ public class EditFruitFragment extends Fragment {
         mBinding.fruitAmount.setText(String.valueOf(amount));
     }
 
-    public interface OnEditFruitFragmentDismissedListener {
-        void onEditFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
+    public interface OnEditFruitListener {
+        void onFruitEdited(@Nullable FruitEntry fruitEntry);
         void onFruitDeleted(@NonNull FruitEntry fruitEntry);
     }
 

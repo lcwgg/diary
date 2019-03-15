@@ -20,6 +20,7 @@ import com.example.fruitsdiary.exception.FruitDiaryException;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
+import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class AddEditEntryFragment extends Fragment
     AddEditEntryPresenter mPresenter;
     private FragmentAddEditEntryBinding mBinding;
     private OnAddFruitClickListener mOnAddFruitClickListener;
+    private SelectFruitFragment.OnSelectFruitListener mOnSelectFruitListener;
     @EntryState
     private int mEntryState;
     private FruitEntryAdapter mAdapter;
@@ -58,7 +60,12 @@ public class AddEditEntryFragment extends Fragment
         RecyclerView recyclerView = mBinding.fruitRecyclerview;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        mAdapter = new FruitEntryAdapter();
+        mAdapter = new FruitEntryAdapter(new FruitEntryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull FruitEntry fruitEntry) {
+                mOnSelectFruitListener.onFruitSelected(fruitEntry);
+            }
+        });
         recyclerView.setAdapter(mAdapter);
 
         mBinding.addFruitFab.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +124,10 @@ public class AddEditEntryFragment extends Fragment
 
     public void setOnAddFruitClickListener(OnAddFruitClickListener onAddFruitClickListener) {
         mOnAddFruitClickListener = onAddFruitClickListener;
+    }
+
+    public void setOnSelectFruitListener(SelectFruitFragment.OnSelectFruitListener onSelectFruitListener) {
+        mOnSelectFruitListener = onSelectFruitListener;
     }
 
     @Override

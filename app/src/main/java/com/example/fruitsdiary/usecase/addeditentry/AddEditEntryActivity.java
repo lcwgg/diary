@@ -23,8 +23,8 @@ import java.util.Calendar;
 
 public class AddEditEntryActivity extends AppCompatActivity
         implements AddEditEntryFragment.OnAddFruitClickListener,
-        SelectFruitFragment.OnSelectFruitFragmentDismissedListener,
-        EditFruitFragment.OnEditFruitFragmentDismissedListener {
+        SelectFruitFragment.OnSelectFruitListener,
+        EditFruitFragment.OnEditFruitListener {
 
     private AddEditEntryManager mAddEditEntryManager;
     private SelectFruitFragment mSelectFruitFragment;
@@ -57,12 +57,13 @@ public class AddEditEntryActivity extends AppCompatActivity
         AddEditEntryFragment addEditEntryFragment = new AddEditEntryFragment();
         mAddEditEntryManager = addEditEntryFragment;
         addEditEntryFragment.setOnAddFruitClickListener(this);
+        addEditEntryFragment.setOnSelectFruitListener(this);
 
         mEditFruitFragment = new EditFruitFragment();
-        mEditFruitFragment.setOnDismissedListener(this);
+        mEditFruitFragment.setOnEditFruitListener(this);
 
         mSelectFruitFragment = new SelectFruitFragment();
-        mSelectFruitFragment.setOnDismissedListener(this);
+        mSelectFruitFragment.setSelectFruitListener(this);
 
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
@@ -178,7 +179,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     }
 
     @Override
-    public void OnSelectFruitFragmentDismissed(@Nullable FruitEntry fruitEntry) {
+    public void onFruitSelected(@Nullable FruitEntry fruitEntry) {
         FragmentManager manager = getSupportFragmentManager();
         if (fruitEntry == null) {
             removeSelectFruitFragment(manager);
@@ -197,7 +198,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     }
 
     @Override
-    public void onEditFruitFragmentDismissed(@Nullable FruitEntry fruitEntry) {
+    public void onFruitEdited(@Nullable FruitEntry fruitEntry) {
         removeEditFruitFragment(getSupportFragmentManager());
         if (fruitEntry != null) {
             mAddEditEntryManager.addOrUpdateFruitEntry(fruitEntry);

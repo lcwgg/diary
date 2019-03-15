@@ -31,7 +31,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
 
     private FruitAdapter mFruitAdapter;
 
-    private OnSelectFruitFragmentDismissedListener mOnDismissedListener;
+    private OnSelectFruitListener mSelectFruitListener;
 
     @Inject
     SelectFruitPresenter mPresenter;
@@ -54,9 +54,9 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         mFruitAdapter = new FruitAdapter(new FruitAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fruit fruit) {
-                if (mOnDismissedListener != null) {
+                if (mSelectFruitListener != null) {
                     FruitEntry fruitEntry = mPresenter.getFruitEntry(fruit);
-                    mOnDismissedListener.OnSelectFruitFragmentDismissed(fruitEntry);
+                    mSelectFruitListener.onFruitSelected(fruitEntry);
                 }
             }
         });
@@ -65,15 +65,15 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         mBinding.selectFruitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnDismissedListener != null){
-                    mOnDismissedListener.OnSelectFruitFragmentDismissed(null);
+                if (mSelectFruitListener != null){
+                    mSelectFruitListener.onFruitSelected(null);
                 }
             }
         });
     }
 
-    public void setOnDismissedListener(OnSelectFruitFragmentDismissedListener onDismissedListener) {
-        mOnDismissedListener = onDismissedListener;
+    public void setSelectFruitListener(OnSelectFruitListener selectFruitListener) {
+        mSelectFruitListener = selectFruitListener;
     }
 
     @Override
@@ -88,8 +88,8 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
                 .setOnButtonClickListener(new BaseDialogFragment.OnButtonClickListener() {
                     @Override
                     public void onPositiveClick() {
-                        if (mOnDismissedListener != null){
-                            mOnDismissedListener.OnSelectFruitFragmentDismissed(null);
+                        if (mSelectFruitListener != null){
+                            mSelectFruitListener.onFruitSelected(null);
                         }
                     }
 
@@ -119,7 +119,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         mPresenter.setView(null);
     }
 
-    public interface OnSelectFruitFragmentDismissedListener {
-        void OnSelectFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
+    public interface OnSelectFruitListener {
+        void onFruitSelected(@Nullable FruitEntry fruitEntry);
     }
 }

@@ -10,13 +10,13 @@ public interface AddEditEntryManager {
 
     void saveEntry();
 
+    void addOrUpdateFruitEntry(FruitEntry fruitEntry);
+
     void deleteFruitEntry(@NonNull FruitEntry fruitEntry);
 
     boolean contains(FruitEntry fruitEntry);
 
     FruitEntry getCorrespondingFruitEntry(FruitEntry fruitEntry);
-
-    void addOrUpdateFruitEntry(FruitEntry fruitEntry);
 
     void showOverlay();
 

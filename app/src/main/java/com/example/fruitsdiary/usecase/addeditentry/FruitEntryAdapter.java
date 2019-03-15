@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fruitsdiary.R;
@@ -24,9 +25,11 @@ import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
 public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.FruitEntryViewHolder> {
 
     private List<FruitEntry> mFruitEntryList;
+    private OnItemClickListener mOnItemClickListener;
 
-    FruitEntryAdapter() {
+    FruitEntryAdapter(OnItemClickListener onItemClickListener) {
         mFruitEntryList = new ArrayList<>();
+        mOnItemClickListener = onItemClickListener;
     }
 
     void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
@@ -75,6 +78,8 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         setFruitName(context, fruitEntry, binding);
         setVitamins(context, fruitEntry, binding);
 
+        fruitEntryViewHolder.bind(fruitEntry);
+
         if (fruitEntry.isModified()) {
             binding.getRoot().setBackgroundColor(ContextCompat.getColor(context, R.color.light_grey));
         } else {
@@ -118,5 +123,18 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
             super(binding.getRoot());
             this.binding = binding;
         }
+
+        public void bind(@NonNull final FruitEntry fruitEntry){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(fruitEntry);
+                }
+            });
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(@NonNull FruitEntry fruitEntry);
     }
 }
