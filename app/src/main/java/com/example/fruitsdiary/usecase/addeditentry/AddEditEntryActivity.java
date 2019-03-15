@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.dialog.DatePickerFragment;
@@ -99,7 +100,6 @@ public class AddEditEntryActivity extends AppCompatActivity
                 return true;
             case R.id.action_save:
                 mAddEditEntryManager.saveEntry();
-                setEntryStateToView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -169,6 +169,11 @@ public class AddEditEntryActivity extends AppCompatActivity
     }
 
     @Override
+    public void onEntrySaved() {
+        setEntryStateToView();
+    }
+
+    @Override
     public void OnSelectFruitFragmentDismissed(@Nullable FruitEntry fruitEntry) {
         FragmentManager manager = getSupportFragmentManager();
         if (fruitEntry == null) {
@@ -192,6 +197,7 @@ public class AddEditEntryActivity extends AppCompatActivity
         removeEditFruitFragment(getSupportFragmentManager());
         if (fruitEntry != null) {
             mAddEditEntryManager.addOrUpdateFruitEntry(fruitEntry);
+            setEntryStateToEdit();
         }
     }
 

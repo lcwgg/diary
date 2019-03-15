@@ -3,14 +3,18 @@ package com.example.fruitsdiary.usecase.addeditentry;
 import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
+import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
 
@@ -34,17 +38,32 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
         mEntryFromDiary = entryFromDiary;
     }
 
-    void updateEntryDate(String date){
+    void updateEntryDate(String date) {
         mEntry.setDate(date);
     }
 
-    void setFruitEntryList(List<FruitEntry> fruitEntryList){
+    void setFruitEntryList(List<FruitEntry> fruitEntryList) {
         mEntry.setFruitList(fruitEntryList);
     }
 
     @Override
     public void saveEntry() {
-
+        mCompositeDisposable.add(
+                Observable.fromIterable(mEntry.getFruitList())
+                        .flatMap(new Function<FruitEntry, ObservableSource<Response>>() {
+                            @Override
+                            public ObservableSource<Response> apply(FruitEntry fruitEntry) throws Exception {
+                                return mEntryRepository.addFruitToEntry(mEntry.getId(), fruitEntry);
+                            }
+                        })
+                        .lastElement() // subscribe to only the last item
+                        .subscribe(new Consumer<Response>() {
+                            @Override
+                            public void accept(Response response) throws Exception {
+                                mView.onEntrySaved(mEntry.getFruitList());
+                            }
+                        }, new CommonNetworkErrorConsumer(mView))
+        );
     }
 
     @Override
@@ -60,16 +79,18 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
                             @Override
                             public void accept(Entry entry) throws Exception {
                                 mEntry = entry;
-                                mView.setEntry(entry);
+                                // TODO replace mEntryFromDiary by mEntry when the API will work
+                                mEntry = mEntryFromDiary;
+                                mView.updateEntryView(mEntry);
                             }
-                        }, new CommonNetworkErrorConsumer(mView){
+                        }, new CommonNetworkErrorConsumer(mView) {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 super.accept(throwable);
                                 // If there is an error, we use the entry loaded
                                 // from the diary fragment
                                 mEntry = mEntryFromDiary;
-                                mView.setEntry(mEntry);
+                                mView.updateEntryView(mEntry);
                             }
                         })
         );

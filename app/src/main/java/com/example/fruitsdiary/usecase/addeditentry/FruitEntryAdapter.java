@@ -2,7 +2,9 @@ package com.example.fruitsdiary.usecase.addeditentry;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -28,33 +30,40 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
     }
 
     void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
+        int size = fruitEntryList.size();
+        for (int i = 0; i < size; i++) {
+            fruitEntryList.get(i).setModified(false);
+        }
         mFruitEntryList = fruitEntryList;
         notifyDataSetChanged();
     }
 
-    void addFruitEntry(@NonNull FruitEntry fruit) {
-        mFruitEntryList.add(fruit);
+    void addFruitEntry(@NonNull FruitEntry fruitEntry) {
+        fruitEntry.setModified(true);
+        mFruitEntryList.add(fruitEntry);
         notifyItemInserted(mFruitEntryList.size() - 1);
     }
 
-    void updateFruitEntry(FruitEntry fruitEntry) {
+    void updateFruitEntry(@NonNull FruitEntry fruitEntry) {
+        fruitEntry.setModified(true);
         int index = getFruitEntryIndex(fruitEntry);
         mFruitEntryList.set(index, fruitEntry);
         notifyItemChanged(index);
     }
 
-    public List<FruitEntry> getFruitEntryList(){
+    public List<FruitEntry> getFruitEntryList() {
         return mFruitEntryList;
     }
 
-    boolean contains(FruitEntry fruitEntry){
+    boolean contains(FruitEntry fruitEntry) {
         return mFruitEntryList.contains(fruitEntry);
     }
 
-    FruitEntry getFruitEntry(FruitEntry fruitEntry){
+    FruitEntry getFruitEntry(FruitEntry fruitEntry) {
         return mFruitEntryList.get(getFruitEntryIndex(fruitEntry));
     }
-    private int getFruitEntryIndex(FruitEntry fruitEntry){
+
+    private int getFruitEntryIndex(FruitEntry fruitEntry) {
         return mFruitEntryList.indexOf(fruitEntry);
     }
 
@@ -89,6 +98,12 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         setFruitName(context, fruitEntry, binding);
         setVitamins(context, fruitEntry, binding);
 
+        if (fruitEntry.isModified()) {
+            binding.getRoot().setBackgroundColor(ContextCompat.getColor(context, R.color.light_grey));
+        } else {
+            binding.getRoot().setBackgroundColor(Color.WHITE);
+        }
+
     }
 
     private void setFruitName(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
@@ -102,8 +117,7 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
         );
     }
 
-    private void setVitamins(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding)
-    {
+    private void setVitamins(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
         int vitamins = fruitEntry.getVitamins() * fruitEntry.getAmount();
         String vitaminText = context.getResources().getQuantityString(
                 R.plurals.vitamins,

@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,13 +77,25 @@ public class AddEditEntryFragment extends Fragment
     }
 
     @Override
-    public void setEntry(Entry entry) {
+    public void updateEntryView(Entry entry) {
         mBinding.addEditViewswitcher.showNext();
         List<FruitEntry> fruitEntryList = entry.getFruitList();
         mAdapter.setFruitEntryList(fruitEntryList);
-        if (fruitEntryList.isEmpty()){
+        if (fruitEntryList.isEmpty()) {
             mBinding.emptyEntry.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onEntrySaved(List<FruitEntry> fruitEntryList) {
+        mAdapter.setFruitEntryList(fruitEntryList);
+        mOnAddFruitClickListener.onEntrySaved();
+        Snackbar.make(mBinding.getRoot(), R.string.fruits_saved, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEntryDeleted() {
+
     }
 
     @Override
@@ -94,6 +107,7 @@ public class AddEditEntryFragment extends Fragment
     public void saveEntry() {
         mPresenter.setFruitEntryList(mAdapter.getFruitEntryList());
         mPresenter.saveEntry();
+
     }
 
     public void setOnAddFruitClickListener(OnAddFruitClickListener onAddFruitClickListener) {
@@ -147,5 +161,7 @@ public class AddEditEntryFragment extends Fragment
 
     public interface OnAddFruitClickListener {
         void onAddFruitClick();
+
+        void onEntrySaved();
     }
 }

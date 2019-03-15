@@ -2,6 +2,7 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.DataSource;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
 
@@ -21,14 +22,23 @@ public class EntryDataSource extends DataSource {
     /*
         Return the full list of entries
      */
-    public Observable<List<Entry>> getAllEntries() {
+    Observable<List<Entry>> getAllEntries() {
         return mService.getAllEntries()
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }
 
-    public Observable<Entry> getEntry(int id) {
+    /*
+        Return a single entry
+     */
+    Observable<Entry> getEntry(int id) {
         return mService.getEntry(id)
+                .subscribeOn(mProvider.io())
+                .observeOn(mProvider.ui());
+    }
+
+    Observable<Response> addFruitToEntry(int entryId, int fruitId, int fruitAmount) {
+        return mService.addFruitToEntry(entryId, fruitId, fruitAmount)
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }

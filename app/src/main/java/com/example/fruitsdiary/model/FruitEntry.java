@@ -18,6 +18,7 @@ public class FruitEntry implements Parcelable {
     int amount;
     int vitamins;
     String image;
+    boolean isModified = false;
 
     public FruitEntry() {
     }
@@ -64,6 +65,14 @@ public class FruitEntry implements Parcelable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isModified() {
+        return isModified;
+    }
+
+    public void setModified(boolean modified) {
+        isModified = modified;
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
