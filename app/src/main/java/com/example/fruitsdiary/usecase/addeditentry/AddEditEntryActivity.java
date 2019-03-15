@@ -25,7 +25,7 @@ public class AddEditEntryActivity extends AppCompatActivity
         SelectFruitFragment.OnSelectFruitFragmentDismissedListener,
         EditFruitFragment.OnEditFruitFragmentDismissedListener {
 
-    private FruitEntryManager mFruitEntryManager;
+    private AddEditEntryManager mAddEditEntryManager;
     private SelectFruitFragment mSelectFruitFragment;
     private EditFruitFragment mEditFruitFragment;
     private ActionBar mActionBar;
@@ -54,7 +54,7 @@ public class AddEditEntryActivity extends AppCompatActivity
 
 
         AddEditEntryFragment addEditEntryFragment = new AddEditEntryFragment();
-        mFruitEntryManager = addEditEntryFragment;
+        mAddEditEntryManager = addEditEntryFragment;
         addEditEntryFragment.setOnAddFruitClickListener(this);
 
         mEditFruitFragment = new EditFruitFragment();
@@ -98,6 +98,7 @@ public class AddEditEntryActivity extends AppCompatActivity
             case R.id.action_delete:
                 return true;
             case R.id.action_save:
+                mAddEditEntryManager.saveEntry();
                 setEntryStateToView();
                 return true;
             default:
@@ -127,8 +128,10 @@ public class AddEditEntryActivity extends AppCompatActivity
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, day);
-                mActionBar.setTitle(DateUtils.getAppStringDate(calendar.getTime()));
+                String date = DateUtils.getAppStringDate(calendar.getTime());
+                mActionBar.setTitle(date);
                 setEntryStateToEdit();
+                mAddEditEntryManager.updateEntryDate(date);
             }
         });
 
@@ -171,8 +174,8 @@ public class AddEditEntryActivity extends AppCompatActivity
         if (fruitEntry == null) {
             removeSelectFruitFragment(manager);
         } else {
-            if (mFruitEntryManager.contains(fruitEntry)) {
-                fruitEntry = mFruitEntryManager.getCorrespondingFruitEntry(fruitEntry);
+            if (mAddEditEntryManager.contains(fruitEntry)) {
+                fruitEntry = mAddEditEntryManager.getCorrespondingFruitEntry(fruitEntry);
             }
             mEditFruitFragment.setFruitEntry(fruitEntry);
             // remove fruit selection fragment to replace it with the fruit edition fragment
@@ -188,7 +191,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     public void onEditFruitFragmentDismissed(@Nullable FruitEntry fruitEntry) {
         removeEditFruitFragment(getSupportFragmentManager());
         if (fruitEntry != null) {
-            mFruitEntryManager.addOrUpdateFruitEntry(fruitEntry);
+            mAddEditEntryManager.addOrUpdateFruitEntry(fruitEntry);
         }
     }
 
@@ -197,7 +200,7 @@ public class AddEditEntryActivity extends AppCompatActivity
                 .setCustomAnimations(R.anim.slide_up, 0)
                 .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
                 .commit();
-        mFruitEntryManager.showOverlay();
+        mAddEditEntryManager.showOverlay();
     }
 
     private void removeSelectFruitFragment(FragmentManager manager) {
@@ -205,7 +208,7 @@ public class AddEditEntryActivity extends AppCompatActivity
                 .setCustomAnimations(0, R.anim.slide_down)
                 .remove(mSelectFruitFragment)
                 .commit();
-        mFruitEntryManager.hideOverlay();
+        mAddEditEntryManager.hideOverlay();
     }
 
     private void removeEditFruitFragment(FragmentManager manager) {
@@ -213,7 +216,7 @@ public class AddEditEntryActivity extends AppCompatActivity
                 .setCustomAnimations(0, R.anim.slide_down)
                 .remove(mEditFruitFragment)
                 .commit();
-        mFruitEntryManager.hideOverlay();
+        mAddEditEntryManager.hideOverlay();
     }
 
 }

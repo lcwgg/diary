@@ -46,12 +46,11 @@ public class SelectFruitPresenter implements SelectFruitContract.Presenter {
                     public void accept(List<Fruit> fruitList) throws Exception {
                         mView.showFruitList(fruitList);
                     }
-                }, new CommonNetworkErrorConsumer(mView) {
-                }));
+                }, new CommonNetworkErrorConsumer(mView)));
     }
 
-    public FruitEntry getFruitEntry(Fruit fruit){
-        FruitEntry fruitEntry= FruitEntry.fromFruit(fruit);
+    public FruitEntry getFruitEntry(Fruit fruit) {
+        FruitEntry fruitEntry = FruitEntry.fromFruit(fruit);
         fruitEntry.setAmount(1); // minimum amount
         return fruitEntry;
     }

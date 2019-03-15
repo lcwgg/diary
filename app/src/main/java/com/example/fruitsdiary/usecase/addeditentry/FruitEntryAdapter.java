@@ -23,31 +23,35 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
 
     private List<FruitEntry> mFruitEntryList;
 
-    public FruitEntryAdapter() {
+    FruitEntryAdapter() {
         mFruitEntryList = new ArrayList<>();
     }
 
-    public void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
+    void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
         mFruitEntryList = fruitEntryList;
         notifyDataSetChanged();
     }
 
-    public void addFruitEntry(@NonNull FruitEntry fruit) {
+    void addFruitEntry(@NonNull FruitEntry fruit) {
         mFruitEntryList.add(fruit);
         notifyItemInserted(mFruitEntryList.size() - 1);
     }
 
-    public void updateFruitEntry(FruitEntry fruitEntry) {
+    void updateFruitEntry(FruitEntry fruitEntry) {
         int index = getFruitEntryIndex(fruitEntry);
         mFruitEntryList.set(index, fruitEntry);
         notifyItemChanged(index);
     }
 
-    public boolean contains(FruitEntry fruitEntry){
+    public List<FruitEntry> getFruitEntryList(){
+        return mFruitEntryList;
+    }
+
+    boolean contains(FruitEntry fruitEntry){
         return mFruitEntryList.contains(fruitEntry);
     }
 
-    public FruitEntry getFruitEntry(FruitEntry fruitEntry){
+    FruitEntry getFruitEntry(FruitEntry fruitEntry){
         return mFruitEntryList.get(getFruitEntryIndex(fruitEntry));
     }
     private int getFruitEntryIndex(FruitEntry fruitEntry){
@@ -119,7 +123,7 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
 
         private ViewFruitEntryBinding binding;
 
-        public FruitEntryViewHolder(@NonNull ViewFruitEntryBinding binding) {
+        FruitEntryViewHolder(@NonNull ViewFruitEntryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

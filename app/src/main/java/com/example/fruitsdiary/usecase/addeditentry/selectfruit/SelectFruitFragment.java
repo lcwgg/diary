@@ -113,6 +113,12 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         mPresenter.unsubscribe();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.setView(null);
+    }
+
     public interface OnSelectFruitFragmentDismissedListener {
         void OnSelectFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
     }

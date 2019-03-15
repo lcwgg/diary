@@ -5,6 +5,7 @@ import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Fruit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +26,20 @@ public class EntryRepository {
     EntryRepository(EntryDataSource entryDataSource, FruitRepository fruitRepository) {
         mEntryDataSource = entryDataSource;
         mFruitRepository = fruitRepository;
+    }
+
+    public Observable<Entry> getEntry(int id){
+        return mEntryDataSource.getEntry(id)
+                .zipWith(mFruitRepository.getFruits(), new BiFunction<Entry, List<Fruit>, Entry>() {
+            @Override
+            public Entry apply(final Entry entry, final List<Fruit> fruitList) throws Exception {
+                List<Entry> entries = new ArrayList<>();
+                entries.add(entry);
+                updateEntryVitamins(entries, fruitList);
+                updateEntryFruitVitaminsAndImage(entries, fruitList);
+                return entry;
+            }
+        });
     }
 
     public Observable<List<Entry>> getAllEntries() {

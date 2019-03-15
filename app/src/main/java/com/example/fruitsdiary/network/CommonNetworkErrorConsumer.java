@@ -6,7 +6,7 @@ import com.example.fruitsdiary.exception.FruitDiaryException;
 
 import io.reactivex.functions.Consumer;
 
-public abstract class CommonNetworkErrorConsumer implements Consumer<Throwable> {
+public class CommonNetworkErrorConsumer implements Consumer<Throwable> {
 
     private BaseView mView;
 

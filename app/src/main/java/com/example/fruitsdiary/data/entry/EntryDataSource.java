@@ -6,12 +6,10 @@ import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 
 public class EntryDataSource extends DataSource {
 
@@ -24,12 +22,13 @@ public class EntryDataSource extends DataSource {
         Return the full list of entries
      */
     public Observable<List<Entry>> getAllEntries() {
-        return Observable.defer(new Callable<ObservableSource<List<Entry>>>() {
-            @Override
-            public ObservableSource<List<Entry>> call() throws Exception {
-                return mService.getAllEntries();
-            }
-        })
+        return mService.getAllEntries()
+                .subscribeOn(mProvider.io())
+                .observeOn(mProvider.ui());
+    }
+
+    public Observable<Entry> getEntry(int id) {
+        return mService.getEntry(id)
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }

@@ -6,12 +6,10 @@ import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 
 
 public class FruitDataSource extends DataSource {
@@ -22,12 +20,7 @@ public class FruitDataSource extends DataSource {
     }
 
     public Observable<List<Fruit>> getFruits() {
-        return Observable.defer(new Callable<ObservableSource<List<Fruit>>>() {
-            @Override
-            public ObservableSource<List<Fruit>> call() throws Exception {
-                return mService.getAllFruits();
-            }
-        })
+        return mService.getAllFruits()
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }

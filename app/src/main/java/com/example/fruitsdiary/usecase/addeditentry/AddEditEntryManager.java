@@ -2,7 +2,12 @@ package com.example.fruitsdiary.usecase.addeditentry;
 
 import com.example.fruitsdiary.model.FruitEntry;
 
-public interface FruitEntryManager {
+public interface AddEditEntryManager {
+
+    void updateEntryDate(String date);
+
+    void saveEntry();
+
     boolean contains(FruitEntry fruitEntry);
 
     FruitEntry getCorrespondingFruitEntry(FruitEntry fruitEntry);

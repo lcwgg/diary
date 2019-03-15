@@ -9,7 +9,7 @@ import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
-public class DiaryPresenter implements DiaryContract.Presenter{
+public class DiaryPresenter implements DiaryContract.Presenter {
 
     private final EntryRepository mEntryRepository;
 
@@ -17,7 +17,7 @@ public class DiaryPresenter implements DiaryContract.Presenter{
 
     private CompositeDisposable mCompositeDisposable;
 
-    public DiaryPresenter(EntryRepository entryRepository){
+    public DiaryPresenter(EntryRepository entryRepository) {
         mEntryRepository = entryRepository;
         mCompositeDisposable = new CompositeDisposable();
     }
@@ -45,8 +45,7 @@ public class DiaryPresenter implements DiaryContract.Presenter{
                     public void accept(List<Entry> entries) throws Exception {
                         mView.showEntries(entries);
                     }
-                }, new CommonNetworkErrorConsumer(mView) {
-                })
+                }, new CommonNetworkErrorConsumer(mView))
         );
     }
 

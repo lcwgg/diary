@@ -9,6 +9,7 @@
     <!-- Entry -->
     <string name="fruit_image_url">https://fruitdiary.test.themobilelife.com/%1$s</string>
     <string name="action_change_date">Change date</string>
+    <string name="empty_entry">No fruit added</string>
 
     <!-- Error strings -->
     <string name="no_internet_dialog_title">No Internet Connection</string>

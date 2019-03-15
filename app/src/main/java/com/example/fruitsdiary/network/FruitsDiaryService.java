@@ -11,12 +11,12 @@ import retrofit2.http.Path;
 
 public interface FruitsDiaryService {
 
-    @GET("fruit/{id}")
-    Observable<Fruit> getFruit(@Path("id")int id);
-
     @GET("fruit")
     Observable<List<Fruit>> getAllFruits();
 
     @GET("entries")
     Observable<List<Entry>> getAllEntries();
+
+    @GET("entry/{id}")
+    Observable<Entry> getEntry(@Path("id")int id);
 }
