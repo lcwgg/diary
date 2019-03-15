@@ -42,8 +42,8 @@ public class DiaryPresenter implements DiaryContract.Presenter {
         mCompositeDisposable.add(mEntryRepository.getAllEntries()
                 .subscribe(new Consumer<List<Entry>>() {
                     @Override
-                    public void accept(List<Entry> entries) throws Exception {
-                        mView.showEntries(entries);
+                    public void accept(List<Entry> entryList) throws Exception {
+                        mView.showEntries(entryList);
                     }
                 }, new CommonNetworkErrorConsumer(mView))
         );

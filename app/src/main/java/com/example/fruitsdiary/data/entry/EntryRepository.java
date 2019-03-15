@@ -35,10 +35,11 @@ public class EntryRepository {
                 .zipWith(mFruitRepository.getFruits(), new BiFunction<Entry, List<Fruit>, Entry>() {
                     @Override
                     public Entry apply(final Entry entry, final List<Fruit> fruitList) throws Exception {
-                        List<Entry> entries = new ArrayList<>();
-                        entries.add(entry);
-                        updateEntryVitamins(entries, fruitList);
-                        updateEntryFruitVitaminsAndImage(entries, fruitList);
+                        List<Entry> entryList = new ArrayList<>();
+                        entryList.add(entry);
+                        filterEmptyFruitEntry(entryList);
+                        updateEntryVitamins(entryList, fruitList);
+                        updateEntryFruitVitaminsAndImage(entryList, fruitList);
                         return entry;
                     }
                 });
@@ -48,10 +49,11 @@ public class EntryRepository {
         return mEntryDataSource.getAllEntries()
                 .zipWith(mFruitRepository.getFruits(), new BiFunction<List<Entry>, List<Fruit>, List<Entry>>() {
                     @Override
-                    public List<Entry> apply(final List<Entry> entries, final List<Fruit> fruitList) throws Exception {
-                        updateEntryVitamins(entries, fruitList);
-                        updateEntryFruitVitaminsAndImage(entries, fruitList);
-                        return entries;
+                    public List<Entry> apply(final List<Entry> entryList, final List<Fruit> fruitList) throws Exception {
+                        filterEmptyFruitEntry(entryList);
+                        updateEntryVitamins(entryList, fruitList);
+                        updateEntryFruitVitaminsAndImage(entryList, fruitList);
+                        return entryList;
                     }
                 });
     }
@@ -60,8 +62,28 @@ public class EntryRepository {
         return mEntryDataSource.addFruitToEntry(entryId, fruitEntry.getId(), fruitEntry.getAmount());
     }
 
-    private void updateEntryVitamins(final List<Entry> entries, final List<Fruit> fruitList) {
-        Observable.fromIterable(entries)
+    private void filterEmptyFruitEntry(List<Entry> entryList){
+        int entrySize = entryList.size();
+        for (int i=0; i<entrySize; i++){
+            final Entry entry = entryList.get(i);
+            Observable.fromIterable(entry.getFruitList())
+                    .filter(new Predicate<FruitEntry>() {
+                        @Override
+                        public boolean test(FruitEntry fruitEntry) throws Exception {
+                            return fruitEntry.getAmount() != 0;
+                        }
+                    }).toList()
+            .subscribe(new Consumer<List<FruitEntry>>() {
+                @Override
+                public void accept(List<FruitEntry> fruitEntryList) throws Exception {
+                    entry.setFruitList(fruitEntryList);
+                }
+            });
+        }
+    }
+
+    private void updateEntryVitamins(final List<Entry> entryList, final List<Fruit> fruitList) {
+        Observable.fromIterable(entryList)
                 .subscribe(new Consumer<Entry>() {
                     @Override
                     public void accept(final Entry entry) throws Exception {
@@ -82,8 +104,8 @@ public class EntryRepository {
                 });
     }
 
-    private void updateEntryFruitVitaminsAndImage(List<Entry> entries, final List<Fruit> fruitList) {
-        Observable.fromIterable(entries)
+    private void updateEntryFruitVitaminsAndImage(List<Entry> entryList, final List<Fruit> fruitList) {
+        Observable.fromIterable(entryList)
                 .flatMapIterable(new Function<Entry, Iterable<FruitEntry>>() {
                     @Override
                     public Iterable<FruitEntry> apply(Entry entry) throws Exception {
