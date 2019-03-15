@@ -1,11 +1,14 @@
 package com.example.fruitsdiary.usecase.addeditentry;
 
+import android.support.annotation.NonNull;
+
 import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +18,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
 
@@ -42,8 +46,38 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
         mEntry.setDate(date);
     }
 
-    void setFruitEntryList(List<FruitEntry> fruitEntryList) {
-        mEntry.setFruitList(fruitEntryList);
+    void removeFruitEntry(@NonNull FruitEntry fruitEntry) {
+        int index = mEntry.getFruitList().indexOf(fruitEntry);
+        mEntry.getFruitList().get(index).setAmount(0);
+    }
+
+    void addFruitEntry(@NonNull FruitEntry fruitEntry) {
+        fruitEntry.setModified(true);
+        mEntry.getFruitList().add(fruitEntry);
+    }
+
+    void updateFruitEntry(@NonNull FruitEntry fruitEntry) {
+        fruitEntry.setModified(true);
+        int index = getFruitEntryIndex(fruitEntry);
+        mEntry.getFruitList().set(index, fruitEntry);
+    }
+
+    void filterFruitEntryList(final AddEditEntryFragment.OnFruitEntryListFilteredListener listener) {
+        Observable.fromIterable(new ArrayList<>(mEntry.getFruitList()))
+                .filter(new Predicate<FruitEntry>() {
+                    @Override
+                    public boolean test(FruitEntry fruitEntry) throws Exception {
+                        return fruitEntry.getAmount() != 0;
+                    }
+                })
+                .toList()
+                .subscribe(new Consumer<List<FruitEntry>>() {
+                    @Override
+                    public void accept(List<FruitEntry> fruitEntryList) throws Exception {
+                        listener.onFruitEntryListFiltered(fruitEntryList);
+                    }
+                });
+
     }
 
     @Override
@@ -81,6 +115,7 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
                                 mEntry = entry;
                                 // TODO replace mEntryFromDiary by mEntry when the API will work
                                 mEntry = mEntryFromDiary;
+                                setFruitEntryToNotModified();
                                 mView.updateEntryView(mEntry);
                             }
                         }, new CommonNetworkErrorConsumer(mView) {
@@ -90,10 +125,31 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
                                 // If there is an error, we use the entry loaded
                                 // from the diary fragment
                                 mEntry = mEntryFromDiary;
+                                setFruitEntryToNotModified();
                                 mView.updateEntryView(mEntry);
                             }
                         })
         );
+    }
+
+    private void setFruitEntryToNotModified() {
+        List<FruitEntry> fruitEntryList = mEntry.getFruitList();
+        int size = fruitEntryList.size();
+        for (int i = 0; i < size; i++) {
+            fruitEntryList.get(i).setModified(false);
+        }
+    }
+
+    boolean contains(FruitEntry fruitEntry) {
+        return mEntry.getFruitList().contains(fruitEntry);
+    }
+
+    FruitEntry getFruitEntry(FruitEntry fruitEntry) {
+        return mEntry.getFruitList().get(getFruitEntryIndex(fruitEntry));
+    }
+
+    private int getFruitEntryIndex(FruitEntry fruitEntry) {
+        return mEntry.getFruitList().indexOf(fruitEntry);
     }
 
     @Override

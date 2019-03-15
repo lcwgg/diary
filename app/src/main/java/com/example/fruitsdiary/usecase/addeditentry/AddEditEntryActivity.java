@@ -1,6 +1,7 @@
 package com.example.fruitsdiary.usecase.addeditentry;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -8,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.dialog.DatePickerFragment;
@@ -139,13 +139,17 @@ public class AddEditEntryActivity extends AppCompatActivity
     }
 
     private void setEntryStateToEdit() {
-        mEntryState = EntryState.EDIT;
-        invalidateOptionsMenu();
+        if (mEntryState != EntryState.EDIT) {
+            mEntryState = EntryState.EDIT;
+            invalidateOptionsMenu();
+        }
     }
 
     private void setEntryStateToView() {
-        mEntryState = EntryState.VIEW;
-        invalidateOptionsMenu();
+        if (mEntryState != EntryState.VIEW) {
+            mEntryState = EntryState.VIEW;
+            invalidateOptionsMenu();
+        }
     }
 
     @Override
@@ -199,6 +203,13 @@ public class AddEditEntryActivity extends AppCompatActivity
             mAddEditEntryManager.addOrUpdateFruitEntry(fruitEntry);
             setEntryStateToEdit();
         }
+    }
+
+    @Override
+    public void onFruitDeleted(@NonNull FruitEntry fruitEntry) {
+        mAddEditEntryManager.deleteFruitEntry(fruitEntry);
+        setEntryStateToEdit();
+        removeEditFruitFragment(getSupportFragmentManager());
     }
 
     private void addSelectFruitFragment(FragmentManager manager) {

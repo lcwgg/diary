@@ -84,6 +84,13 @@ public class EditFruitFragment extends Fragment {
                 }
             }
         });
+
+        mBinding.deleteFruit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnDismissedListener.onFruitDeleted(mFruitEntry);
+            }
+        });
     }
 
     @Override
@@ -117,6 +124,7 @@ public class EditFruitFragment extends Fragment {
 
     public interface OnEditFruitFragmentDismissedListener {
         void onEditFruitFragmentDismissed(@Nullable FruitEntry fruitEntry);
+        void onFruitDeleted(@NonNull FruitEntry fruitEntry);
     }
 
     private class FruitNumberWatcher implements TextWatcher {

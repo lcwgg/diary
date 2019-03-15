@@ -80,7 +80,7 @@ public class AddEditEntryFragment extends Fragment
     public void updateEntryView(Entry entry) {
         mBinding.addEditViewswitcher.showNext();
         List<FruitEntry> fruitEntryList = entry.getFruitList();
-        mAdapter.setFruitEntryList(fruitEntryList);
+        setAdapterFruitEntryList();
         if (fruitEntryList.isEmpty()) {
             mBinding.emptyEntry.setVisibility(View.VISIBLE);
         }
@@ -88,7 +88,7 @@ public class AddEditEntryFragment extends Fragment
 
     @Override
     public void onEntrySaved(List<FruitEntry> fruitEntryList) {
-        mAdapter.setFruitEntryList(fruitEntryList);
+        setAdapterFruitEntryList();
         mOnAddFruitClickListener.onEntrySaved();
         Snackbar.make(mBinding.getRoot(), R.string.fruits_saved, Snackbar.LENGTH_SHORT).show();
     }
@@ -99,13 +99,18 @@ public class AddEditEntryFragment extends Fragment
     }
 
     @Override
+    public void deleteFruitEntry(@NonNull FruitEntry fruitEntry) {
+        mAdapter.removeFruitEntry(fruitEntry);
+        mPresenter.removeFruitEntry(fruitEntry);
+    }
+
+    @Override
     public void updateEntryDate(String date) {
         mPresenter.updateEntryDate(date);
     }
 
     @Override
     public void saveEntry() {
-        mPresenter.setFruitEntryList(mAdapter.getFruitEntryList());
         mPresenter.saveEntry();
 
     }
@@ -123,21 +128,22 @@ public class AddEditEntryFragment extends Fragment
 
     @Override
     public boolean contains(FruitEntry fruitEntry) {
-        return mAdapter.contains(fruitEntry);
+        return mPresenter.contains(fruitEntry);
     }
 
     @Override
     public FruitEntry getCorrespondingFruitEntry(FruitEntry fruitEntry) {
-        return mAdapter.getFruitEntry(fruitEntry);
+        return mPresenter.getFruitEntry(fruitEntry);
     }
 
     @Override
     public void addOrUpdateFruitEntry(FruitEntry fruitEntry) {
-        if (mAdapter.contains(fruitEntry)) {
-            mAdapter.updateFruitEntry(fruitEntry);
+        if (mPresenter.contains(fruitEntry)) {
+            mPresenter.updateFruitEntry(fruitEntry);
         } else {
-            mAdapter.addFruitEntry(fruitEntry);
+            mPresenter.addFruitEntry(fruitEntry);
         }
+       setAdapterFruitEntryList();
         // in case the list was empty we hide the "warning empty" textview
         mBinding.emptyEntry.setVisibility(View.GONE);
     }
@@ -159,9 +165,22 @@ public class AddEditEntryFragment extends Fragment
         mBinding.editFruitOverlay.setVisibility(View.GONE);
     }
 
+    private void setAdapterFruitEntryList(){
+        mPresenter.filterFruitEntryList(new OnFruitEntryListFilteredListener() {
+            @Override
+            public void onFruitEntryListFiltered(@NonNull List<FruitEntry> fruitEntryList) {
+                mAdapter.setFruitEntryList(fruitEntryList);
+            }
+        });
+    }
+
     public interface OnAddFruitClickListener {
         void onAddFruitClick();
 
         void onEntrySaved();
+    }
+
+    public interface OnFruitEntryListFilteredListener {
+        void onFruitEntryListFiltered(@NonNull List<FruitEntry> fruitEntryList);
     }
 }

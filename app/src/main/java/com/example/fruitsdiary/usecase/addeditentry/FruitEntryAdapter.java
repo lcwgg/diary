@@ -30,37 +30,14 @@ public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.Fr
     }
 
     void setFruitEntryList(@NonNull List<FruitEntry> fruitEntryList) {
-        int size = fruitEntryList.size();
-        for (int i = 0; i < size; i++) {
-            fruitEntryList.get(i).setModified(false);
-        }
         mFruitEntryList = fruitEntryList;
         notifyDataSetChanged();
     }
 
-    void addFruitEntry(@NonNull FruitEntry fruitEntry) {
-        fruitEntry.setModified(true);
-        mFruitEntryList.add(fruitEntry);
-        notifyItemInserted(mFruitEntryList.size() - 1);
-    }
-
-    void updateFruitEntry(@NonNull FruitEntry fruitEntry) {
-        fruitEntry.setModified(true);
+    void removeFruitEntry(FruitEntry fruitEntry) {
         int index = getFruitEntryIndex(fruitEntry);
-        mFruitEntryList.set(index, fruitEntry);
-        notifyItemChanged(index);
-    }
-
-    public List<FruitEntry> getFruitEntryList() {
-        return mFruitEntryList;
-    }
-
-    boolean contains(FruitEntry fruitEntry) {
-        return mFruitEntryList.contains(fruitEntry);
-    }
-
-    FruitEntry getFruitEntry(FruitEntry fruitEntry) {
-        return mFruitEntryList.get(getFruitEntryIndex(fruitEntry));
+        mFruitEntryList.remove(index);
+        notifyItemRemoved(index);
     }
 
     private int getFruitEntryIndex(FruitEntry fruitEntry) {
