@@ -1,8 +1,6 @@
 package com.example.fruitsdiary.dagger;
 
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryFragment;
-import com.example.fruitsdiary.usecase.addeditentry.FruitEntryAdapter;
-import com.example.fruitsdiary.usecase.addeditentry.selectfruit.FruitAdapter;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 import com.example.fruitsdiary.usecase.diary.DiaryFragment;
 

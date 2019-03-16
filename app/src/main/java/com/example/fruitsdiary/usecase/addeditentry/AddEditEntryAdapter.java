@@ -22,12 +22,12 @@ import java.util.List;
 import static com.example.fruitsdiary.util.StringUtils.FRUIT_NUMBER_FORMAT;
 import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
 
-public class FruitEntryAdapter extends RecyclerView.Adapter<FruitEntryAdapter.FruitEntryViewHolder> {
+public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapter.FruitEntryViewHolder> {
 
     private List<FruitEntry> mFruitEntryList;
     private OnItemClickListener mOnItemClickListener;
 
-    FruitEntryAdapter(OnItemClickListener onItemClickListener) {
+    AddEditEntryAdapter(OnItemClickListener onItemClickListener) {
         mFruitEntryList = new ArrayList<>();
         mOnItemClickListener = onItemClickListener;
     }

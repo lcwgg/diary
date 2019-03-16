@@ -211,6 +211,7 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
     private class SaveEntryConsumer implements Consumer<Response> {
         @Override
         public void accept(Response response) throws Exception {
+            setFruitEntryToNotModified();
             mView.onEntrySaved(mEntry.getFruitList());
         }
     }

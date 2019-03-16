@@ -39,7 +39,7 @@ public class AddEditEntryFragment extends Fragment
     private OnSelectFruitListener mOnSelectFruitListener;
     @EntryState
     private int mEntryState;
-    private FruitEntryAdapter mAdapter;
+    private AddEditEntryAdapter mAdapter;
 
     @Nullable
     @Override
@@ -61,7 +61,7 @@ public class AddEditEntryFragment extends Fragment
         RecyclerView recyclerView = mBinding.fruitRecyclerview;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        mAdapter = new FruitEntryAdapter(new FruitEntryAdapter.OnItemClickListener() {
+        mAdapter = new AddEditEntryAdapter(new AddEditEntryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull FruitEntry fruitEntry) {
                 mOnSelectFruitListener.onFruitSelected(fruitEntry);
@@ -122,7 +122,6 @@ public class AddEditEntryFragment extends Fragment
     @Override
     public void saveEntry() {
         mPresenter.saveEntry();
-
     }
 
     @Override
