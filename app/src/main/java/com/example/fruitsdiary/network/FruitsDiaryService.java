@@ -1,7 +1,7 @@
 package com.example.fruitsdiary.network;
 
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.EntryBody;
+import com.example.fruitsdiary.model.AddEntryBody;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.Response;
 
@@ -24,7 +24,7 @@ public interface FruitsDiaryService {
     Observable<List<Entry>> getAllEntries();
 
     @POST("entries")
-    Observable<Entry> createEntry(@Body EntryBody entry);
+    Observable<Entry> addEntry(@Body AddEntryBody entry);
 
     @GET("entry/{id}")
     Observable<Entry> getEntry(@Path("id")int id);

@@ -1,6 +1,6 @@
 package com.example.fruitsdiary.model;
 
-public class EntryBody {
+public class AddEntryBody {
     String date;
 
     public String getDate() {

@@ -3,6 +3,7 @@ package com.example.fruitsdiary.usecase.addeditentry;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 
 import com.example.fruitsdiary.model.Entry;
 
@@ -26,13 +27,13 @@ public class AddEditEntryIntent extends Intent {
     private static final String ARGS_ENTRY = "ARGS_ENTRY";
     private static final String ARGS_ENTRY_STATE = "ARGS_ENTRY_STATE";
 
-    public AddEditEntryIntent(Context packageContext) {
-        super(packageContext, AddEditEntryActivity.class);
+    public AddEditEntryIntent(Context context) {
+        super(context, AddEditEntryActivity.class);
         putExtra(ARGS_ENTRY_STATE, CREATE);
     }
 
-    public AddEditEntryIntent(Context packageContext, Entry entry) {
-        super(packageContext, AddEditEntryActivity.class);
+    public AddEditEntryIntent(Context context, @Nullable Entry entry) {
+        super(context, AddEditEntryActivity.class);
         putExtra(ARGS_ENTRY_STATE, VIEW);
         putExtra(ARGS_ENTRY, entry);
     }

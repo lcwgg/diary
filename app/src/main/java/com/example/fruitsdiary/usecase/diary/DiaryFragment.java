@@ -43,6 +43,8 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
 
     private DiaryEntryAdapter mAdapter;
 
+    private Entry mTodayEntry = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,6 +94,11 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
     }
 
     @Override
+    public void setTodayEntry(Entry entry) {
+        mTodayEntry = entry;
+    }
+
+    @Override
     public void handleNetworkError(FruitDiaryException exception) {
         new BaseDialogFragment.Builder()
                 .setError(getContext(), exception)
@@ -105,7 +112,11 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new AddEditEntryIntent(getContext()));
+                if (mTodayEntry == null) {
+                    startActivity(new AddEditEntryIntent(getContext()));
+                } else {
+                    startActivity(new AddEditEntryIntent(getContext(), mTodayEntry));
+                }
             }
         });
     }

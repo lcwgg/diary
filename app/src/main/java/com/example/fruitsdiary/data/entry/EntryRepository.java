@@ -2,18 +2,18 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.fruit.FruitRepository;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.EntryBody;
+import com.example.fruitsdiary.model.AddEntryBody;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.Response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -69,6 +69,7 @@ public class EntryRepository {
                         filterEmptyFruitEntry(entryList);
                         updateEntryVitamins(entryList, fruitList);
                         updateEntryFruitVitaminsAndImage(entryList, fruitList);
+                        Collections.reverse(entryList);
                         return entryList;
                     }
                 });
@@ -88,10 +89,10 @@ public class EntryRepository {
         return mEntryDataSource.deleteEntry(id);
     }
 
-    public Observable<Entry> createEntry(Entry entry){
-        EntryBody body = new EntryBody();
+    public Observable<Entry> addEntry(Entry entry){
+        AddEntryBody body = new AddEntryBody();
         body.setDate(entry.getDate());
-        return mEntryDataSource.createEntry(body);
+        return mEntryDataSource.addEntry(body);
     }
 
     private void filterEmptyFruitEntry(List<Entry> entryList) {

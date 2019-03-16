@@ -2,7 +2,7 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.DataSource;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.EntryBody;
+import com.example.fruitsdiary.model.AddEntryBody;
 import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
@@ -67,8 +67,8 @@ public class EntryDataSource extends DataSource {
                 .observeOn(mProvider.ui());
     }
 
-    Observable<Entry> createEntry(EntryBody body) {
-        return mService.createEntry(body)
+    Observable<Entry> addEntry(AddEntryBody body) {
+        return mService.addEntry(body)
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }

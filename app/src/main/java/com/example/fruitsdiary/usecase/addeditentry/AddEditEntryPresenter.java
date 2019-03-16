@@ -48,15 +48,15 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
     @Override
     public void saveEntry() {
         if (mEntry.getId() == ENTRY_NOT_CREATED_ID) {
-            createEntry();
+            addEntry();
         } else {
             editEntry();
         }
     }
 
-    private void createEntry() {
+    private void addEntry() {
         mCompositeDisposable.add(
-                mEntryRepository.createEntry(mEntry)
+                mEntryRepository.addEntry(mEntry)
                         .flatMapMaybe(new Function<Entry, MaybeSource<Response>>() {
                             @Override
                             public MaybeSource<Response> apply(Entry entry) throws Exception {

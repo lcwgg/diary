@@ -10,6 +10,8 @@ public interface DiaryContract {
 
     interface View extends BaseView {
         void showEntries(List<Entry> entryList);
+
+        void setTodayEntry(Entry entry);
     }
 
     interface Presenter extends BasePresenter<View> {
