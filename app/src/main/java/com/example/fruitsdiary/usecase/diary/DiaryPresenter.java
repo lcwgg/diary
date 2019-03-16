@@ -1,15 +1,20 @@
 package com.example.fruitsdiary.usecase.diary;
 
+import android.util.Log;
+
 import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 import com.example.fruitsdiary.util.DateUtils;
 
+import java.io.Console;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
 public class DiaryPresenter implements DiaryContract.Presenter {
@@ -60,7 +65,14 @@ public class DiaryPresenter implements DiaryContract.Presenter {
                     public boolean test(Entry entry) throws Exception {
                         return entry.getDate().equals(DateUtils.getCurrentServerDate());
                     }
-                }).subscribe(new Consumer<Entry>() {
+                })
+                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends Entry>>() {
+                    @Override
+                    public ObservableSource<? extends Entry> apply(Throwable throwable) throws Exception {
+                        return Observable.empty(); // We don't want to do anything if there is no today's entry
+                    }
+                })
+                .subscribe(new Consumer<Entry>() {
             @Override
             public void accept(Entry entry) throws Exception {
                 mView.setTodayEntry(entry);

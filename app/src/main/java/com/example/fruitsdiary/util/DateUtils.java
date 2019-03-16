@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public final class DateUtils {
 
@@ -12,7 +13,7 @@ public final class DateUtils {
 
     private static final DateFormat SERVER_DATE_FORMAT = new SimpleDateFormat(SERVER_DATE_PATTERN);
 
-    private static final DateFormat APP_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.LONG);
+    private static final DateFormat APP_DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
 
     private DateUtils() {
     }
