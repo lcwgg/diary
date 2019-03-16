@@ -18,6 +18,9 @@ public class Entry implements Parcelable{
     List<FruitEntry> fruitList;
     int vitamins = 0;
 
+    public Entry() {
+    }
+
     public Entry(Parcel in) {
         getFromParcel(in);
     }

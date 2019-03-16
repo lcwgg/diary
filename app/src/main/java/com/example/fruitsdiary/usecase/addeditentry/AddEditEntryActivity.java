@@ -82,6 +82,8 @@ public class AddEditEntryActivity extends AppCompatActivity
                 break;
             default:
             case EntryState.CREATE:
+                inflater.inflate(R.menu.menu_create_entry, menu);
+                break;
             case EntryState.VIEW:
                 inflater.inflate(R.menu.menu_view_entry, menu);
                 break;

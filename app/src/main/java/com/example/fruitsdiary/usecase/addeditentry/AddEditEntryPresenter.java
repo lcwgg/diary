@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Maybe;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,6 +23,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
 public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
+
+    private static final int ENTRY_NOT_CREATED_ID = -1;
 
     private AddEditEntryContract.View mView;
 
@@ -36,6 +40,94 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
     public AddEditEntryPresenter(EntryRepository entryRepository) {
         mEntryRepository = entryRepository;
         mCompositeDisposable = new CompositeDisposable();
+        mEntry = new Entry();
+        mEntry.setId(ENTRY_NOT_CREATED_ID);
+        mEntry.setFruitList(new ArrayList<FruitEntry>());
+    }
+
+    @Override
+    public void saveEntry() {
+        if (mEntry.getId() == ENTRY_NOT_CREATED_ID) {
+            createEntry();
+        } else {
+            editEntry();
+        }
+    }
+
+    private void createEntry() {
+        mCompositeDisposable.add(
+                mEntryRepository.createEntry(mEntry)
+                        .flatMapMaybe(new Function<Entry, MaybeSource<Response>>() {
+                            @Override
+                            public MaybeSource<Response> apply(Entry entry) throws Exception {
+                                mEntry.setId(entry.getId());
+                                return editFruitEntryListObservable();
+                            }
+                        })
+                        .subscribe(
+                                new SaveEntryConsumer(),
+                                new CommonNetworkErrorConsumer(mView))
+        );
+    }
+
+    private void editEntry() {
+        mCompositeDisposable.add(
+                editFruitEntryListObservable()
+                        .subscribe(
+                                new SaveEntryConsumer(),
+                                new CommonNetworkErrorConsumer(mView))
+        );
+    }
+
+    private Maybe<Response> editFruitEntryListObservable() {
+        return Observable.fromIterable(mEntry.getFruitList())
+                .flatMap(new Function<FruitEntry, ObservableSource<Response>>() {
+                    @Override
+                    public ObservableSource<Response> apply(FruitEntry fruitEntry) throws Exception {
+                        return mEntryRepository.addFruitToEntry(mEntry.getId(), fruitEntry);
+                    }
+                })
+                .lastElement(); // subscribe to only the last item
+    }
+
+    @Override
+    public void deleteEntry() {
+        mCompositeDisposable.add(
+                mEntryRepository.deleteEntry(mEntry.getId())
+                        .subscribe(new Consumer<Response>() {
+                            @Override
+                            public void accept(Response response) throws Exception {
+                                mView.onEntryDeleted();
+                            }
+                        }, new CommonNetworkErrorConsumer(mView))
+        );
+    }
+
+    @Override
+    public void getEntry(int id) {
+        mCompositeDisposable.add(
+                mEntryRepository.getEntry(id)
+                        .subscribe(new Consumer<Entry>() {
+                            @Override
+                            public void accept(Entry entry) throws Exception {
+                                mEntry = entry;
+                                // TODO replace mEntryFromDiary by mEntry when the API will work
+                                mEntry = mEntryFromDiary;
+                                setFruitEntryToNotModified();
+                                mView.updateEntryView(mEntry);
+                            }
+                        }, new CommonNetworkErrorConsumer(mView) {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                super.accept(throwable);
+                                // If there is an error, we use the entry loaded
+                                // from the diary fragment
+                                mEntry = mEntryFromDiary;
+                                setFruitEntryToNotModified();
+                                mView.updateEntryView(mEntry);
+                            }
+                        })
+        );
     }
 
     void setEntryFromDiary(Entry entryFromDiary) {
@@ -81,63 +173,19 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
     }
 
     @Override
-    public void saveEntry() {
-        mCompositeDisposable.add(
-                Observable.fromIterable(mEntry.getFruitList())
-                        .flatMap(new Function<FruitEntry, ObservableSource<Response>>() {
-                            @Override
-                            public ObservableSource<Response> apply(FruitEntry fruitEntry) throws Exception {
-                                return mEntryRepository.addFruitToEntry(mEntry.getId(), fruitEntry);
-                            }
-                        })
-                        .lastElement() // subscribe to only the last item
-                        .subscribe(new Consumer<Response>() {
-                            @Override
-                            public void accept(Response response) throws Exception {
-                                mView.onEntrySaved(mEntry.getFruitList());
-                            }
-                        }, new CommonNetworkErrorConsumer(mView))
-        );
+    public void subscribe() {
+        // we only saved the entry from the DiaryFragment, so we get the id from it
+        getEntry(mEntryFromDiary.getId());
     }
 
     @Override
-    public void deleteEntry() {
-        mCompositeDisposable.add(
-                mEntryRepository.deleteEntry(mEntry.getId())
-                        .subscribe(new Consumer<Response>() {
-                            @Override
-                            public void accept(Response response) throws Exception {
-                                mView.onEntryDeleted();
-                            }
-                        }, new CommonNetworkErrorConsumer(mView))
-        );
+    public void unsubscribe() {
+        mCompositeDisposable.clear();
     }
 
     @Override
-    public void getEntry(int id) {
-        mCompositeDisposable.add(
-                mEntryRepository.getEntry(id)
-                        .subscribe(new Consumer<Entry>() {
-                            @Override
-                            public void accept(Entry entry) throws Exception {
-                                mEntry = entry;
-                                // TODO replace mEntryFromDiary by mEntry when the API will work
-                                mEntry = mEntryFromDiary;
-                                setFruitEntryToNotModified();
-                                mView.updateEntryView(mEntry);
-                            }
-                        }, new CommonNetworkErrorConsumer(mView) {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                super.accept(throwable);
-                                // If there is an error, we use the entry loaded
-                                // from the diary fragment
-                                mEntry = mEntryFromDiary;
-                                setFruitEntryToNotModified();
-                                mView.updateEntryView(mEntry);
-                            }
-                        })
-        );
+    public void setView(AddEditEntryContract.View view) {
+        mView = view;
     }
 
     private void setFruitEntryToNotModified() {
@@ -160,19 +208,10 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
         return mEntry.getFruitList().indexOf(fruitEntry);
     }
 
-    @Override
-    public void subscribe() {
-        // we only saved the entry from the DiaryFragment, so we get the id from it
-        getEntry(mEntryFromDiary.getId());
-    }
-
-    @Override
-    public void unsubscribe() {
-        mCompositeDisposable.clear();
-    }
-
-    @Override
-    public void setView(AddEditEntryContract.View view) {
-        mView = view;
+    private class SaveEntryConsumer implements Consumer<Response> {
+        @Override
+        public void accept(Response response) throws Exception {
+            mView.onEntrySaved(mEntry.getFruitList());
+        }
     }
 }

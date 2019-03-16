@@ -2,6 +2,7 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.fruit.FruitRepository;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.EntryBody;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.Response;
@@ -85,6 +86,12 @@ public class EntryRepository {
 
     public Observable<Response> deleteEntry(int id){
         return mEntryDataSource.deleteEntry(id);
+    }
+
+    public Observable<Entry> createEntry(Entry entry){
+        EntryBody body = new EntryBody();
+        body.setDate(entry.getDate());
+        return mEntryDataSource.createEntry(body);
     }
 
     private void filterEmptyFruitEntry(List<Entry> entryList) {

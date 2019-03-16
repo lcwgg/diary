@@ -2,6 +2,7 @@ package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.DataSource;
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.EntryBody;
 import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;
@@ -20,7 +21,6 @@ public class EntryDataSource extends DataSource {
     }
 
     /**
-     *
      * @return the full list of entries
      */
     Observable<List<Entry>> getAllEntries() {
@@ -31,6 +31,7 @@ public class EntryDataSource extends DataSource {
 
     /**
      * Get a single entry
+     *
      * @param id the id of the entry to load
      * @return return a single entry
      */
@@ -42,8 +43,9 @@ public class EntryDataSource extends DataSource {
 
     /**
      * Add fruit to an entry
-     * @param entryId the id of the entry to update
-     * @param fruitId the id of the fruit to set
+     *
+     * @param entryId     the id of the entry to update
+     * @param fruitId     the id of the fruit to set
      * @param fruitAmount the amount of fruit set
      * @return
      */
@@ -55,11 +57,18 @@ public class EntryDataSource extends DataSource {
 
     /**
      * Delete an entry
+     *
      * @param id the id of the entry to delete
      * @return
      */
-    Observable<Response> deleteEntry(int id){
+    Observable<Response> deleteEntry(int id) {
         return mService.deleteEntry(id)
+                .subscribeOn(mProvider.io())
+                .observeOn(mProvider.ui());
+    }
+
+    Observable<Entry> createEntry(EntryBody body) {
+        return mService.createEntry(body)
                 .subscribeOn(mProvider.io())
                 .observeOn(mProvider.ui());
     }

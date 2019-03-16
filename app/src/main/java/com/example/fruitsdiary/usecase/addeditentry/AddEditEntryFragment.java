@@ -21,6 +21,7 @@ import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
+import com.example.fruitsdiary.util.DateUtils;
 
 import java.util.List;
 
@@ -81,6 +82,13 @@ public class AddEditEntryFragment extends Fragment
         if (mEntryState == EntryState.VIEW) {
             mPresenter.subscribe();
         }
+
+        // hide the progress bar if the entry is being created
+        // and we set the current date
+        if(mEntryState == EntryState.CREATE){
+            mBinding.addEditViewswitcher.showNext();
+            mPresenter.updateEntryDate(DateUtils.getCurrentServerDate());
+        }
     }
 
     @Override
@@ -125,8 +133,8 @@ public class AddEditEntryFragment extends Fragment
     @Override
     public void onEntryDeleted() {
         BaseDialogFragment.Builder builder = new BaseDialogFragment.Builder()
-                .setTitle("Deleting your entry")
-                .setMessage("Are you sure ?")
+                .setTitle(getString(R.string.delete_dialog_title))
+                .setMessage(getString(R.string.delete_dialog_message))
                 .addCancelButton(true)
                 .setOnButtonClickListener(new BaseDialogFragment.OnButtonClickListener() {
                     @Override

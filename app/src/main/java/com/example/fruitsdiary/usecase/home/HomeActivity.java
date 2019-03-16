@@ -64,11 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        super.onActivityReenter(resultCode, data);
-    }
-
     private abstract class OnPageChangedListener implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int i, float v, int i1) {

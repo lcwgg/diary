@@ -1,12 +1,14 @@
 package com.example.fruitsdiary.network;
 
 import com.example.fruitsdiary.model.Entry;
+import com.example.fruitsdiary.model.EntryBody;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.Response;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -20,6 +22,9 @@ public interface FruitsDiaryService {
 
     @GET("entries")
     Observable<List<Entry>> getAllEntries();
+
+    @POST("entries")
+    Observable<Entry> createEntry(@Body EntryBody entry);
 
     @GET("entry/{id}")
     Observable<Entry> getEntry(@Path("id")int id);
