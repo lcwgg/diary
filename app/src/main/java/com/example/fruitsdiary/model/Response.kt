@@ -1,7 +1,5 @@
 package com.example.fruitsdiary.model
 
-class Response {
+class Response(var code: String = "", var message: String = "") {
 
-    var code: String = ""
-    var message: String = ""
 }

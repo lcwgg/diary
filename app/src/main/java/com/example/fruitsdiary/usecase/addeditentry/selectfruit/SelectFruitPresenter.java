@@ -50,7 +50,7 @@ public class SelectFruitPresenter implements SelectFruitContract.Presenter {
     }
 
     public FruitEntry getFruitEntry(Fruit fruit) {
-        FruitEntry fruitEntry = FruitEntry.fromFruit(fruit);
+        FruitEntry fruitEntry = FruitEntry.Companion.fromFruit(fruit);
         fruitEntry.setAmount(1); // minimum amount
         return fruitEntry;
     }

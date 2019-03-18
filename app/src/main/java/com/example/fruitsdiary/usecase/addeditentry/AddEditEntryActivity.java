@@ -44,12 +44,6 @@ public class AddEditEntryActivity extends AppCompatActivity
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
-
-        if (mEntry == null){
-            mEntry = new Entry();
-            mEntry.setDate("2019-12-03");
-        }
-
         if (mEntryState == EntryState.CREATE) {
             mActionBar.setTitle(DateUtils.getCurrentAppDate());
         } else {
