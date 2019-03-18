@@ -66,17 +66,11 @@ public class DiaryPresenter implements DiaryContract.Presenter {
                         return entry.getDate().equals(DateUtils.getCurrentServerDate());
                     }
                 })
-                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends Entry>>() {
-                    @Override
-                    public ObservableSource<? extends Entry> apply(Throwable throwable) throws Exception {
-                        return Observable.empty(); // We don't want to do anything if there is no today's entry
-                    }
-                })
                 .subscribe(new Consumer<Entry>() {
-            @Override
-            public void accept(Entry entry) throws Exception {
-                mView.setTodayEntry(entry);
-            }
-        });
+                    @Override
+                    public void accept(Entry entry) throws Exception {
+                        mView.setTodayEntry(entry);
+                    }
+                });
     }
 }
