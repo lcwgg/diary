@@ -88,7 +88,6 @@ public class AddEditEntryFragment extends Fragment
         if (mEntryState == EntryState.CREATE) {
             mBinding.emptyEntry.setVisibility(View.VISIBLE);
             mBinding.addEditViewswitcher.showNext();
-            mPresenter.updateEntryDate(DateUtils.getCurrentServerDate());
         }
     }
 
@@ -115,11 +114,6 @@ public class AddEditEntryFragment extends Fragment
     public void deleteFruitEntry(@NonNull FruitEntry fruitEntry) {
         mAdapter.removeFruitEntry(fruitEntry);
         mPresenter.removeFruitEntry(fruitEntry);
-    }
-
-    @Override
-    public void updateEntryDate(String date) {
-        mPresenter.updateEntryDate(date);
     }
 
     @Override
