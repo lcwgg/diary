@@ -116,6 +116,7 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
                     startActivity(new AddEditEntryIntent(getContext()));
                 } else {
                     startActivity(new AddEditEntryIntent(getContext(), mTodayEntry));
+                    mTodayEntry = null; // set to null so that if the today's entry is deleted, it's not kept in memory
                 }
             }
         });

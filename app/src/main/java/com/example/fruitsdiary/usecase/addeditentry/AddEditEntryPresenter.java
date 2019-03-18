@@ -61,6 +61,9 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
                             @Override
                             public MaybeSource<Response> apply(Entry entry) throws Exception {
                                 mEntry.setId(entry.getId());
+                                if (mEntry.getFruitList().isEmpty()){
+                                    return Maybe.just(new Response());
+                                }
                                 return editFruitEntryListObservable();
                             }
                         })

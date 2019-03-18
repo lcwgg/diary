@@ -85,7 +85,8 @@ public class AddEditEntryFragment extends Fragment
 
         // hide the progress bar if the entry is being created
         // and we set the current date
-        if(mEntryState == EntryState.CREATE){
+        if (mEntryState == EntryState.CREATE) {
+            mBinding.emptyEntry.setVisibility(View.VISIBLE);
             mBinding.addEditViewswitcher.showNext();
             mPresenter.updateEntryDate(DateUtils.getCurrentServerDate());
         }
@@ -98,6 +99,8 @@ public class AddEditEntryFragment extends Fragment
         setAdapterFruitEntryList();
         if (fruitEntryList.isEmpty()) {
             mBinding.emptyEntry.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.emptyEntry.setVisibility(View.GONE);
         }
     }
 
