@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.fruitsdiary.R;
-import com.example.fruitsdiary.dialog.DatePickerFragment;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
@@ -19,8 +18,6 @@ import com.example.fruitsdiary.usecase.addeditentry.editfruit.EditFruitFragment;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.SelectFruitFragment;
 import com.example.fruitsdiary.util.DateUtils;
-
-import java.util.Calendar;
 
 public class AddEditEntryActivity extends AppCompatActivity
         implements AddEditEntryFragment.OnAddEditListener,
@@ -97,9 +94,6 @@ public class AddEditEntryActivity extends AppCompatActivity
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_change_date:
-                showDatePickerDialog();
-                return true;
             case R.id.action_delete:
                 mAddEditEntryManager.deleteEntry();
                 return true;
@@ -110,37 +104,6 @@ public class AddEditEntryActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    private void showDatePickerDialog() {
-        DatePickerFragment dialog;
-        if (mEntryState == EntryState.CREATE) {
-            dialog = DatePickerFragment.newInstance();
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(DateUtils.getServerDate(mEntry.getDate()));
-            dialog = DatePickerFragment.newInstance(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            );
-        }
-
-        dialog.setOnDateSelectedListener(new DatePickerFragment.OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(int year, int month, int day) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
-                String date = DateUtils.getAppStringDate(calendar.getTime());
-                mActionBar.setTitle(date);
-                setEntryStateToEdit();
-                mAddEditEntryManager.updateEntryDate(date);
-            }
-        });
-
-        dialog.show(getSupportFragmentManager());
     }
 
     private void setEntryStateToEdit() {

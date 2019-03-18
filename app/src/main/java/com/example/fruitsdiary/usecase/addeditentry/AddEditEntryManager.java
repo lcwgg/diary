@@ -6,8 +6,6 @@ import com.example.fruitsdiary.model.FruitEntry;
 
 public interface AddEditEntryManager {
 
-    void updateEntryDate(String date);
-
     void saveEntry();
 
     void addOrUpdateFruitEntry(FruitEntry fruitEntry);

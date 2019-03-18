@@ -137,10 +137,6 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
         mEntryFromDiary = entryFromDiary;
     }
 
-    void updateEntryDate(String date) {
-        mEntry.setDate(date);
-    }
-
     void removeFruitEntry(@NonNull FruitEntry fruitEntry) {
         int index = mEntry.getFruitList().indexOf(fruitEntry);
         mEntry.getFruitList().get(index).setAmount(0);
