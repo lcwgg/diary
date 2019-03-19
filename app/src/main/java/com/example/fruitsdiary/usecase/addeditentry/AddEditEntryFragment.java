@@ -44,7 +44,7 @@ public class AddEditEntryFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_edit_entry, container, false);
-        FruitsDiaryApplication.get(getContext()).getAppComponent().inject(this);
+        FruitsDiaryApplication.Companion.get(getContext()).getAppComponent().inject(this);
         mPresenter.setView(this);
         return mBinding.getRoot();
     }

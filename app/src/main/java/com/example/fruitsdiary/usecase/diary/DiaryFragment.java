@@ -49,7 +49,7 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary, container, false);
-        FruitsDiaryApplication.get(getContext()).getAppComponent().inject(this);
+        FruitsDiaryApplication.Companion.get(getContext()).getAppComponent().inject(this);
         mPresenter.setView(this);
         return mBinding.getRoot();
 

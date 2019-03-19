@@ -24,9 +24,9 @@ public class EntryDataSource extends DataSource {
      * @return the full list of entries
      */
     Observable<List<Entry>> getAllEntries() {
-        return mService.getAllEntries()
-                .subscribeOn(mProvider.io())
-                .observeOn(mProvider.ui());
+        return getService().getAllEntries()
+                .subscribeOn(getProvider().io())
+                .observeOn(getProvider().ui());
     }
 
     /**
@@ -36,9 +36,9 @@ public class EntryDataSource extends DataSource {
      * @return return a single entry
      */
     Observable<Entry> getEntry(int id) {
-        return mService.getEntry(id)
-                .subscribeOn(mProvider.io())
-                .observeOn(mProvider.ui());
+        return getService().getEntry(id)
+                .subscribeOn(getProvider().io())
+                .observeOn(getProvider().ui());
     }
 
     /**
@@ -50,9 +50,9 @@ public class EntryDataSource extends DataSource {
      * @return
      */
     Observable<Response> addFruitToEntry(int entryId, int fruitId, int fruitAmount) {
-        return mService.addFruitToEntry(entryId, fruitId, fruitAmount)
-                .subscribeOn(mProvider.io())
-                .observeOn(mProvider.ui());
+        return getService().addFruitToEntry(entryId, fruitId, fruitAmount)
+                .subscribeOn(getProvider().io())
+                .observeOn(getProvider().ui());
     }
 
     /**
@@ -62,14 +62,14 @@ public class EntryDataSource extends DataSource {
      * @return
      */
     Observable<Response> deleteEntry(int id) {
-        return mService.deleteEntry(id)
-                .subscribeOn(mProvider.io())
-                .observeOn(mProvider.ui());
+        return getService().deleteEntry(id)
+                .subscribeOn(getProvider().io())
+                .observeOn(getProvider().ui());
     }
 
     Observable<Entry> addEntry(AddEntryBody body) {
-        return mService.addEntry(body)
-                .subscribeOn(mProvider.io())
-                .observeOn(mProvider.ui());
+        return getService().addEntry(body)
+                .subscribeOn(getProvider().io())
+                .observeOn(getProvider().ui());
     }
 }

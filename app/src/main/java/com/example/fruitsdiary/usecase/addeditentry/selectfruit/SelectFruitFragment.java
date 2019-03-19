@@ -40,7 +40,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_fruit, container, false);
-        FruitsDiaryApplication.get(getContext()).getAppComponent().inject(this);
+        FruitsDiaryApplication.Companion.get(getContext()).getAppComponent().inject(this);
         mPresenter.setView(this);
         return mBinding.getRoot();
     }
