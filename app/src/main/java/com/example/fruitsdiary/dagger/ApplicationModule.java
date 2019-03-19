@@ -3,7 +3,6 @@ package com.example.fruitsdiary.dagger;
 import android.content.Context;
 
 import com.example.fruitsdiary.util.SchedulerProvider;
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;

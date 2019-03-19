@@ -1,7 +1,5 @@
 package com.example.fruitsdiary.usecase.diary;
 
-import android.support.annotation.Nullable;
-
 import com.example.fruitsdiary.BasePresenter;
 import com.example.fruitsdiary.BaseView;
 import com.example.fruitsdiary.model.Entry;

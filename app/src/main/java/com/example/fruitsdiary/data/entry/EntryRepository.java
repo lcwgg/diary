@@ -1,10 +1,10 @@
 package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.fruit.FruitRepository;
-import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.AddEntryBody;
-import com.example.fruitsdiary.model.FruitEntry;
+import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.Fruit;
+import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.model.Response;
 
 import java.util.ArrayList;

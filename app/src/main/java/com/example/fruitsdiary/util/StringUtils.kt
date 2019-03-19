@@ -1,8 +1,6 @@
 package com.example.fruitsdiary.util
 
 import android.content.Context
-import android.content.res.Resources
-
 import com.example.fruitsdiary.R
 
 object StringUtils {

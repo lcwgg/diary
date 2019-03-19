@@ -1,20 +1,15 @@
 package com.example.fruitsdiary.usecase.diary;
 
-import android.util.Log;
-
 import com.example.fruitsdiary.data.entry.EntryRepository;
 import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer;
 import com.example.fruitsdiary.util.DateUtils;
 
-import java.io.Console;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
 public class DiaryPresenter implements DiaryContract.Presenter {

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.ViewFruitEntryBinding;
@@ -62,18 +64,9 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
         ViewFruitEntryBinding binding = fruitEntryViewHolder.binding;
         Context context = binding.getRoot().getContext();
 
-        String fruitImageUrl = String.format(
-                context.getString(R.string.fruit_image_url),
-                fruitEntry.getImage()
-        );
-
-        Picasso.get()
-                .load(fruitImageUrl)
-                .placeholder(R.drawable.fruit_image_placeholder)
-                .into(binding.fruitImage);
-
-        setFruitName(context, fruitEntry, binding);
-        setVitamins(context, fruitEntry, binding);
+        setFruitImage(context, fruitEntry.getImage(), binding.fruitImage);
+        setFruitName(context, fruitEntry, binding.fruit);
+        setVitamins(context, fruitEntry, binding.vitamins);
 
         fruitEntryViewHolder.bind(fruitEntry);
 
@@ -85,24 +78,36 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
 
     }
 
-    private void setFruitName(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
+    private void setFruitImage(Context context, String fruitImagePath, ImageView fruitImageView) {
+        String fruitImageUrl = String.format(
+                context.getString(R.string.fruit_image_url),
+                fruitImagePath
+        );
+
+        Picasso.get()
+                .load(fruitImageUrl)
+                .placeholder(R.drawable.fruit_image_placeholder)
+                .into(fruitImageView);
+    }
+
+    private void setFruitName(Context context, FruitEntry fruitEntry, TextView fruitTextView) {
         String fruitName = StringUtils.INSTANCE.getCorrectFruitSpelling(
                 context,
                 fruitEntry.getAmount(),
                 fruitEntry.getType()
         );
-        binding.fruit.setText(
+        fruitTextView.setText(
                 String.format(StringUtils.getFruitNumberFormat(), fruitEntry.getAmount(), fruitName)
         );
     }
 
-    private void setVitamins(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
+    private void setVitamins(Context context, FruitEntry fruitEntry, TextView vitaminTextView) {
         int vitamins = fruitEntry.getVitamins() * fruitEntry.getAmount();
         String vitaminText = context.getResources().getQuantityString(
                 R.plurals.vitamins,
                 vitamins
         );
-        binding.vitamins.setText(
+        vitaminTextView.setText(
                 String.format(StringUtils.getVitaminNumberFormat(), vitamins, vitaminText)
         );
     }
@@ -121,7 +126,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
             this.binding = binding;
         }
 
-        public void bind(@NonNull final FruitEntry fruitEntry){
+        public void bind(@NonNull final FruitEntry fruitEntry) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

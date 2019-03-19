@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.example.fruitsdiary.usecase.home.HomeAbstractFragment;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentAboutBinding;
+import com.example.fruitsdiary.usecase.home.HomeAbstractFragment;
 
 /**
  * A placeholder fragment containing a simple view.

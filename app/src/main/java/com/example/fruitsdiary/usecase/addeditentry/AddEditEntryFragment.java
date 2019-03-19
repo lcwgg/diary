@@ -21,7 +21,6 @@ import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
-import com.example.fruitsdiary.util.DateUtils;
 
 import java.util.List;
 

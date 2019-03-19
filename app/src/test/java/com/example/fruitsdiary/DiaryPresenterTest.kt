@@ -5,7 +5,7 @@ import com.example.fruitsdiary.exception.FruitDiaryException
 import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.usecase.diary.DiaryContract
 import com.example.fruitsdiary.usecase.diary.DiaryPresenter
-
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -13,15 +13,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
-
-import java.util.ArrayList
-import java.util.concurrent.Callable
-
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-
-import org.junit.Assert.assertEquals
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
