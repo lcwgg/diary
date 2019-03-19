@@ -91,7 +91,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
     }
 
     private void setFruitName(Context context, FruitEntry fruitEntry, TextView fruitTextView) {
-        String fruitName = StringUtils.INSTANCE.getCorrectFruitSpelling(
+        String fruitName = StringUtils.getCorrectFruitSpelling(
                 context,
                 fruitEntry.getAmount(),
                 fruitEntry.getType()

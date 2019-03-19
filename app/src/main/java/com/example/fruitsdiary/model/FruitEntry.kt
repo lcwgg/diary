@@ -9,12 +9,10 @@ import kotlinx.android.parcel.Parcelize
 data class FruitEntry(
         @SerializedName("fruitId") var id: Int,
         @SerializedName("fruitType") var type: String,
-        @SerializedName("amount") var amount: Int) : Parcelable {
+        @SerializedName("amount") var amount: Int,
+        var vitamins: Int = 0,
+        var image: String? = null) : Parcelable {
 
-    @IgnoredOnParcel
-    var vitamins: Int = 0
-    @IgnoredOnParcel
-    var image: String? = null
     @IgnoredOnParcel
     var isModified = false
 

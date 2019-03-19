@@ -11,7 +11,7 @@ object StringUtils {
     @JvmStatic  val fruitNumberFormat = "%1\$s %2\$s"
     @JvmStatic  val vitaminNumberFormat = "%1\$s %2\$s"
 
-    fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
+    @JvmStatic fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
         if (isFruitNameException(fruitName) && quantity > 1) {
             return getFruitExceptionSpelling(fruitName)
         }
