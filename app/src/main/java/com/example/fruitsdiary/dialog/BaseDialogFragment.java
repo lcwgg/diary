@@ -12,14 +12,13 @@ import android.support.v4.app.FragmentManager;
 
 import com.example.fruitsdiary.exception.ErrorCommonException;
 import com.example.fruitsdiary.exception.FruitDiaryException;
-
-import static com.example.fruitsdiary.util.StringUtils.EMPTY_STRING;
+import com.example.fruitsdiary.util.StringUtils;
 
 public class BaseDialogFragment extends DialogFragment {
 
-    protected static final String ARGS_TITLE ="ARGS_TITLE";
-    protected static final String ARGS_MESSAGE ="ARGS_MESSAGE";
-    protected static final String ARGS_CANCEL_BUTTON ="ARGS_CANCEL_BUTTON";
+    protected static final String ARGS_TITLE = "ARGS_TITLE";
+    protected static final String ARGS_MESSAGE = "ARGS_MESSAGE";
+    protected static final String ARGS_CANCEL_BUTTON = "ARGS_CANCEL_BUTTON";
 
     private static final String TAG = BaseDialogFragment.class.getSimpleName();
 
@@ -28,7 +27,7 @@ public class BaseDialogFragment extends DialogFragment {
     private boolean mHasCancelButton;
     private OnButtonClickListener mOnButtonClickListener;
 
-    static BaseDialogFragment newInstance(String title, String message, boolean hasCancelButton){
+    static BaseDialogFragment newInstance(String title, String message, boolean hasCancelButton) {
         BaseDialogFragment fragment = new BaseDialogFragment();
         Bundle args = new Bundle(3);
         args.putString(ARGS_TITLE, title);
@@ -62,16 +61,16 @@ public class BaseDialogFragment extends DialogFragment {
                         dismiss();
                     }
                 });
-        if (mHasCancelButton){
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mOnButtonClickListener != null) {
-                            mOnButtonClickListener.onNegativeClick();
-                        }
-                        dismiss();
+        if (mHasCancelButton) {
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (mOnButtonClickListener != null) {
+                        mOnButtonClickListener.onNegativeClick();
                     }
-                });
+                    dismiss();
+                }
+            });
 
         }
         return builder.create();
@@ -81,7 +80,7 @@ public class BaseDialogFragment extends DialogFragment {
         mOnButtonClickListener = onButtonClickListener;
     }
 
-    public void show(FragmentManager manager){
+    public void show(FragmentManager manager) {
         show(manager, getDialogTag());
     }
 
@@ -96,29 +95,29 @@ public class BaseDialogFragment extends DialogFragment {
         OnButtonClickListener onButtonClickListener;
 
         public Builder() {
-            title = EMPTY_STRING;
-            message = EMPTY_STRING;
+            title = StringUtils.getEmptyString();
+            message = StringUtils.getEmptyString();
             addCancelButton = false;
         }
 
-        public Builder setTitle(String title){
+        public Builder setTitle(String title) {
             this.title = title;
             return this;
         }
 
-        public Builder setMessage(String message){
+        public Builder setMessage(String message) {
             this.message = message;
             return this;
         }
 
-        public Builder addCancelButton(boolean addCancelButton){
+        public Builder addCancelButton(boolean addCancelButton) {
             this.addCancelButton = addCancelButton;
             return this;
         }
 
-        public Builder setError(Context context, FruitDiaryException exception){
+        public Builder setError(Context context, FruitDiaryException exception) {
             title = context.getString(exception.getTitle());
-            if (exception instanceof ErrorCommonException){
+            if (exception instanceof ErrorCommonException) {
                 message = exception.getMessage();
             } else {
                 message = context.getString(exception.getErrorMessage());
@@ -131,11 +130,11 @@ public class BaseDialogFragment extends DialogFragment {
             return this;
         }
 
-        public BaseDialogFragment build(){
+        public BaseDialogFragment build() {
             BaseDialogFragment fragment = newInstance(
                     title, message, addCancelButton
             );
-            if (onButtonClickListener != null){
+            if (onButtonClickListener != null) {
                 fragment.setOnButtonClickListener(onButtonClickListener);
             }
             return fragment;
@@ -144,6 +143,7 @@ public class BaseDialogFragment extends DialogFragment {
 
     public interface OnButtonClickListener {
         void onPositiveClick();
+
         void onNegativeClick();
     }
 }

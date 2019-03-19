@@ -18,9 +18,6 @@ import com.example.fruitsdiary.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.fruitsdiary.util.StringUtils.FRUIT_NUMBER_FORMAT;
-import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
-
 public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.EntryViewHolder> {
 
     private List<Entry> mEntryList;
@@ -79,14 +76,14 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
         String fruitName;
         for (int i = 0; i < fruitEntryList.size(); i++) {
             fruitEntry = fruitEntryList.get(i);
-            fruitName = StringUtils.getCorrectFruitSpelling(
+            fruitName = StringUtils.INSTANCE.getCorrectFruitSpelling(
                     context,
                     fruitEntry.getAmount(),
                     fruitEntry.getType()
             );
             fruitNumberView = new TextView(context);
             fruitNumberView.setText(
-                    String.format(FRUIT_NUMBER_FORMAT, fruitEntry.getAmount(), fruitName)
+                    String.format(StringUtils.getFruitNumberFormat(), fruitEntry.getAmount(), fruitName)
             );
             binding.fruitListLayout.addView(fruitNumberView);
         }
@@ -101,7 +98,7 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
                 vitamins
         );
         binding.entryVitamins.setText(
-                String.format(VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
+                String.format(StringUtils.getVitaminNumberFormat(), vitamins, vitaminText)
         );
     }
 

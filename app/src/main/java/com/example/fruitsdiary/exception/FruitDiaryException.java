@@ -2,7 +2,7 @@ package com.example.fruitsdiary.exception;
 
 import android.support.annotation.StringRes;
 
-import static com.example.fruitsdiary.util.StringUtils.NO_STRING_DEFINED;
+import com.example.fruitsdiary.util.StringUtils;
 
 public abstract class FruitDiaryException extends Exception {
 
@@ -12,8 +12,8 @@ public abstract class FruitDiaryException extends Exception {
     protected int mMessage;
 
     public FruitDiaryException() {
-        mTitle = NO_STRING_DEFINED;
-        mMessage = NO_STRING_DEFINED;
+        mTitle = StringUtils.getNoStringDefined();
+        mMessage = StringUtils.getNoStringDefined();
     }
 
     public FruitDiaryException(@StringRes int title, @StringRes int message) {

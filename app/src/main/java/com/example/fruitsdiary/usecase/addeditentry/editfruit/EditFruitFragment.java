@@ -109,7 +109,7 @@ public class EditFruitFragment extends Fragment {
 
     private void setFruitView(){
         int amount = mFruitEntry.getAmount();
-        mBinding.fruitName.setText(StringUtils.getCorrectFruitSpelling(getContext(), amount, mFruitEntry.getType()));
+        mBinding.fruitName.setText(StringUtils.INSTANCE.getCorrectFruitSpelling(getContext(), amount, mFruitEntry.getType()));
         setFruitAmount(amount);
     }
 
@@ -145,7 +145,7 @@ public class EditFruitFragment extends Fragment {
                 if (number > FRUIT_MINIMUM_AMOUNT && !mIsPlural) {
                     mIsPlural = true;
                     mBinding.fruitName.setText(
-                            StringUtils.getCorrectFruitSpelling(getContext(), number, mFruitEntry.getType()));
+                            StringUtils.INSTANCE.getCorrectFruitSpelling(getContext(), number, mFruitEntry.getType()));
                 } else if (number <= FRUIT_MINIMUM_AMOUNT){
                     mIsPlural = false;
                     mBinding.fruitName.setText(mFruitEntry.getType());

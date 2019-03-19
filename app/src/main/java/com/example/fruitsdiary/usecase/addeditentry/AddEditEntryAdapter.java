@@ -19,9 +19,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.fruitsdiary.util.StringUtils.FRUIT_NUMBER_FORMAT;
-import static com.example.fruitsdiary.util.StringUtils.VITAMIN_NUMBER_FORMAT;
-
 public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapter.FruitEntryViewHolder> {
 
     private List<FruitEntry> mFruitEntryList;
@@ -89,13 +86,13 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
     }
 
     private void setFruitName(Context context, FruitEntry fruitEntry, ViewFruitEntryBinding binding) {
-        String fruitName = StringUtils.getCorrectFruitSpelling(
+        String fruitName = StringUtils.INSTANCE.getCorrectFruitSpelling(
                 context,
                 fruitEntry.getAmount(),
                 fruitEntry.getType()
         );
         binding.fruit.setText(
-                String.format(FRUIT_NUMBER_FORMAT, fruitEntry.getAmount(), fruitName)
+                String.format(StringUtils.getFruitNumberFormat(), fruitEntry.getAmount(), fruitName)
         );
     }
 
@@ -106,7 +103,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
                 vitamins
         );
         binding.vitamins.setText(
-                String.format(VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
+                String.format(StringUtils.getVitaminNumberFormat(), vitamins, vitaminText)
         );
     }
 
