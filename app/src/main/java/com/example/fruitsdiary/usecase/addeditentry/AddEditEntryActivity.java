@@ -125,7 +125,7 @@ public class AddEditEntryActivity extends AppCompatActivity
         FragmentManager manager = getSupportFragmentManager();
         if (manager.findFragmentByTag(SelectFruitFragment.TAG) != null) {
             removeSelectFruitFragment(manager);
-        } else if (manager.findFragmentByTag(EditFruitFragment.TAG) != null) {
+        } else if (manager.findFragmentByTag(EditFruitFragment.Companion.getTAG()) != null) {
             removeEditFruitFragment(manager);
         } else {
             super.onBackPressed();
@@ -159,7 +159,7 @@ public class AddEditEntryActivity extends AppCompatActivity
             manager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
                     .remove(mSelectFruitFragment)
-                    .add(R.id.fragment_container, mEditFruitFragment, EditFruitFragment.TAG)
+                    .add(R.id.fragment_container, mEditFruitFragment, EditFruitFragment.Companion.getTAG())
                     .commit();
         }
     }
