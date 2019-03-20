@@ -123,7 +123,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         FragmentManager manager = getSupportFragmentManager();
-        if (manager.findFragmentByTag(SelectFruitFragment.TAG) != null) {
+        if (manager.findFragmentByTag(SelectFruitFragment.Companion.getTAG()) != null) {
             removeSelectFruitFragment(manager);
         } else if (manager.findFragmentByTag(EditFruitFragment.Companion.getTAG()) != null) {
             removeEditFruitFragment(manager);
@@ -135,7 +135,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     @Override
     public void onAddFruitEntryClick() {
         FragmentManager manager = getSupportFragmentManager();
-        if (manager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
+        if (manager.findFragmentByTag(SelectFruitFragment.Companion.getTAG()) == null) {
             addSelectFruitFragment(manager);
         }
     }
@@ -183,7 +183,7 @@ public class AddEditEntryActivity extends AppCompatActivity
     private void addSelectFruitFragment(FragmentManager manager) {
         manager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_up, 0)
-                .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
+                .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.Companion.getTAG())
                 .commit();
         mAddEditEntryManager.showOverlay();
     }
