@@ -19,7 +19,7 @@ interface FruitsDiaryService {
     fun getAllFruits(): Observable<List<Fruit>>
 
     @GET("entries")
-    fun getAllEntries(): Observable<List<Entry>>
+    fun getAllEntries(): Observable<MutableList<Entry>>
 
     @POST("entries")
     fun addEntry(@Body entry: AddEntryBody): Observable<Entry>

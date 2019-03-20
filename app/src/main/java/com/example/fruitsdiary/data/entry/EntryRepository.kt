@@ -1,6 +1,5 @@
 package com.example.fruitsdiary.data.entry
 
-import android.text.format.DateUtils
 import com.example.fruitsdiary.data.fruit.FruitRepository
 import com.example.fruitsdiary.model.*
 import com.example.fruitsdiary.util.StringUtils
@@ -19,10 +18,11 @@ internal constructor(private val mEntryDataSource: EntryDataSource, private val 
      * - add the vitamins and image path to each fruitEntry
      * @return an Observable the will emit the list of entries
      */
-    fun getAllEntries(): Observable<List<Entry>> = mEntryDataSource.getAllEntries()
+    fun getAllEntries(): Observable<MutableList<Entry>> = mEntryDataSource.getAllEntries()
             .zipWith(mFruitRepository.getFruits(), BiFunction { entryList, fruitList ->
                 updateEntriesData(entryList, fruitList)
-                entryList.reversed()
+                entryList.reverse()
+                return@BiFunction entryList
             })
 
     /**
@@ -43,7 +43,7 @@ internal constructor(private val mEntryDataSource: EntryDataSource, private val 
                 })
     }
 
-    private fun updateEntriesData(entryList: List<Entry>, fruitList: List<Fruit>){
+    private fun updateEntriesData(entryList: MutableList<Entry>, fruitList: List<Fruit>) {
         filterEmptyFruitEntry(entryList)
         updateEntryVitamins(entryList, fruitList)
         updateEntryFruitVitaminsAndImage(entryList, fruitList)
@@ -69,9 +69,9 @@ internal constructor(private val mEntryDataSource: EntryDataSource, private val 
         return mEntryDataSource.addEntry(body)
     }
 
-    private fun filterEmptyFruitEntry(entryList: List<Entry>) {
+    private fun filterEmptyFruitEntry(entryList: MutableList<Entry>) {
         for (entry in entryList) {
-            entry.fruitList = entry.fruitList.filter { it.amount > 0 }
+            entry.fruitList = entry.fruitList.filter { it.amount > 0 }.toMutableList()
         }
     }
 

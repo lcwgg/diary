@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ViewEntryBinding
 import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.model.FruitEntry
 import com.example.fruitsdiary.util.StringUtils
-
-import java.util.ArrayList
+import java.util.*
 
 class DiaryEntryAdapter(private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<DiaryEntryAdapter.EntryViewHolder>() {
 
@@ -69,7 +67,7 @@ class DiaryEntryAdapter(private val mOnItemClickListener: OnItemClickListener) :
                     fruitEntry.type
             )
             fruitNumberView = TextView(context)
-            fruitNumberView.text = String.format(StringUtils.FRUIT_NUMBER_FORMAT, fruitEntry.amount, fruitName)
+            fruitNumberView.text = "${fruitEntry.amount}  $fruitName"
             binding.fruitListLayout.addView(fruitNumberView)
         }
     }
@@ -82,7 +80,7 @@ class DiaryEntryAdapter(private val mOnItemClickListener: OnItemClickListener) :
                 R.plurals.vitamins,
                 vitamins
         )
-        binding.entryVitamins.text = String.format(StringUtils.VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
+        binding.entryVitamins.text = "$vitamins $vitaminText"
     }
 
     override fun getItemCount(): Int {

@@ -1,9 +1,11 @@
 package com.example.fruitsdiary.usecase.addeditentry.selectfruit
 
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ViewFruitBinding
@@ -35,19 +37,23 @@ class FruitAdapter(private val mOnItemClickListener: OnItemClickListener) : Recy
         val binding = fruitViewHolder.binding
         val context = binding.root.context
 
+        setFruitImage(context, fruit.image, binding.fruitImage)
+
+        binding.fruitName.text = fruit.type
+
+        fruitViewHolder.bindClick(fruit)
+    }
+
+    private fun setFruitImage(context: Context, fruitImagePath: String?, fruitImageView: ImageView) {
         val fruitImageUrl = String.format(
                 context.getString(R.string.fruit_image_url),
-                fruit.image
+                fruitImagePath
         )
 
         Picasso.get()
                 .load(fruitImageUrl)
                 .placeholder(R.drawable.fruit_image_placeholder)
-                .into(binding.fruitImage)
-
-        binding.fruitName.text = fruit.type
-
-        fruitViewHolder.bindClick(fruit)
+                .into(fruitImageView)
     }
 
     override fun getItemCount(): Int {

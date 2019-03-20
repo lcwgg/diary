@@ -15,7 +15,7 @@ internal constructor(service: FruitsDiaryService, provider: SchedulerProvider) :
     /**
      * @return the full list of entries
      */
-    fun getAllEntries(): Observable<List<Entry>> = service.getAllEntries()
+    fun getAllEntries(): Observable<MutableList<Entry>> = service.getAllEntries()
             .subscribeOn(provider.io())
             .observeOn(provider.ui())
 

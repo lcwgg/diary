@@ -7,8 +7,6 @@ object StringUtils {
 
     const val EMPTY_STRING = ""
     const val NO_STRING_DEFINED = -1
-    const val FRUIT_NUMBER_FORMAT = "%1\$s %2\$s"
-    const val VITAMIN_NUMBER_FORMAT = "%1\$s %2\$s"
 
     @JvmStatic
     fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
