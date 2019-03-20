@@ -121,7 +121,7 @@ public class AddEditEntryPresenter implements AddEditEntryContract.Presenter {
                             }
                         }, new CommonNetworkErrorConsumer(mView) {
                             @Override
-                            public void accept(Throwable throwable) throws Exception {
+                            public void accept(Throwable throwable) {
                                 super.accept(throwable);
                                 // If there is an error, we use the entry loaded
                                 // from the diary fragment
