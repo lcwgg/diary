@@ -16,7 +16,7 @@ public class CommonNetworkErrorConsumer implements Consumer<Throwable> {
 
     @Override
     public void accept(Throwable throwable) throws Exception {
-        FruitDiaryException exception = ErrorFactory.createFromThrowable(throwable);
+        FruitDiaryException exception = ErrorFactory.INSTANCE.createFromThrowable(throwable);
         mView.handleNetworkError(exception);
     }
 

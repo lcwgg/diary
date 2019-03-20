@@ -95,8 +95,8 @@ public class BaseDialogFragment extends DialogFragment {
         OnButtonClickListener onButtonClickListener;
 
         public Builder() {
-            title = StringUtils.getEmptyString();
-            message = StringUtils.getEmptyString();
+            title = StringUtils.EMPTY_STRING;
+            message = StringUtils.EMPTY_STRING;
             addCancelButton = false;
         }
 

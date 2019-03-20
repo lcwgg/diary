@@ -83,7 +83,7 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
             );
             fruitNumberView = new TextView(context);
             fruitNumberView.setText(
-                    String.format(StringUtils.getFruitNumberFormat(), fruitEntry.getAmount(), fruitName)
+                    String.format(StringUtils.FRUIT_NUMBER_FORMAT, fruitEntry.getAmount(), fruitName)
             );
             binding.fruitListLayout.addView(fruitNumberView);
         }
@@ -98,7 +98,7 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
                 vitamins
         );
         binding.entryVitamins.setText(
-                String.format(StringUtils.getVitaminNumberFormat(), vitamins, vitaminText)
+                String.format(StringUtils.VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
         );
     }
 

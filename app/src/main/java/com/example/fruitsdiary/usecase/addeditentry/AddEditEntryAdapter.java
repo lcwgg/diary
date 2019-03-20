@@ -97,7 +97,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
                 fruitEntry.getType()
         );
         fruitTextView.setText(
-                String.format(StringUtils.getFruitNumberFormat(), fruitEntry.getAmount(), fruitName)
+                String.format(StringUtils.FRUIT_NUMBER_FORMAT, fruitEntry.getAmount(), fruitName)
         );
     }
 
@@ -108,7 +108,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
                 vitamins
         );
         vitaminTextView.setText(
-                String.format(StringUtils.getVitaminNumberFormat(), vitamins, vitaminText)
+                String.format(StringUtils.VITAMIN_NUMBER_FORMAT, vitamins, vitaminText)
         );
     }
 

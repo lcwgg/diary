@@ -5,12 +5,13 @@ import com.example.fruitsdiary.R
 
 object StringUtils {
 
-    @JvmStatic val emptyString = ""
-    @JvmStatic val noStringDefined = -1
-    @JvmStatic  val fruitNumberFormat = "%1\$s %2\$s"
-    @JvmStatic  val vitaminNumberFormat = "%1\$s %2\$s"
+    const val EMPTY_STRING = ""
+    const val NO_STRING_DEFINED = -1
+    const val FRUIT_NUMBER_FORMAT = "%1\$s %2\$s"
+    const val VITAMIN_NUMBER_FORMAT = "%1\$s %2\$s"
 
-    @JvmStatic fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
+    @JvmStatic
+    fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
         if (isFruitNameException(fruitName) && quantity > 1) {
             return getFruitExceptionSpelling(fruitName)
         }
@@ -24,7 +25,7 @@ object StringUtils {
         } else if (fruitName == "strawberry") {
             return "strawberries"
         }
-        return emptyString
+        return EMPTY_STRING
     }
 
     private fun isFruitNameException(fruitName: String): Boolean {

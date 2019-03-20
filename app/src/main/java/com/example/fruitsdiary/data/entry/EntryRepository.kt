@@ -92,7 +92,7 @@ internal constructor(private val mEntryDataSource: EntryDataSource, private val 
     private fun setFruitVitaminsAndImage(fruitEntry: FruitEntry, fruitList: List<Fruit>) {
         val fruit = getFilteredFruitObservable(fruitList, fruitEntry)
         fruitEntry.vitamins = fruit?.vitamins ?: 0
-        fruitEntry.image = fruit?.image ?: StringUtils.emptyString
+        fruitEntry.image = fruit?.image ?: StringUtils.EMPTY_STRING
     }
 
     private fun getFilteredFruitObservable(fruitList: List<Fruit>, fruitEntry: FruitEntry): Fruit? {
