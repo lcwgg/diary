@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 class FruitDataSource @Inject
-constructor(service: FruitsDiaryService, provider: SchedulerProvider) : DataSource(service, provider) {
+internal constructor(service: FruitsDiaryService, provider: SchedulerProvider) : DataSource(service, provider) {
 
     fun getFruits(): Observable<List<Fruit>> =
             service.getAllFruits()

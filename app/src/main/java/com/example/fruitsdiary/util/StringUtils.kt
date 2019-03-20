@@ -5,7 +5,6 @@ import com.example.fruitsdiary.R
 
 object StringUtils {
 
-
     @JvmStatic val emptyString = ""
     @JvmStatic val noStringDefined = -1
     @JvmStatic  val fruitNumberFormat = "%1\$s %2\$s"

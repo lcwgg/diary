@@ -4,5 +4,5 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Fruit(var id: Int, var type: String, var image: String, var vitamins: Int) : Parcelable {
+data class Fruit(val id: Int, val type: String, val image: String, val vitamins: Int = 0) : Parcelable {
 }
