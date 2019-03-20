@@ -75,6 +75,11 @@ public class EntryRepository {
                 });
     }
 
+    private void updateEntriesData(List<Entry> entryList, List<Fruit> fruitList){
+        filterEmptyFruitEntry(entryList);
+        updateEntryVitamins(entryList, fruitList);
+        updateEntryFruitVitaminsAndImage(entryList, fruitList);
+    }
     /**
      * Set the specified fruit to the specified entry
      * @param entryId the entry to be modified
