@@ -30,8 +30,6 @@ import javax.inject.Inject;
  */
 public class DiaryFragment extends HomeAbstractFragment implements DiaryContract.View {
 
-    public static final int FRAGMENT_POSITION = 0;
-
     private static final String FRAGMENT_NAME = "Diary";
 
     @Inject
