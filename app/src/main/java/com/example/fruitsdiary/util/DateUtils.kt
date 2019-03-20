@@ -6,27 +6,23 @@ import java.util.*
 
 object DateUtils {
 
-    private val SERVER_DATE_PATTERN = "yyyy-MM-dd"
+    private const val SERVER_DATE_PATTERN = "yyyy-MM-dd"
 
     private val SERVER_DATE_FORMAT = SimpleDateFormat(SERVER_DATE_PATTERN)
 
     private val APP_DATE_FORMAT = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
 
-    @JvmStatic val currentAppDate: String
-        get() {
-            val date = currentDate
+     @JvmStatic fun getCurrentAppDate(): String {
+            val date = getCurrentDate()
             return getAppStringDate(date)
         }
 
-    @JvmStatic val currentServerDate: String
-        get() {
-            val date = currentDate
+    @JvmStatic fun getCurrentServerDate(): String {
+            val date = getCurrentDate()
             return SERVER_DATE_FORMAT.format(date)
-
         }
 
-    private val currentDate: Date
-        get() = Calendar.getInstance().time
+    private fun getCurrentDate(): Date  = Calendar.getInstance().time
 
     @JvmStatic fun convertServerDateToAppDate(serverDate: String): String {
         val date = getServerDate(serverDate)
@@ -34,12 +30,11 @@ object DateUtils {
     }
 
     private fun getServerDate(serverDate: String): Date {
-        try {
-            return SERVER_DATE_FORMAT.parse(serverDate)
+        return try {
+            SERVER_DATE_FORMAT.parse(serverDate)
         } catch (e: ParseException) {
-            return Date()
+            Date()
         }
-
     }
 
     private fun getAppStringDate(date: Date): String {
