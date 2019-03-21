@@ -21,11 +21,9 @@
     <string name="error_timeout_message">Timeout, please try again later.</string>
     <string name="error_title">Error</string>
     <string name="reload_button">Reload</string>
-    <string name="more_fruits_string">...</string>
     <string name="no_fruit_saved">No fruit saved</string>
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
-    <string name="action_edit">Edit</string>
 
     <!-- Plurals -->
     <plurals name="fruits">

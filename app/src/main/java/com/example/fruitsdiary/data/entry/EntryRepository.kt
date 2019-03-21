@@ -9,7 +9,7 @@ import java.util.*
 import javax.inject.Inject
 
 class EntryRepository @Inject
-internal constructor(private val mEntryDataSource: EntryDataSource, private val mFruitRepository: FruitRepository) {
+constructor (private val mEntryDataSource: EntryDataSource, private val mFruitRepository: FruitRepository) {
 
     /**
      * Get all entries and apply transformation:

@@ -30,7 +30,7 @@ class AboutFragment : HomeAbstractFragment() {
         super.onViewCreated(view, savedInstanceState)
         mWebView.webChromeClient = WebChromeClient()
         mWebView.settings.javaScriptEnabled = false
-        mWebView.loadUrl("https://www.themobilelife.com/about/")
+        mWebView.loadUrl(getString(R.string.about_url))
     }
 
     override fun setFabAction(fab: FloatingActionButton) {

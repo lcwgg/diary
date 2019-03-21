@@ -1,10 +1,8 @@
-package com.example.fruitsdiary
+package com.example.fruitsdiary.usecase.diary
 
 import com.example.fruitsdiary.data.entry.EntryRepository
 import com.example.fruitsdiary.exception.FruitDiaryException
 import com.example.fruitsdiary.model.Entry
-import com.example.fruitsdiary.usecase.diary.DiaryContract
-import com.example.fruitsdiary.usecase.diary.DiaryPresenter
 import io.reactivex.Observable
 import org.junit.After
 import org.junit.Before
@@ -12,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
+import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
 /**
@@ -25,14 +23,14 @@ import java.util.*
 class DiaryPresenterTest {
 
     @Mock
-    internal var mEntryRepository: EntryRepository? = null
+    lateinit var mEntryRepository: EntryRepository
 
-    private var mPresenter: DiaryPresenter = DiaryPresenter(mEntryRepository)
+    private lateinit var mPresenter: DiaryPresenter
 
     @Mock
-    private val mView: DiaryContract.View? = null
+    lateinit var mView: DiaryContract.View
 
-    private val mockEntryList: List<Entry>
+    private val mockEntryList: MutableList<Entry>
         get() {
             val entryList = ArrayList<Entry>()
             val entry1 = Entry()
@@ -56,16 +54,9 @@ class DiaryPresenterTest {
 
     @Test
     fun populateEntriesSuccess() {
-        Mockito.`when`(mEntryRepository!!.allEntries).thenReturn(Observable.just(mockEntryList))
+        Mockito.`when`(mEntryRepository.getAllEntries()).thenReturn(Observable.just(mockEntryList))
         mPresenter.populateEntries()
         Mockito.verify<DiaryContract.View>(mView).showEntries(Mockito.anyListOf(Entry::class.java))
-    }
-
-    @Test
-    fun populateEntriesFailure() {
-        Mockito.`when`(mEntryRepository!!.allEntries).thenReturn(Observable.error(Throwable()))
-        mPresenter.populateEntries()
-        Mockito.verify<DiaryContract.View>(mView).handleNetworkError(Mockito.any<FruitDiaryException>(FruitDiaryException::class.java))
     }
 
     @After
