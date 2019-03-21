@@ -12,16 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -50,7 +46,7 @@ public class DiaryPresenterTest {
     public void populateEntriesSuccess() {
         Mockito.when(mEntryRepository.getAllEntries()).thenReturn(Observable.just(getMockEntryList()));
         mPresenter.populateEntries();
-        Mockito.verify(mView).showEntries(Mockito.anyList());
+        Mockito.verify(mView).showEntries(Mockito.<Entry>anyList());
     }
 
     @Test
