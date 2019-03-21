@@ -21,11 +21,6 @@ class EditFruitFragment : Fragment() {
     private var mOnEditFruitListener: OnEditFruitListener? = null
     private var mIsPlural: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mIsPlural = false
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_fruit, container, false)
         return mBinding.root
@@ -44,10 +39,8 @@ class EditFruitFragment : Fragment() {
         mBinding.editFruitLayout.setOnClickListener(onDismissClick)
         mBinding.cancelAddFruit.setOnClickListener(onDismissClick)
         mBinding.doneAddFruit.setOnClickListener {
-            if (mOnEditFruitListener != null) {
-                mFruitEntry.amount = getFruitAmount()
-                mOnEditFruitListener?.onFruitEdited(mFruitEntry)
-            }
+            mFruitEntry.amount = getFruitAmount()
+            mOnEditFruitListener?.onFruitEdited(mFruitEntry)
         }
 
         mBinding.addFruitsAction.setOnClickListener {
@@ -108,6 +101,7 @@ class EditFruitFragment : Fragment() {
         override fun afterTextChanged(s: Editable) {
             if (!s.toString().isEmpty()) {
                 val number = s.toString().toInt()
+                // we check if we need to have a plural fruit name
                 if (number > FRUIT_MINIMUM_AMOUNT && !mIsPlural) {
                     mIsPlural = true
                     mBinding.fruitName.text = StringUtils.getCorrectFruitSpelling(context!!, number, mFruitEntry.type)
@@ -121,7 +115,7 @@ class EditFruitFragment : Fragment() {
 
     companion object {
 
-        val TAG : String = EditFruitFragment::class.java.simpleName
+        val TAG: String = EditFruitFragment::class.java.simpleName
 
         private const val FRUIT_MINIMUM_AMOUNT = 1
     }

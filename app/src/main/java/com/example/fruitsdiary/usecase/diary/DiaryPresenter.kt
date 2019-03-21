@@ -4,11 +4,8 @@ import com.example.fruitsdiary.data.entry.EntryRepository
 import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer
 import com.example.fruitsdiary.util.DateUtils
-
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
-import io.reactivex.functions.Predicate
 
 class DiaryPresenter(private val mEntryRepository: EntryRepository) : DiaryContract.Presenter {
 

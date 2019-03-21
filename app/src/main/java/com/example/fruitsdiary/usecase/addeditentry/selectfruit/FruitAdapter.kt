@@ -6,13 +6,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ViewFruitBinding
 import com.example.fruitsdiary.model.Fruit
 import com.squareup.picasso.Picasso
-
-import java.util.ArrayList
+import java.util.*
 
 class FruitAdapter(private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<FruitAdapter.FruitViewHolder>() {
 

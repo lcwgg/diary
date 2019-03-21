@@ -16,7 +16,7 @@ import com.example.fruitsdiary.util.StringUtils
 import com.squareup.picasso.Picasso
 import java.util.*
 
-class AddEditEntryAdapter constructor(private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<AddEditEntryAdapter.FruitEntryViewHolder>() {
+class AddEditEntryAdapter (private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<AddEditEntryAdapter.FruitEntryViewHolder>() {
 
     var fruitEntryList: MutableList<FruitEntry> = ArrayList()
         set(fruitList) {

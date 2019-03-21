@@ -2,12 +2,7 @@ package com.example.fruitsdiary
 
 import android.app.Application
 import android.content.Context
-
-import com.example.fruitsdiary.dagger.AppComponent
-import com.example.fruitsdiary.dagger.ApplicationModule
-import com.example.fruitsdiary.dagger.DaggerAppComponent
-import com.example.fruitsdiary.dagger.NetworkModule
-import com.example.fruitsdiary.dagger.PresenterModule
+import com.example.fruitsdiary.dagger.*
 
 class FruitsDiaryApplication : Application() {
 

@@ -164,21 +164,13 @@ class AddEditEntryFragment : Fragment(), AddEditEntryContract.View, AddEditEntry
     }
 
     private fun setAdapterFruitEntryList() {
-        mPresenter.filterFruitEntryList(object : OnFruitEntryListFilteredListener {
-            override fun onFruitEntryListFiltered(fruitEntryList: MutableList<FruitEntry>) {
-                mAdapter.fruitEntryList = fruitEntryList
-            }
-        })
+        mAdapter.fruitEntryList = mPresenter.filterFruitEntryList()
     }
 
     interface OnAddEditListener {
         fun onAddFruitEntryClick()
 
         fun onEntrySaved()
-    }
-
-    interface OnFruitEntryListFilteredListener {
-        fun onFruitEntryListFiltered(fruitEntryList: MutableList<FruitEntry>)
     }
 
     companion object {

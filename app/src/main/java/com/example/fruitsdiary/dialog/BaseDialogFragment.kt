@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager
 import com.example.fruitsdiary.exception.ErrorCommonException
 import com.example.fruitsdiary.exception.FruitDiaryException
 import com.example.fruitsdiary.util.StringUtils
-import io.reactivex.annotations.NonNull
 
 open class BaseDialogFragment : DialogFragment() {
 

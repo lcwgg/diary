@@ -42,10 +42,8 @@ class SelectFruitFragment : Fragment(), SelectFruitContract.View {
         recyclerView.layoutManager = layoutManager
         mFruitAdapter = FruitAdapter(object : FruitAdapter.OnItemClickListener {
             override fun onItemClick(fruit: Fruit) {
-                if (mSelectFruitListener != null) {
-                    val fruitEntry = mPresenter.getFruitEntry(fruit)
-                    mSelectFruitListener?.onFruitSelected(fruitEntry)
-                }
+                val fruitEntry = mPresenter.getFruitEntry(fruit)
+                mSelectFruitListener?.onFruitSelected(fruitEntry)
             }
         })
         recyclerView.adapter = mFruitAdapter

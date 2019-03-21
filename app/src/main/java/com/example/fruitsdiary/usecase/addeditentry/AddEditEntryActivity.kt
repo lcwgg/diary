@@ -5,9 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
 import com.example.fruitsdiary.R
-import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.model.FruitEntry
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState
 import com.example.fruitsdiary.usecase.addeditentry.editfruit.EditFruitFragment
@@ -28,7 +26,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
         setContentView(R.layout.activity_add_edit_entry)
 
         val intent = AddEditEntryIntent(intent)
-        val entry: Entry  = intent.getEntry()
+        val entry  = intent.getEntry()
         mEntryState = intent.getEntryState()
 
         val actionBar = supportActionBar
@@ -66,7 +64,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
             EntryState.EDIT -> inflater.inflate(R.menu.menu_edit_entry, menu)
             EntryState.CREATE -> inflater.inflate(R.menu.menu_create_entry, menu)
             EntryState.VIEW -> inflater.inflate(R.menu.menu_view_entry, menu)
-            else -> inflater.inflate(R.menu.menu_create_entry, menu)
+            else -> inflater.inflate(R.menu.menu_view_entry, menu)
         }
         return true
     }
@@ -105,12 +103,10 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
 
     override fun onBackPressed() {
         val manager = supportFragmentManager
-        if (manager.findFragmentByTag(SelectFruitFragment.TAG) != null) {
-            removeSelectFruitFragment(manager)
-        } else if (manager.findFragmentByTag(EditFruitFragment.TAG) != null) {
-            removeEditFruitFragment(manager)
-        } else {
-            super.onBackPressed()
+        when {
+            manager.findFragmentByTag(SelectFruitFragment.TAG) != null -> removeSelectFruitFragment(manager)
+            manager.findFragmentByTag(EditFruitFragment.TAG) != null -> removeEditFruitFragment(manager)
+            else -> super.onBackPressed()
         }
     }
 

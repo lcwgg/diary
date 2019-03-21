@@ -5,19 +5,12 @@ import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.model.FruitEntry
 import com.example.fruitsdiary.model.Response
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer
-
-import java.util.ArrayList
-
-import javax.inject.Inject
-
 import io.reactivex.Maybe
-import io.reactivex.MaybeSource
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
-import io.reactivex.functions.Predicate
+import java.util.*
+import javax.inject.Inject
 
 class AddEditEntryPresenter @Inject
 constructor(private val mEntryRepository: EntryRepository) : AddEditEntryContract.Presenter {
@@ -107,7 +100,7 @@ constructor(private val mEntryRepository: EntryRepository) : AddEditEntryContrac
     }
 
     fun removeFruitEntry(fruitEntry: FruitEntry) {
-        mEntry.fruitList.find {it.id == fruitEntry.id}?.amount = 0
+        mEntry.fruitList.find { it.id == fruitEntry.id }?.amount = 0
     }
 
     fun addFruitEntry(fruitEntry: FruitEntry) {
@@ -121,12 +114,12 @@ constructor(private val mEntryRepository: EntryRepository) : AddEditEntryContrac
         mEntry.fruitList[index] = fruitEntry
     }
 
-    fun filterFruitEntryList(listener: AddEditEntryFragment.OnFruitEntryListFilteredListener) {
-        listener.onFruitEntryListFiltered(mEntry.fruitList.filter { it.amount > 0 }.toMutableList())
+    fun filterFruitEntryList(): MutableList<FruitEntry> {
+        return mEntry.fruitList.filter { it.amount > 0 }.toMutableList()
     }
 
     override fun subscribe() {
-       // we get the id from the Entry passed by the DiaryFragment
+        // we get the id from the Entry passed by the DiaryFragment
         getEntry(mEntryFromDiary!!.id)
     }
 
@@ -139,7 +132,7 @@ constructor(private val mEntryRepository: EntryRepository) : AddEditEntryContrac
     }
 
     private fun setFruitEntryToNotModified() {
-        mEntry.fruitList.forEach {it.isModified = false}
+        mEntry.fruitList.forEach { it.isModified = false }
     }
 
     operator fun contains(fruitEntry: FruitEntry): Boolean {

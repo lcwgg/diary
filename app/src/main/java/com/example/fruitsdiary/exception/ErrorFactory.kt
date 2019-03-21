@@ -1,12 +1,10 @@
 package com.example.fruitsdiary.exception
 
+import okhttp3.ResponseBody
 import org.json.JSONObject
-
+import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
-
-import okhttp3.ResponseBody
-import retrofit2.HttpException
 
 object ErrorFactory {
 
