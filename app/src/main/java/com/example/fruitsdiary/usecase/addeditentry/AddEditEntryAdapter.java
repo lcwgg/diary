@@ -71,7 +71,7 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
         setFruitName(context, fruitEntry, binding.fruit);
         setVitamins(context, fruitEntry, binding.vitamins);
 
-        fruitEntryViewHolder.bind(fruitEntry);
+        fruitEntryViewHolder.bindClick(fruitEntry);
 
         if (fruitEntry.isModified()) {
             binding.getRoot().setBackgroundColor(ContextCompat.getColor(context, R.color.light_grey));
@@ -122,14 +122,14 @@ public class AddEditEntryAdapter extends RecyclerView.Adapter<AddEditEntryAdapte
 
     class FruitEntryViewHolder extends RecyclerView.ViewHolder {
 
-        private ViewFruitEntryBinding binding;
+        ViewFruitEntryBinding binding;
 
         FruitEntryViewHolder(@NonNull ViewFruitEntryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(@NonNull final FruitEntry fruitEntry) {
+        void bindClick(@NonNull final FruitEntry fruitEntry) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

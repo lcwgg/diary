@@ -11,7 +11,7 @@ import com.example.fruitsdiary.usecase.diary.DiaryFragment;
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class HomePagerAdapter extends FragmentPagerAdapter {
+class HomePagerAdapter extends FragmentPagerAdapter {
 
     private static final int MAX_PAGE = 2;
 

@@ -1,7 +1,7 @@
 package com.example.fruitsdiary.network;
 
-import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.AddEntryBody;
+import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.Response;
 

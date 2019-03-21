@@ -38,7 +38,7 @@ public final class DateUtils {
         return Calendar.getInstance().getTime();
     }
 
-    public static Date getServerDate(String serverDate) {
+    private static Date getServerDate(String serverDate) {
         try {
             return SERVER_DATE_FORMAT.parse(serverDate);
         } catch (ParseException e) {
@@ -46,7 +46,7 @@ public final class DateUtils {
         }
     }
 
-    public static String getAppStringDate(Date date){
+    private static String getAppStringDate(Date date){
         return APP_DATE_FORMAT.format(date);
     }
 }

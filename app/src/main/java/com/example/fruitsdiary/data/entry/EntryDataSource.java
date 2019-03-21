@@ -1,8 +1,8 @@
 package com.example.fruitsdiary.data.entry;
 
 import com.example.fruitsdiary.data.DataSource;
-import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.AddEntryBody;
+import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.Response;
 import com.example.fruitsdiary.network.FruitsDiaryService;
 import com.example.fruitsdiary.util.SchedulerProvider;

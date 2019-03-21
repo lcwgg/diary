@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.example.fruitsdiary.usecase.home.HomeAbstractFragment;
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.FragmentAboutBinding;
+import com.example.fruitsdiary.usecase.home.HomeAbstractFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -34,7 +34,7 @@ public class AboutFragment extends HomeAbstractFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentAboutBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false);
         View rootView = binding.getRoot();

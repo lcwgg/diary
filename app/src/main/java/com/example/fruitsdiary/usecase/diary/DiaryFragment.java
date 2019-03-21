@@ -39,14 +39,12 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
 
     private FragmentDiaryBinding mBinding;
 
-    private RecyclerView mRecyclerView;
-
     private DiaryEntryAdapter mAdapter;
 
     private Entry mTodayEntry = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary, container, false);
         FruitsDiaryApplication.get(getContext()).getAppComponent().inject(this);
@@ -59,11 +57,11 @@ public class DiaryFragment extends HomeAbstractFragment implements DiaryContract
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mRecyclerView = mBinding.entryRecyclerview;
+        RecyclerView recyclerView = mBinding.entryRecyclerview;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(manager);
+        recyclerView.setLayoutManager(manager);
         mAdapter = new DiaryEntryAdapter(new OnEntryClickListener());
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
 
         mBinding.reloadButton.setOnClickListener(new View.OnClickListener() {
             @Override

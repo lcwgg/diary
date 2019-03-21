@@ -16,12 +16,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.FruitViewHolder> {
+public class SelectFruitAdapter extends RecyclerView.Adapter<SelectFruitAdapter.FruitViewHolder> {
 
     private List<Fruit> mFruitList;
     private OnItemClickListener mOnItemClickListener;
 
-    public FruitAdapter(@NonNull OnItemClickListener onItemClickListener) {
+    SelectFruitAdapter(@NonNull OnItemClickListener onItemClickListener) {
         mFruitList = new ArrayList<>();
         mOnItemClickListener = onItemClickListener;
 
@@ -62,7 +62,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.FruitViewHol
 
         binding.fruitName.setText(fruit.getType());
 
-        fruitViewHolder.bind(fruit);
+        fruitViewHolder.bindClick(fruit);
     }
 
     @Override
@@ -72,14 +72,14 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.FruitViewHol
 
     class FruitViewHolder extends RecyclerView.ViewHolder{
 
-        private ViewFruitBinding binding;
+        ViewFruitBinding binding;
 
         FruitViewHolder(@NonNull ViewFruitBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(final Fruit fruit){
+        void bindClick(final Fruit fruit){
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

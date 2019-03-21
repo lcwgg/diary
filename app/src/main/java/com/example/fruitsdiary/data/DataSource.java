@@ -8,7 +8,7 @@ public abstract class DataSource {
     protected final FruitsDiaryService mService;
     protected final SchedulerProvider mProvider;
 
-    public DataSource(FruitsDiaryService service, SchedulerProvider provider) {
+    protected DataSource(FruitsDiaryService service, SchedulerProvider provider) {
         mService = service;
         mProvider = provider;
     }

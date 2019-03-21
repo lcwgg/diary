@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.fruitsdiary.model.FruitEntry;
 
-public interface AddEditEntryManager {
+interface AddEditEntryManager {
 
     void saveEntry();
 

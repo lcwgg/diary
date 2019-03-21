@@ -11,8 +11,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState.CREATE;
-import static com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState.VIEW;
 import static com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState.EDIT;
+import static com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState.VIEW;
 
 public class AddEditEntryIntent extends Intent {
 

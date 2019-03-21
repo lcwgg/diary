@@ -27,8 +27,6 @@ public class AddEditEntryActivity extends AppCompatActivity
     private AddEditEntryManager mAddEditEntryManager;
     private SelectFruitFragment mSelectFruitFragment;
     private EditFruitFragment mEditFruitFragment;
-    private ActionBar mActionBar;
-    private Entry mEntry;
     private @EntryState
     int mEntryState;
 
@@ -38,17 +36,17 @@ public class AddEditEntryActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_edit_entry);
 
         AddEditEntryIntent intent = new AddEditEntryIntent(getIntent());
-        mEntry = intent.getEntry();
+        Entry entry = intent.getEntry();
         mEntryState = intent.getEntryState();
 
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mEntryState == EntryState.CREATE) {
-            mActionBar.setTitle(DateUtils.getCurrentAppDate());
+            actionBar.setTitle(DateUtils.getCurrentAppDate());
         } else {
-            String date = DateUtils.convertServerDateToAppDate(mEntry.getDate());
-            mActionBar.setTitle(date);
+            String date = DateUtils.convertServerDateToAppDate(entry.getDate());
+            actionBar.setTitle(date);
         }
 
 

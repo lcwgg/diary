@@ -3,12 +3,11 @@ package com.example.fruitsdiary.usecase.addeditentry;
 import com.example.fruitsdiary.BasePresenter;
 import com.example.fruitsdiary.BaseView;
 import com.example.fruitsdiary.model.Entry;
-import com.example.fruitsdiary.model.Fruit;
 import com.example.fruitsdiary.model.FruitEntry;
 
 import java.util.List;
 
-public interface AddEditEntryContract {
+interface AddEditEntryContract {
 
     interface View extends BaseView {
         void updateEntryView(Entry entry);

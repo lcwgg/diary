@@ -70,7 +70,7 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
             setVitamins(context, entry, binding);
         }
 
-        entryViewHolder.bind(entry, mOnItemClickListener);
+        entryViewHolder.bindClick(entry, mOnItemClickListener);
     }
 
     private void setFruitList(Context context, List<FruitEntry> fruitEntryList, ViewEntryBinding binding) {
@@ -110,16 +110,16 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.En
         return mEntryList.size();
     }
 
-    public static class EntryViewHolder extends RecyclerView.ViewHolder {
+    static class EntryViewHolder extends RecyclerView.ViewHolder {
 
         ViewEntryBinding binding;
 
-        public EntryViewHolder(ViewEntryBinding binding) {
+        EntryViewHolder(ViewEntryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(final Entry entry, final OnItemClickListener onItemClickListener) {
+        void bindClick(final Entry entry, final OnItemClickListener onItemClickListener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

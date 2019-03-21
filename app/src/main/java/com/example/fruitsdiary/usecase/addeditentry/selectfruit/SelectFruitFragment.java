@@ -29,7 +29,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
 
     private FragmentSelectFruitBinding mBinding;
 
-    private FruitAdapter mFruitAdapter;
+    private SelectFruitAdapter mSelectFruitAdapter;
 
     private OnSelectFruitListener mSelectFruitListener;
 
@@ -51,7 +51,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
         RecyclerView recyclerView = mBinding.fruitListRecyclerview;
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-        mFruitAdapter = new FruitAdapter(new FruitAdapter.OnItemClickListener() {
+        mSelectFruitAdapter = new SelectFruitAdapter(new SelectFruitAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fruit fruit) {
                 if (mSelectFruitListener != null) {
@@ -60,7 +60,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
                 }
             }
         });
-        recyclerView.setAdapter(mFruitAdapter);
+        recyclerView.setAdapter(mSelectFruitAdapter);
 
         mBinding.selectFruitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class SelectFruitFragment extends Fragment implements SelectFruitContract
 
     @Override
     public void showFruitList(List<Fruit> fruitList) {
-        mFruitAdapter.setFruitList(fruitList);
+        mSelectFruitAdapter.setFruitList(fruitList);
     }
 
     @Override

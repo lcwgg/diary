@@ -19,7 +19,7 @@ public class FruitsDiaryApplication extends Application {
         initAppComponent();
     }
 
-    public AppComponent initAppComponent()
+    private void initAppComponent()
     {
         mAppComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
@@ -27,7 +27,6 @@ public class FruitsDiaryApplication extends Application {
                 .presenterModule(new PresenterModule())
                 .build();
 
-        return mAppComponent;
     }
 
     public static FruitsDiaryApplication get(Context context)

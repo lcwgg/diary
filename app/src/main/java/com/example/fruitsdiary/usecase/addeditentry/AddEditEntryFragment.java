@@ -21,7 +21,6 @@ import com.example.fruitsdiary.model.Entry;
 import com.example.fruitsdiary.model.FruitEntry;
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState;
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener;
-import com.example.fruitsdiary.util.DateUtils;
 
 import java.util.List;
 
@@ -37,8 +36,6 @@ public class AddEditEntryFragment extends Fragment
     private FragmentAddEditEntryBinding mBinding;
     private OnAddEditListener mOnAddEditListener;
     private OnSelectFruitListener mOnSelectFruitListener;
-    @EntryState
-    private int mEntryState;
     private AddEditEntryAdapter mAdapter;
 
     @Nullable
@@ -54,7 +51,7 @@ public class AddEditEntryFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         AddEditEntryIntent intent = new AddEditEntryIntent(getActivity().getIntent());
-        mEntryState = intent.getEntryState();
+        int entryState = intent.getEntryState();
         Entry entry = intent.getEntry();
         mPresenter.setEntryFromDiary(entry);
 
@@ -79,13 +76,13 @@ public class AddEditEntryFragment extends Fragment
         });
 
         // We need to load the entry only in the case where the user want to view it
-        if (mEntryState == EntryState.VIEW) {
+        if (entryState == EntryState.VIEW) {
             mPresenter.subscribe();
         }
 
         // hide the progress bar if the entry is being created
         // and we set the current date
-        if (mEntryState == EntryState.CREATE) {
+        if (entryState == EntryState.CREATE) {
             mBinding.emptyEntry.setVisibility(View.VISIBLE);
             mBinding.addEditViewswitcher.showNext();
         }

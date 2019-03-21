@@ -35,9 +35,6 @@ public final class StringUtils {
     private static boolean isFruitNameException(String fruitName) {
         if (fruitName.equals("cherry")) {
             return true;
-        } else if (fruitName.equals("strawberry")) {
-            return true;
-        }
-        return false;
+        } else return fruitName.equals("strawberry");
     }
 }

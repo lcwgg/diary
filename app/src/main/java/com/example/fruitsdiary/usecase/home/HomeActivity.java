@@ -1,14 +1,11 @@
 package com.example.fruitsdiary.usecase.home;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.fruitsdiary.R;
 import com.example.fruitsdiary.databinding.ActivityHomeBinding;
@@ -28,11 +25,6 @@ public class HomeActivity extends AppCompatActivity {
      */
     private HomePagerAdapter mHomePagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -40,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final ActivityHomeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -48,14 +40,17 @@ public class HomeActivity extends AppCompatActivity {
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = binding.container;
-        mViewPager.setAdapter(mHomePagerAdapter);
+        /**
+         * The {@link ViewPager} that will host the section contents.
+         */
+        ViewPager viewPager = binding.container;
+        viewPager.setAdapter(mHomePagerAdapter);
 
-        binding.diaryTabLayout.setupWithViewPager(mViewPager);
+        binding.diaryTabLayout.setupWithViewPager(viewPager);
 
         mHomePagerAdapter.getItem(VIEWPAGER_DEFAULT_POSITION).setFabAction(binding.fab);
 
-        mViewPager.addOnPageChangeListener(new OnPageChangedListener() {
+        viewPager.addOnPageChangeListener(new OnPageChangedListener() {
 
             @Override
             public void onPageSelected(int i) {
