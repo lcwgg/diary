@@ -1,6 +1,5 @@
 package com.example.fruitsdiary.util
 
-import com.example.fruitsdiary.util.DateUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

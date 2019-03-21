@@ -25,7 +25,7 @@ class AddEditEntryIntent : Intent {
         putExtra(ARGS_ENTRY, entry)
     }
 
-    constructor(intent: Intent) : super(intent) {}
+    constructor(intent: Intent) : super(intent)
 
     fun getEntry(): Entry = getParcelableExtra(ARGS_ENTRY)
 

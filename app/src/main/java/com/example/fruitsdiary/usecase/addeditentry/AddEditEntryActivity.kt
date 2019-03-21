@@ -122,7 +122,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
     }
 
     override fun onFruitSelected(originalFruitEntry: FruitEntry?) {
-        var fruitEntry: FruitEntry? = null;
+        var fruitEntry: FruitEntry? = null
         val manager = supportFragmentManager
         if (originalFruitEntry == null) {
             removeSelectFruitFragment(manager)

@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 data class Entry(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("date") var date: String = "",
-        @SerializedName("fruit") var fruitList: MutableList<FruitEntry> = ArrayList<FruitEntry>() ): Parcelable {
+        @SerializedName("fruit") var fruitList: MutableList<FruitEntry> = ArrayList() ): Parcelable {
 
     @IgnoredOnParcel
     var vitamins = 0

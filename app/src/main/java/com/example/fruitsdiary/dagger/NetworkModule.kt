@@ -16,15 +16,17 @@ class NetworkModule {
     private val SERVER_URL = "https://fruitdiary.test.themobilelife.com/api/"
 
     @Provides
-    fun provideLoggingInterceptor() = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor) = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+            OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor)
+                    .build()
 
     @Provides
-    fun provideRetrofitInterface(okHttpClient: OkHttpClient) = Retrofit.Builder()
+    fun provideRetrofitInterface(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
             .baseUrl(SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -32,6 +34,7 @@ class NetworkModule {
             .build()
 
     @Provides
-    fun provideFruitsDiaryService(retrofit: Retrofit) = retrofit.create(FruitsDiaryService::class.java)
+    fun provideFruitsDiaryService(retrofit: Retrofit): FruitsDiaryService =
+            retrofit.create(FruitsDiaryService::class.java)
 
 }

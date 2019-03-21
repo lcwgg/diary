@@ -1,7 +1,6 @@
 package com.example.fruitsdiary.usecase.diary
 
 import com.example.fruitsdiary.data.entry.EntryRepository
-import com.example.fruitsdiary.exception.FruitDiaryException
 import com.example.fruitsdiary.model.Entry
 import io.reactivex.Observable
 import org.junit.After

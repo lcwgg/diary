@@ -15,8 +15,7 @@ abstract class FruitDiaryException : Exception {
         this.errorMessage = errorMessage
     }
 
-    constructor() : super() {
-    }
+    constructor() : super()
 
     constructor(message: String) : super(message)
 

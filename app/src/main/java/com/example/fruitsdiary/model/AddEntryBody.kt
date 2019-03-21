@@ -1,4 +1,3 @@
 package com.example.fruitsdiary.model
 
-class AddEntryBody(var date: String? = "") {
-}
+class AddEntryBody(var date: String? = "")

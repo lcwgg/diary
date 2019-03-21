@@ -76,7 +76,7 @@ constructor (private val mEntryDataSource: EntryDataSource, private val mFruitRe
     }
 
     private fun updateEntryVitamins(entryList: List<Entry>, fruitList: List<Fruit>) {
-        entryList.forEach() { entry ->
+        entryList.forEach { entry ->
             entry.fruitList.forEach() { fruitEntry ->
                 val fruit = getFilteredFruitObservable(fruitList, fruitEntry)
                 val currentVitamins = entry.vitamins
