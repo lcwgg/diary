@@ -1,11 +1,11 @@
 package com.example.fruitsdiary.usecase.addeditentry.selectfruit
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ViewFruitBinding
 import com.example.fruitsdiary.model.Fruit

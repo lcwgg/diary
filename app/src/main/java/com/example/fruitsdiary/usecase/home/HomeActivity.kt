@@ -1,9 +1,9 @@
 package com.example.fruitsdiary.usecase.home
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ActivityHomeBinding
 

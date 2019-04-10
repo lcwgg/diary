@@ -1,14 +1,14 @@
 package com.example.fruitsdiary.usecase.about
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import androidx.databinding.DataBindingUtil
 
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.FragmentAboutBinding

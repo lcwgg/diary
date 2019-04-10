@@ -1,8 +1,8 @@
 package com.example.fruitsdiary.usecase.home
 
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.example.fruitsdiary.usecase.about.AboutFragment
 import com.example.fruitsdiary.usecase.diary.DiaryFragment
 

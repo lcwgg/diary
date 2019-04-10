@@ -1,14 +1,14 @@
 package com.example.fruitsdiary.usecase.addeditentry
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.ViewFruitEntryBinding
 import com.example.fruitsdiary.model.FruitEntry

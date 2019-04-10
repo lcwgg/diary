@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.example.fruitsdiary.exception.ErrorCommonException
 import com.example.fruitsdiary.exception.FruitDiaryException
 import com.example.fruitsdiary.util.StringUtils
@@ -30,12 +30,12 @@ open class BaseDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(context)
                 .setTitle(mTitle)
                 .setMessage(mMessage)
-                .setPositiveButton(android.R.string.ok) { dialog, which ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     mOnButtonClickListener?.onPositiveClick()
                     dismiss()
                 }
         if (mHasCancelButton) {
-            builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            builder.setNegativeButton(android.R.string.cancel) { _, _ ->
                 mOnButtonClickListener?.onNegativeClick()
                 dismiss()
             }

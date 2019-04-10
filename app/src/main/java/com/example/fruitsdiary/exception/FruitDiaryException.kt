@@ -1,7 +1,6 @@
 package com.example.fruitsdiary.exception
 
-import android.support.annotation.StringRes
-
+import androidx.annotation.StringRes
 import com.example.fruitsdiary.util.StringUtils
 
 abstract class FruitDiaryException : Exception {

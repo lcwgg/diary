@@ -1,13 +1,13 @@
 package com.example.fruitsdiary.usecase.addeditentry
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fruitsdiary.FruitsDiaryApplication
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.databinding.FragmentAddEditEntryBinding
@@ -17,6 +17,7 @@ import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.model.FruitEntry
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState
 import com.example.fruitsdiary.usecase.addeditentry.selectfruit.OnSelectFruitListener
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class AddEditEntryFragment : Fragment(), AddEditEntryContract.View, AddEditEntryManager {

@@ -1,10 +1,10 @@
 package com.example.fruitsdiary.usecase.addeditentry
 
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.fruitsdiary.R
 import com.example.fruitsdiary.model.FruitEntry
 import com.example.fruitsdiary.usecase.addeditentry.AddEditEntryIntent.EntryState

@@ -1,11 +1,9 @@
 package com.example.fruitsdiary.dagger
 
 import com.example.fruitsdiary.network.FruitsDiaryService
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,13 +14,8 @@ class NetworkModule {
     private val SERVER_URL = "https://fruitdiary.test.themobilelife.com/api/"
 
     @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
-            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
-    @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    fun provideOkHttpClient(): OkHttpClient =
             OkHttpClient.Builder()
-                    .addInterceptor(loggingInterceptor)
                     .build()
 
     @Provides
