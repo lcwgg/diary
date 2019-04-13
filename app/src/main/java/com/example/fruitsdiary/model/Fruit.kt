@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 @Parcelize
 data class Fruit(
-        @PrimaryKey val id: Int,
-        @ColumnInfo(name ="type") val type: String,
-        @ColumnInfo(name ="image") val image: String,
-        @ColumnInfo(name ="vitamins") val vitamins: Int = 0) : Parcelable
+        @PrimaryKey var id: Int,
+        @ColumnInfo(name ="type") var type: String,
+        @ColumnInfo(name ="image") var image: String,
+        @ColumnInfo(name ="vitamins") var vitamins: Int = 0) : Parcelable
