@@ -4,13 +4,14 @@ import com.example.fruitsdiary.model.AddEntryBody
 import com.example.fruitsdiary.model.Entry
 import com.example.fruitsdiary.model.Fruit
 import com.example.fruitsdiary.model.Response
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface FruitsDiaryService {
 
     @GET("fruit")
-    fun getAllFruits(): Observable<List<Fruit>>
+    fun getAllFruits(): Flowable<List<Fruit>>
 
     @GET("entries")
     fun getAllEntries(): Observable<MutableList<Entry>>

@@ -1,6 +1,8 @@
 package com.example.fruitsdiary.dagger
 
 import android.content.Context
+import androidx.room.Room
+import com.example.fruitsdiary.data.AppDatabase
 
 import com.example.fruitsdiary.util.SchedulerProvider
 
@@ -17,5 +19,10 @@ class ApplicationModule(context: Context) {
 
     @Provides
     fun getSchedulerProvider() = SchedulerProvider()
+
+    @Provides
+    fun getRoomDatabase(context: Context) : AppDatabase =
+            Room.databaseBuilder(context, AppDatabase::class.java, "database-fruit")
+                    .build()
 
 }

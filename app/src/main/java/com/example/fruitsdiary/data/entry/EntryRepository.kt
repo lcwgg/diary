@@ -9,7 +9,8 @@ import java.util.*
 import javax.inject.Inject
 
 class EntryRepository @Inject
-constructor (private val mEntryDataSource: EntryDataSource, private val mFruitRepository: FruitRepository) {
+constructor (private val mEntryDataSource: EntryDataSource,
+             private val mFruitRepository: FruitRepository) {
 
     /**
      * Get all entries and apply transformation:
@@ -19,7 +20,7 @@ constructor (private val mEntryDataSource: EntryDataSource, private val mFruitRe
      * @return an Observable the will emit the list of entries
      */
     fun getAllEntries(): Observable<MutableList<Entry>> = mEntryDataSource.getAllEntries()
-            .zipWith(mFruitRepository.getFruits(), BiFunction { entryList, fruitList ->
+            .zipWith(mFruitRepository.getFruits().toObservable(), BiFunction { entryList, fruitList ->
                 updateEntriesData(entryList, fruitList)
                 entryList.reverse()
                 return@BiFunction entryList
@@ -35,7 +36,7 @@ constructor (private val mEntryDataSource: EntryDataSource, private val mFruitRe
      */
     fun getEntry(id: Int): Observable<Entry> {
         return mEntryDataSource.getEntry(id)
-                .zipWith(mFruitRepository.getFruits(), BiFunction { entry, fruitList ->
+                .zipWith(mFruitRepository.getFruits().toObservable(), BiFunction { entry, fruitList ->
                     val entryList = ArrayList<Entry>()
                     entryList.add(entry)
                     updateEntriesData(entryList, fruitList)
