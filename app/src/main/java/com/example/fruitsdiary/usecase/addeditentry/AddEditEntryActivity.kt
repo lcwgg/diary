@@ -21,6 +21,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
     @EntryState
     private var mEntryState: Int = EntryState.VIEW
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_entry)
@@ -102,18 +103,18 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
     }
 
     override fun onBackPressed() {
-        val manager = supportFragmentManager
         when {
-            manager.findFragmentByTag(SelectFruitFragment.TAG) != null -> removeSelectFruitFragment(manager)
-            manager.findFragmentByTag(EditFruitFragment.TAG) != null -> removeEditFruitFragment(manager)
+            supportFragmentManager.findFragmentByTag(SelectFruitFragment.TAG) != null ->
+                removeSelectFruitFragment(supportFragmentManager)
+            supportFragmentManager.findFragmentByTag(EditFruitFragment.TAG) != null ->
+                removeEditFruitFragment(supportFragmentManager)
             else -> super.onBackPressed()
         }
     }
 
     override fun onAddFruitEntryClick() {
-        val manager = supportFragmentManager
-        if (manager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
-            addSelectFruitFragment(manager)
+        if (supportFragmentManager.findFragmentByTag(SelectFruitFragment.TAG) == null) {
+            addSelectFruitFragment(supportFragmentManager)
         }
     }
 
@@ -123,9 +124,8 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
 
     override fun onFruitSelected(originalFruitEntry: FruitEntry?) {
         var fruitEntry: FruitEntry? = null
-        val manager = supportFragmentManager
         if (originalFruitEntry == null) {
-            removeSelectFruitFragment(manager)
+            removeSelectFruitFragment(supportFragmentManager)
         } else {
             // if the fruit entry already exists, we will edit the existing one instead
             if (mAddEditEntryManager.contains(originalFruitEntry)) {
@@ -133,7 +133,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
             }
             mEditFruitFragment.setFruitEntry(fruitEntry ?: originalFruitEntry)
             // remove fruit selection fragment to replace it with the fruit edition fragment
-            manager.beginTransaction()
+            supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
                     .remove(mSelectFruitFragment)
                     .add(R.id.fragment_container, mEditFruitFragment, EditFruitFragment.TAG)
@@ -156,9 +156,13 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
         removeEditFruitFragment(supportFragmentManager)
     }
 
+    companion object {
+        private const val NO_ANIMATION = 0
+    }
+
     private fun addSelectFruitFragment(manager: FragmentManager) {
         manager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_up, 0)
+                .setCustomAnimations(R.anim.slide_up, NO_ANIMATION)
                 .add(R.id.fragment_container, mSelectFruitFragment, SelectFruitFragment.TAG)
                 .commit()
         mAddEditEntryManager.showOverlay()
@@ -166,7 +170,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
 
     private fun removeSelectFruitFragment(manager: FragmentManager) {
         manager.beginTransaction()
-                .setCustomAnimations(0, R.anim.slide_down)
+                .setCustomAnimations(NO_ANIMATION, R.anim.slide_down)
                 .remove(mSelectFruitFragment)
                 .commit()
         mAddEditEntryManager.hideOverlay()
@@ -174,7 +178,7 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
 
     private fun removeEditFruitFragment(manager: FragmentManager) {
         manager.beginTransaction()
-                .setCustomAnimations(0, R.anim.slide_down)
+                .setCustomAnimations(NO_ANIMATION, R.anim.slide_down)
                 .remove(mEditFruitFragment)
                 .commit()
         mAddEditEntryManager.hideOverlay()
