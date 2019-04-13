@@ -3,6 +3,7 @@ package com.example.fruitsdiary.usecase.addeditentry.selectfruit
 import com.example.fruitsdiary.data.fruit.FruitRepository
 import com.example.fruitsdiary.model.Fruit
 import com.example.fruitsdiary.model.FruitEntry
+import com.example.fruitsdiary.model.toFruitEntry
 import com.example.fruitsdiary.network.CommonNetworkErrorConsumer
 
 import io.reactivex.disposables.CompositeDisposable
@@ -33,7 +34,7 @@ class SelectFruitPresenter(private val mFruitRepository: FruitRepository) : Sele
     }
 
     fun getFruitEntry(fruit: Fruit): FruitEntry {
-        val fruitEntry = FruitEntry.fromFruit(fruit)
+        val fruitEntry = fruit.toFruitEntry()
         fruitEntry.amount = 1 // minimum amount
         return fruitEntry
     }

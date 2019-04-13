@@ -15,14 +15,4 @@ data class FruitEntry(
 
     @IgnoredOnParcel
     var isModified = false
-
-    companion object {
-
-        fun fromFruit(fruit: Fruit): FruitEntry {
-            val fruitEntry = FruitEntry(fruit.id, fruit.type, 0)
-            fruitEntry.image = fruit.image
-            fruitEntry.vitamins = fruit.vitamins
-            return fruitEntry
-        }
-    }
 }

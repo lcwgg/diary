@@ -13,3 +13,10 @@ data class Fruit(
         @ColumnInfo(name ="type") var type: String,
         @ColumnInfo(name ="image") var image: String,
         @ColumnInfo(name ="vitamins") var vitamins: Int = 0) : Parcelable
+
+fun Fruit.toFruitEntry(): FruitEntry {
+    val fruitEntry = FruitEntry(id, type, 0)
+    fruitEntry.image = image
+    fruitEntry.vitamins = vitamins
+    return fruitEntry
+}
