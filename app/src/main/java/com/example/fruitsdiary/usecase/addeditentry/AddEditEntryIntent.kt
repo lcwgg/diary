@@ -33,7 +33,6 @@ class AddEditEntryIntent : Intent {
     fun getEntryState(): Int = getIntExtra(ARGS_ENTRY_STATE, VIEW)
 
     companion object {
-
         private const val ARGS_ENTRY = "ARGS_ENTRY"
         private const val ARGS_ENTRY_STATE = "ARGS_ENTRY_STATE"
     }

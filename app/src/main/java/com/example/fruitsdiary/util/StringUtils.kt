@@ -9,7 +9,6 @@ object StringUtils {
     const val NO_STRING_DEFINED = -1
     const val IMAGE_PATH = "https://fruitdiary.test.themobilelife.com/"
 
-    @JvmStatic
     fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {
         if (isFruitNameException(fruitName) && quantity > 1) {
             return getFruitExceptionSpelling(fruitName)

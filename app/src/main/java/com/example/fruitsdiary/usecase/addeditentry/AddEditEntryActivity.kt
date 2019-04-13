@@ -30,14 +30,13 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
         val entry  = intent.getEntry()
         mEntryState = intent.getEntryState()
 
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (mEntryState == EntryState.CREATE) {
-            actionBar?.title = DateUtils.getCurrentAppDate()
+            supportActionBar?.title = DateUtils.getCurrentAppDate()
         } else {
             val date = DateUtils.convertServerDateToAppDate(entry.date)
-            actionBar?.title = date
+            supportActionBar?.title = date
         }
 
 
@@ -52,20 +51,18 @@ class AddEditEntryActivity : AppCompatActivity(), AddEditEntryFragment.OnAddEdit
         mSelectFruitFragment = SelectFruitFragment()
         mSelectFruitFragment.setSelectFruitListener(this)
 
-        val manager = supportFragmentManager
-        manager.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, addEditEntryFragment, AddEditEntryFragment.TAG)
                 .commit()
 
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
         when (mEntryState) {
-            EntryState.EDIT -> inflater.inflate(R.menu.menu_edit_entry, menu)
-            EntryState.CREATE -> inflater.inflate(R.menu.menu_create_entry, menu)
-            EntryState.VIEW -> inflater.inflate(R.menu.menu_view_entry, menu)
-            else -> inflater.inflate(R.menu.menu_view_entry, menu)
+            EntryState.EDIT -> menuInflater.inflate(R.menu.menu_edit_entry, menu)
+            EntryState.CREATE -> menuInflater.inflate(R.menu.menu_create_entry, menu)
+            EntryState.VIEW -> menuInflater.inflate(R.menu.menu_view_entry, menu)
+            else -> menuInflater.inflate(R.menu.menu_view_entry, menu)
         }
         return true
     }

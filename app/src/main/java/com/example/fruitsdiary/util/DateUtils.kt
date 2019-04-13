@@ -12,19 +12,19 @@ object DateUtils {
 
     private val APP_DATE_FORMAT = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
 
-     @JvmStatic fun getCurrentAppDate(): String {
+     fun getCurrentAppDate(): String {
             val date = getCurrentDate()
             return getAppStringDate(date)
         }
 
-    @JvmStatic fun getCurrentServerDate(): String {
+    fun getCurrentServerDate(): String {
             val date = getCurrentDate()
             return SERVER_DATE_FORMAT.format(date)
         }
 
     private fun getCurrentDate(): Date  = Calendar.getInstance().time
 
-    @JvmStatic fun convertServerDateToAppDate(serverDate: String): String {
+    fun convertServerDateToAppDate(serverDate: String): String {
         val date = getServerDate(serverDate)
         return getAppStringDate(date)
     }
