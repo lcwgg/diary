@@ -8,7 +8,6 @@
     <string name="about_email">career@themobilelife.com</string>
 
     <!-- Entry -->
-    <string name="fruit_image_url">https://fruitdiary.test.themobilelife.com/%1$s</string>
     <string name="empty_entry">No fruit added</string>
     <string name="fruits_saved">Fruits saved</string>
     <string name="delete_dialog_title">Deleting your entry</string>

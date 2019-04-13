@@ -7,6 +7,7 @@ object StringUtils {
 
     const val EMPTY_STRING = ""
     const val NO_STRING_DEFINED = -1
+    const val IMAGE_PATH = "https://fruitdiary.test.themobilelife.com/"
 
     @JvmStatic
     fun getCorrectFruitSpelling(context: Context, quantity: Int, fruitName: String): String {

@@ -1,9 +1,7 @@
 package com.example.fruitsdiary.usecase.addeditentry.selectfruit
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fruitsdiary.R
@@ -12,7 +10,7 @@ import com.example.fruitsdiary.model.Fruit
 import com.squareup.picasso.Picasso
 import java.util.*
 
-class FruitAdapter(private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<FruitAdapter.FruitViewHolder>() {
+class SelectFruitAdapter(private val mOnItemClickListener: OnItemClickListener) : RecyclerView.Adapter<SelectFruitAdapter.FruitViewHolder>() {
 
     var fruitList: List<Fruit> = ArrayList()
         set(fruitList) {
@@ -33,25 +31,15 @@ class FruitAdapter(private val mOnItemClickListener: OnItemClickListener) : Recy
     override fun onBindViewHolder(fruitViewHolder: FruitViewHolder, i: Int) {
         val fruit = fruitList[i]
         val binding = fruitViewHolder.binding
-        val context = binding.root.context
 
-        setFruitImage(context, fruit.image, binding.fruitImage)
+        Picasso.get()
+                .load(fruit.image)
+                .placeholder(R.drawable.fruit_image_placeholder)
+                .into(binding.fruitImage)
 
         binding.fruitName.text = fruit.type
 
         fruitViewHolder.bindClick(fruit)
-    }
-
-    private fun setFruitImage(context: Context, fruitImagePath: String?, fruitImageView: ImageView) {
-        val fruitImageUrl = String.format(
-                context.getString(R.string.fruit_image_url),
-                fruitImagePath
-        )
-
-        Picasso.get()
-                .load(fruitImageUrl)
-                .placeholder(R.drawable.fruit_image_placeholder)
-                .into(fruitImageView)
     }
 
     override fun getItemCount(): Int {

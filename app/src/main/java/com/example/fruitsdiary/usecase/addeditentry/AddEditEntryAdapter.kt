@@ -49,7 +49,7 @@ class AddEditEntryAdapter (private val mOnItemClickListener: OnItemClickListener
         val binding = fruitEntryViewHolder.binding
         val context = binding.root.context
 
-        setFruitImage(context, fruitEntry.image, binding.fruitImage)
+        setFruitImage( fruitEntry.image, binding.fruitImage)
         setFruitName(context, fruitEntry, binding.fruit)
         setVitamins(context, fruitEntry, binding.vitamins)
 
@@ -63,14 +63,9 @@ class AddEditEntryAdapter (private val mOnItemClickListener: OnItemClickListener
 
     }
 
-    private fun setFruitImage(context: Context, fruitImagePath: String?, fruitImageView: ImageView) {
-        val fruitImageUrl = String.format(
-                context.getString(R.string.fruit_image_url),
-                fruitImagePath
-        )
-
+    private fun setFruitImage(fruitImagePath: String?, fruitImageView: ImageView) {
         Picasso.get()
-                .load(fruitImageUrl)
+                .load(fruitImagePath)
                 .placeholder(R.drawable.fruit_image_placeholder)
                 .into(fruitImageView)
     }

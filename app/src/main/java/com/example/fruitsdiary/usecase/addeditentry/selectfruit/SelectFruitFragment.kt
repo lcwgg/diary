@@ -21,7 +21,7 @@ class SelectFruitFragment : Fragment(), SelectFruitContract.View {
 
     private lateinit var mBinding: FragmentSelectFruitBinding
 
-    private lateinit var mFruitAdapter: FruitAdapter
+    private lateinit var mSelectFruitAdapter: SelectFruitAdapter
 
     private var mSelectFruitListener: OnSelectFruitListener? = null
 
@@ -40,13 +40,13 @@ class SelectFruitFragment : Fragment(), SelectFruitContract.View {
         val recyclerView = mBinding.fruitListRecyclerview
         val layoutManager = GridLayoutManager(context, 3)
         recyclerView.layoutManager = layoutManager
-        mFruitAdapter = FruitAdapter(object : FruitAdapter.OnItemClickListener {
+        mSelectFruitAdapter = SelectFruitAdapter(object : SelectFruitAdapter.OnItemClickListener {
             override fun onItemClick(fruit: Fruit) {
                 val fruitEntry = mPresenter.getFruitEntry(fruit)
                 mSelectFruitListener?.onFruitSelected(fruitEntry)
             }
         })
-        recyclerView.adapter = mFruitAdapter
+        recyclerView.adapter = mSelectFruitAdapter
 
         mBinding.selectFruitLayout.setOnClickListener {
             mSelectFruitListener?.onFruitSelected(null)
@@ -58,7 +58,7 @@ class SelectFruitFragment : Fragment(), SelectFruitContract.View {
     }
 
     override fun showFruitList(fruitList: List<Fruit>) {
-        mFruitAdapter.fruitList = fruitList
+        mSelectFruitAdapter.fruitList = fruitList
     }
 
     override fun handleNetworkError(exception: FruitDiaryException) {
